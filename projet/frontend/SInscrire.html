@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer mon compte — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled active">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="auth-main">
+        <div class="auth-card auth-card--large">
+            <h1 class="auth-titre">Créer mon compte</h1>
+            <div class="auth-sep"></div>
+
+            <form class="auth-form" id="form-inscription" novalidate>
+                <div class="form-ligne">
+                    <div class="form-champ">
+                        <label for="ins-nom">Nom</label>
+                        <input type="text" id="ins-nom" placeholder="Dupont" required autocomplete="family-name">
+                    </div>
+                    <div class="form-champ">
+                        <label for="ins-prenom">Prénom</label>
+                        <input type="text" id="ins-prenom" placeholder="Jean" required autocomplete="given-name">
+                    </div>
+                </div>
+
+                <div class="form-ligne">
+                    <div class="form-champ">
+                        <label for="ins-email">Adresse email</label>
+                        <input type="email" id="ins-email" placeholder="votre@email.fr" required autocomplete="email">
+                    </div>
+                    <div class="form-champ">
+                        <label for="ins-tel">Numéro de portable</label>
+                        <input type="tel" id="ins-tel" placeholder="06 00 00 00 00" required autocomplete="tel">
+                    </div>
+                </div>
+
+                <div class="form-champ">
+                    <label for="ins-adresse">Adresse</label>
+                    <input type="text" id="ins-adresse" placeholder="12 rue des Chartrons" required autocomplete="street-address">
+                </div>
+
+                <div class="form-ligne">
+                    <div class="form-champ">
+                        <label for="ins-ville">Ville</label>
+                        <input type="text" id="ins-ville" placeholder="Bordeaux" autocomplete="address-level2">
+                    </div>
+                    <div class="form-champ">
+                        <label for="ins-cp">Code postal</label>
+                        <input type="text" id="ins-cp" placeholder="33000" autocomplete="postal-code" maxlength="5">
+                    </div>
+                </div>
+
+                <div class="form-ligne">
+                    <div class="form-champ">
+                        <label for="ins-password">Mot de passe</label>
+                        <input type="password" id="ins-password" placeholder="••••••••" required autocomplete="new-password">
+                    </div>
+                    <div class="form-champ">
+                        <label for="ins-confirm">Confirmer le mot de passe</label>
+                        <input type="password" id="ins-confirm" placeholder="••••••••" required autocomplete="new-password">
+                    </div>
+                </div>
+                <p class="auth-erreur" id="erreur-mdp" hidden>Les mots de passe ne correspondent pas.</p>
+
+                <div class="form-champ auth-rgpd">
+                    <label class="auth-checkbox-label">
+                        <input type="checkbox" id="ins-rgpd" required>
+                        J'accepte les <a href="cgv.html" class="auth-lien">CGV</a> et la
+                        <a href="rgpd.html" class="auth-lien">politique de confidentialité</a>.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-form-submit">S'inscrire</button>
+            </form>
+
+            <p class="auth-bas">
+                Déjà inscrit ?
+                <a href="SeConnecter.html" class="auth-lien">Se connecter</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+        const form   = document.getElementById('form-inscription');
+        const errMdp = document.getElementById('erreur-mdp');
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+            const mdp  = document.getElementById('ins-password').value;
+            const conf = document.getElementById('ins-confirm').value;
+
+            if (mdp !== conf) { errMdp.textContent = 'Les mots de passe ne correspondent pas.'; errMdp.hidden = false; return; }
+            errMdp.hidden = true;
+
+            const btn = form.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Inscription…';
+
+            const data = {
+                prenom:            document.getElementById('ins-prenom').value.trim(),
+                nom:               document.getElementById('ins-nom').value.trim(),
+                email:             document.getElementById('ins-email').value.trim(),
+                telephone:         document.getElementById('ins-tel').value.trim(),
+                adresse:           document.getElementById('ins-adresse').value.trim(),
+                ville:             document.getElementById('ins-ville').value.trim(),
+                pays:              'France',
+                password:          mdp,
+                consentement_rgpd: document.getElementById('ins-rgpd').checked ? 1 : 0,
+            };
+
+            try {
+                const res  = await fetch('/api/auth/register', {
+                    method:      'POST',
+                    credentials: 'include',
+                    headers:     { 'Content-Type': 'application/json' },
+                    body:        JSON.stringify(data),
+                });
+                const json = await res.json();
+
+                if (!res.ok) {
+                    errMdp.textContent = json.error || 'Erreur lors de l\'inscription.';
+                    errMdp.hidden = false;
+                    btn.disabled = false;
+                    btn.textContent = 'S\'inscrire';
+                    return;
+                }
+
+                const retour = new URLSearchParams(window.location.search).get('retour');
+                const dest = (retour && !retour.includes('://') && !retour.startsWith('//')) ? retour : 'MonCompte.html';
+                window.location.href = dest;
+
+            } catch {
+                errMdp.textContent = 'Service temporairement indisponible. Réessayez.';
+                errMdp.hidden = false;
+                btn.disabled = false;
+                btn.textContent = 'S\'inscrire';
+            }
+        });
+    </script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
