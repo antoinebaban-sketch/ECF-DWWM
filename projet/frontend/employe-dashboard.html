@@ -1,0 +1,738 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Employé — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { background: #f4f1ec; max-width: none; margin: 0; }
+
+        /* ── Layout ── */
+        .emp-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+
+        /* ── Sidebar ── */
+        .emp-sidebar {
+            background: var(--bordeaux); padding: 32px 0;
+            display: flex; flex-direction: column;
+            position: sticky; top: 0; height: 100vh; overflow-y: auto;
+        }
+        .emp-logo {
+            font-family: 'Cormorant Garamond', serif; font-size: 18px;
+            color: var(--creme); text-align: center;
+            padding: 0 20px 24px; border-bottom: 1px solid rgba(196,154,45,.2);
+            margin-bottom: 24px; line-height: 1.3;
+        }
+        .emp-logo em { color: var(--or); }
+        .emp-logo .emp-badge { display: inline-block; margin-top: 8px; background: rgba(196,154,45,.2); color: var(--or); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 2px 10px; border-radius: 20px; }
+        .emp-logo .emp-prenom { display: block; font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(247,241,232,.55); margin-top: 4px; }
+
+        .emp-nav { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 0 12px; }
+        .emp-nav-btn {
+            background: none; border: none; color: rgba(247,241,232,.6);
+            font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+            text-align: left; padding: 10px 14px; border-radius: 6px; cursor: pointer;
+            transition: background .15s, color .15s; display: flex; align-items: center; gap: 10px;
+        }
+        .emp-nav-btn:hover { background: rgba(255,255,255,.06); color: var(--creme); }
+        .emp-nav-btn.active { background: rgba(196,154,45,.18); color: var(--or); font-weight: 600; }
+        .emp-nav-ico { font-size: 15px; width: 18px; text-align: center; }
+        .emp-nav-badge { margin-left: auto; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+
+        .emp-logout {
+            margin: 16px 12px 0; background: none; border: 1px solid rgba(196,154,45,.3);
+            color: rgba(247,241,232,.5); font-family: 'DM Sans', sans-serif; font-size: 12px;
+            padding: 9px; border-radius: 6px; cursor: pointer; transition: border-color .15s, color .15s;
+        }
+        .emp-logout:hover { border-color: var(--or); color: var(--or); }
+
+        /* ── Main ── */
+        .emp-main { padding: 40px 48px; }
+        .emp-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
+        .emp-page-titre { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--bordeaux); font-weight: 600; }
+        .emp-page-sous { font-size: 13px; color: var(--brun); margin-top: 4px; }
+        .emp-lien-site { font-size: 12px; color: var(--brun); text-decoration: none; border: 1px solid #ddd; padding: 7px 16px; border-radius: 6px; transition: border-color .15s; }
+        .emp-lien-site:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
+
+        /* ── Sections ── */
+        .emp-section { display: none; }
+        .emp-section.active { display: block; animation: fadeInEmp .2s; }
+        @keyframes fadeInEmp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+        /* ── KPI Cards ── */
+        .emp-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .emp-kpi { background: #fff; border-radius: 8px; padding: 22px; border-left: 3px solid var(--or); }
+        .emp-kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--brun); margin-bottom: 8px; }
+        .emp-kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--bordeaux); line-height: 1; }
+        .emp-kpi--urgent { border-left-color: #ef4444; }
+        .emp-kpi--urgent .emp-kpi-val { color: #ef4444; }
+
+        /* ── Filtre barre ── */
+        .emp-filtre-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+        .emp-filtre-bar input, .emp-filtre-bar select { padding: 8px 14px; border: 1.5px solid #e5e0d5; border-radius: 6px; font-size: 13px; background: #fff; min-width: 160px; }
+        .emp-filtre-bar input:focus, .emp-filtre-bar select:focus { outline: none; border-color: var(--bordeaux); }
+
+        /* ── Tableau ── */
+        .emp-tableau-wrap { background: #fff; border-radius: 8px; overflow: hidden; }
+        .emp-tableau-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid #f0ebe0; }
+        .emp-tableau-titre { font-size: 14px; font-weight: 600; color: var(--dark); }
+        table.emp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.emp-table th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--brun); background: #faf8f4; border-bottom: 1px solid #f0ebe0; }
+        table.emp-table td { padding: 14px 16px; border-bottom: 1px solid #f7f3ee; vertical-align: middle; }
+        table.emp-table tr:last-child td { border-bottom: none; }
+        table.emp-table tr:hover td { background: #faf8f4; }
+        .emp-table-vide { text-align: center; padding: 40px; color: var(--brun); }
+
+        /* ── Statut badges ── */
+        .statut-badge {
+            display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+        }
+        .statut-badge--attente        { background: #fef3c7; color: #92400e; }
+        .statut-badge--acceptee       { background: #d1fae5; color: #065f46; }
+        .statut-badge--preparation    { background: #dbeafe; color: #1e40af; }
+        .statut-badge--livraison      { background: #ede9fe; color: #5b21b6; }
+        .statut-badge--livree         { background: #dcfce7; color: #166534; }
+        .statut-badge--retour         { background: #ffedd5; color: #9a3412; }
+        .statut-badge--terminee       { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .statut-badge--annulee        { background: #fee2e2; color: #991b1b; }
+
+        /* ── Boutons action ── */
+        .btn-emp-action {
+            background: var(--bordeaux); color: #fff; border: none;
+            padding: 6px 14px; border-radius: 5px; font-size: 11px; font-weight: 600;
+            cursor: pointer; transition: background .15s; white-space: nowrap;
+        }
+        .btn-emp-action:hover { background: #7a2323; }
+        .btn-emp-action--or { background: var(--or); color: var(--bordeaux); }
+        .btn-emp-action--or:hover { background: #a8831f; }
+        .btn-emp-action--red { background: #ef4444; }
+        .btn-emp-action--red:hover { background: #b91c1c; }
+        .btn-emp-action--green { background: #16a34a; }
+        .btn-emp-action--green:hover { background: #15803d; }
+        .btn-emp-action-group { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        /* ── Note étoiles ── */
+        .note-etoiles { color: var(--or); font-size: 13px; letter-spacing: 1px; }
+
+
+        /* ── Modal motif annulation ── */
+        .emp-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; align-items: center; justify-content: center; }
+        .emp-modal-overlay.open { display: flex; }
+        .emp-modal-box { background: #fff; border-radius: 12px; padding: 32px; width: 100%; max-width: 480px; }
+        .emp-modal-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--bordeaux); margin-bottom: 1rem; }
+        .emp-modal-box textarea { width: 100%; min-height: 100px; padding: 10px 14px; border: 1.5px solid #e5e0d5; border-radius: 8px; font-size: 13px; resize: vertical; }
+        .emp-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1rem; }
+
+        /* ── Message ── */
+        .emp-message { display: none; padding: 12px 18px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; font-weight: 500; }
+        .emp-message.ok  { display: block; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .emp-message.err { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        @media (max-width: 900px) {
+            .emp-layout { grid-template-columns: 1fr; }
+            .emp-sidebar { display: none; }
+            .emp-main   { padding: 20px; }
+            .emp-kpis   { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="emp-layout">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="emp-sidebar">
+        <div class="emp-logo">
+            Vite et <em>Gourmand</em>
+            <span class="emp-badge">Espace Employé</span>
+            <span class="emp-prenom" id="sb-prenom"></span>
+        </div>
+        <nav class="emp-nav">
+            <button class="emp-nav-btn active" data-section="accueil" onclick="changerSection('accueil', this)">
+                <span class="emp-nav-ico">🏠</span> Accueil
+            </button>
+            <button class="emp-nav-btn" data-section="commandes" onclick="changerSection('commandes', this)">
+                <span class="emp-nav-ico">📋</span> Commandes
+                <span class="emp-nav-badge" id="badge-cmd" hidden>0</span>
+            </button>
+            <button class="emp-nav-btn" data-section="avis" onclick="changerSection('avis', this)">
+                <span class="emp-nav-ico">⭐</span> Avis clients
+                <span class="emp-nav-badge" id="badge-avis" hidden>0</span>
+            </button>
+
+            <button class="emp-nav-btn" data-section="stock" onclick="changerSection('stock', this)">
+                <span class="emp-nav-ico">📦</span> Stocks
+            </button>
+
+        </nav>
+        <button class="emp-logout" onclick="deconnecter()">← Déconnexion</button>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main class="emp-main">
+        <div class="emp-topbar">
+            <div>
+                <h1 class="emp-page-titre" id="page-titre">Accueil</h1>
+                <p class="emp-page-sous" id="page-sous">Bienvenue dans votre espace de travail</p>
+            </div>
+            <a href="index.html" class="emp-lien-site" target="_blank">← Voir le site</a>
+        </div>
+
+        <div class="emp-message" id="emp-message"></div>
+
+        <!-- ══ SECTION ACCUEIL ══ -->
+        <section class="emp-section active" id="section-accueil">
+            <div class="emp-kpis">
+                <div class="emp-kpi emp-kpi--urgent">
+                    <div class="emp-kpi-label">En attente</div>
+                    <div class="emp-kpi-val" id="kpi-attente">—</div>
+                </div>
+                <div class="emp-kpi">
+                    <div class="emp-kpi-label">En préparation</div>
+                    <div class="emp-kpi-val" id="kpi-preparation">—</div>
+                </div>
+                <div class="emp-kpi">
+                    <div class="emp-kpi-label">En livraison</div>
+                    <div class="emp-kpi-val" id="kpi-livraison">—</div>
+                </div>
+                <div class="emp-kpi">
+                    <div class="emp-kpi-label">Terminées (mois)</div>
+                    <div class="emp-kpi-val" id="kpi-terminees">—</div>
+                </div>
+            </div>
+
+            <!-- Commandes urgentes (en attente) -->
+            <div class="emp-tableau-wrap">
+                <div class="emp-tableau-header">
+                    <span class="emp-tableau-titre">Commandes en attente de traitement</span>
+                    <button class="btn-emp-action" onclick="changerSection('commandes', document.querySelector('[data-section=commandes]'))">Voir toutes</button>
+                </div>
+                <table class="emp-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th><th>Client</th><th>Menu</th><th>Personnes</th><th>Date prestation</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-accueil-attente">
+                        <tr><td colspan="6" class="emp-table-vide">Chargement…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══ SECTION COMMANDES ══ -->
+        <section class="emp-section" id="section-commandes">
+            <div class="emp-filtre-bar">
+                <input type="text" id="f-cmd-q" placeholder="Rechercher un client, un menu…">
+                <select id="f-cmd-statut">
+                    <option value="">Tous les statuts</option>
+                    <option value="en_attente">En attente</option>
+                    <option value="acceptée">Acceptée</option>
+                    <option value="en_preparation">En préparation</option>
+                    <option value="en_cours_livraison">En livraison</option>
+                    <option value="livrée">Livrée</option>
+                    <option value="retour_materiel">Retour matériel</option>
+                    <option value="terminée">Terminée</option>
+                    <option value="annulée">Annulée</option>
+                </select>
+                <button class="btn-emp-action" onclick="chargerCommandes()">Actualiser</button>
+            </div>
+            <div class="emp-tableau-wrap">
+                <div class="emp-tableau-header">
+                    <span class="emp-tableau-titre" id="cmd-tableau-titre">Toutes les commandes</span>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="emp-table">
+                        <thead>
+                            <tr>
+                                <th>N°</th><th>Client</th><th>Menu</th><th>Pers.</th>
+                                <th>Date prestation</th><th>Adresse</th><th>Statut</th><th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb-commandes">
+                            <tr><td colspan="8" class="emp-table-vide">Chargement…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ SECTION AVIS ══ -->
+        <section class="emp-section" id="section-avis">
+            <div class="emp-filtre-bar">
+                <select id="f-avis-statut">
+                    <option value="en_attente">En attente de validation</option>
+                    <option value="validé">Validés</option>
+                    <option value="refusé">Refusés</option>
+                </select>
+                <button class="btn-emp-action" onclick="chargerAvis()">Actualiser</button>
+            </div>
+            <div class="emp-tableau-wrap">
+                <div class="emp-tableau-header">
+                    <span class="emp-tableau-titre">Avis clients</span>
+                </div>
+                <table class="emp-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th><th>Menu</th><th>Note</th><th>Commentaire</th><th>Date</th><th>Statut</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-avis">
+                        <tr><td colspan="7" class="emp-table-vide">Chargement…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══ SECTION STOCK ══ -->
+        <section class="emp-section" id="section-stock">
+            <div class="emp-tableau-wrap">
+                <div class="emp-tableau-header">
+                    <span class="emp-tableau-titre">Disponibilité des menus</span>
+                    <button class="btn-emp-action btn-emp-action--or" onclick="chargerMenusStock()">Actualiser</button>
+                </div>
+                <p style="padding:8px 24px 0;font-size:12px;color:var(--brun)">
+                    Notez ici les arrivées de stock (+) ou les départs (−). Le chiffre indique le nombre de prestations encore disponibles. Mettre 0 affiche "Complet" sur le site.
+                </p>
+                <table class="emp-table">
+                    <thead><tr><th>Menu</th><th>Thème</th><th>Prix/pers.</th><th>Stock actuel</th><th>Nouveau stock</th><th>Action</th></tr></thead>
+                    <tbody id="tb-stock"><tr><td colspan="6" class="emp-table-vide">Chargement…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- ── Modal motif annulation ── -->
+<div class="emp-modal-overlay" id="modal-annulation">
+    <div class="emp-modal-box">
+        <h3>Annuler la commande</h3>
+        <p style="font-size:13px; color:var(--brun); margin-bottom:12px;">Le client doit être contacté avant toute annulation. Indiquez comment il a été prévenu et le motif.</p>
+        <select id="mode-contact-annulation" style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:1px solid #d9c9b0;">
+            <option value="">— Mode de contact —</option>
+            <option value="Téléphone">Téléphone</option>
+            <option value="Email">Email</option>
+        </select>
+        <textarea id="motif-annulation" placeholder="Ex : Indisponibilité de matériel, date impossible…"></textarea>
+        <div class="emp-modal-actions">
+            <button class="btn-emp-action" style="background:#6b7280" onclick="fermerModalAnnulation()">Annuler</button>
+            <button class="btn-emp-action btn-emp-action--red" id="btn-confirmer-annulation">Confirmer l'annulation</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ── Auth guard ── */
+let user = {};
+(async () => {
+    const res = await fetch('/api/auth/me', { credentials: 'include' });
+    if (!res.ok) { window.location.replace('employe.html'); return; }
+    user = await res.json();
+    if (user.role !== 'employe' && user.role !== 'administrateur') {
+        alert('Accès réservé aux employés.');
+        window.location.replace('employe.html');
+        return;
+    }
+    document.getElementById('sb-prenom').textContent = user.prenom || user.email || '';
+    if (user.role === 'administrateur') {
+        document.querySelector('.emp-badge').textContent = 'Administrateur';
+    }
+    chargerKpis();
+})();
+
+const e = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+const HEADERS = { 'Content-Type': 'application/json' };
+
+/* ── Navigation sections ── */
+const TITRES = {
+    accueil:   ['Accueil',              'Vue d\'ensemble de votre activité'],
+    commandes: ['Gestion des commandes','Changez les statuts et suivez les prestations'],
+    avis:      ['Avis clients',         'Validez ou refusez les avis déposés'],
+    stock:     ['Gestion des stocks',   'Mettez à jour les disponibilités des menus'],
+};
+
+function changerSection(id, btn) {
+    document.querySelectorAll('.emp-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.emp-nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('page-titre').textContent = TITRES[id][0];
+    document.getElementById('page-sous').textContent  = TITRES[id][1];
+
+    if (id === 'commandes') chargerCommandes();
+    if (id === 'avis')      chargerAvis();
+    if (id === 'stock')     chargerMenusStock();
+}
+
+async function deconnecter() {
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    window.location.href = 'employe.html';
+}
+
+function afficherMessage(txt, ok = true) {
+    const el = document.getElementById('emp-message');
+    el.textContent = txt;
+    el.className   = 'emp-message ' + (ok ? 'ok' : 'err');
+    setTimeout(() => { el.className = 'emp-message'; }, 4000);
+}
+
+/* ── Statut helpers ── */
+const STATUT_LABELS = {
+    en_attente:           'En attente',
+    'acceptée':           'Acceptée',
+    en_preparation:       'En préparation',
+    en_cours_livraison:   'En livraison',
+    'livrée':             'Livrée',
+    retour_materiel:      'Retour matériel',
+    'terminée':           'Terminée',
+    'annulée':            'Annulée',
+};
+const STATUT_CLASS = {
+    en_attente:           'attente',
+    'acceptée':           'acceptee',
+    en_preparation:       'preparation',
+    en_cours_livraison:   'livraison',
+    'livrée':             'livree',
+    retour_materiel:      'retour',
+    'terminée':           'terminee',
+    'annulée':            'annulee',
+};
+const TRANSITIONS = {
+    en_attente:           [['acceptée', 'Accepter', 'green'], ['annulée', 'Refuser', 'red']],
+    'acceptée':           [['en_preparation', 'Lancer préparation', '']],
+    en_preparation:       [['en_cours_livraison', 'En livraison', '']],
+    en_cours_livraison:   [['livrée', 'Marquer livrée', 'or']],
+    'livrée':             [['retour_materiel', 'Retour matériel', '']],
+    retour_materiel:      [['terminée', 'Clôturer', 'or']],
+    'terminée':           [],
+    'annulée':            [],
+};
+
+function badgeStatut(s) {
+    return `<span class="statut-badge statut-badge--${STATUT_CLASS[s] || 'attente'}">${STATUT_LABELS[s] || s}</span>`;
+}
+
+function boutonsTransition(cmd) {
+    const trans = TRANSITIONS[cmd.statut_commande] || [];
+    if (!trans.length) return '—';
+    return '<div class="btn-emp-action-group">' +
+        trans.map(([dest, label, variant]) =>
+            `<button class="btn-emp-action${variant ? ' btn-emp-action--' + variant : ''}"
+                onclick="changerStatut(${cmd.commande_id}, '${dest}', '${cmd.statut_commande}')">${label}</button>`
+        ).join('') +
+    '</div>';
+}
+
+/* ── Commandes ── */
+let cmdCache = [];
+
+async function chargerCommandes() {
+    const q      = document.getElementById('f-cmd-q').value.trim();
+    const statut = document.getElementById('f-cmd-statut').value;
+    const params = new URLSearchParams();
+    if (q)      params.set('q',      q);
+    if (statut) params.set('statut', statut);
+
+    const tb = document.getElementById('tb-commandes');
+    tb.innerHTML = '<tr><td colspan="8" class="emp-table-vide">Chargement…</td></tr>';
+
+    try {
+        const res  = await fetch('/api/commandes?' + params, { credentials: 'include', headers: HEADERS });
+        const data = res.ok ? await res.json() : [];
+        cmdCache   = Array.isArray(data) ? data : (data.commandes || []);
+    } catch {
+        cmdCache = COMMANDES_FALLBACK.filter(c => (!statut || c.statut_commande === statut));
+    }
+
+    remplirTableauCommandes(cmdCache, 'tb-commandes', 8);
+    document.getElementById('cmd-tableau-titre').textContent =
+        cmdCache.length + ' commande' + (cmdCache.length > 1 ? 's' : '');
+}
+
+function remplirTableauCommandes(liste, tbId, colspan) {
+    const tb = document.getElementById(tbId);
+    if (!liste.length) {
+        tb.innerHTML = `<tr><td colspan="${colspan}" class="emp-table-vide">Aucune commande trouvée.</td></tr>`;
+        return;
+    }
+    tb.innerHTML = liste.map(c => `
+        <tr>
+            <td><strong>#${c.commande_id}</strong></td>
+            <td>${e(c.prenom)} ${e(c.nom)}<br><small style="color:var(--brun)">${e(c.email)}</small></td>
+            <td>${e(c.titre_menu || c.menu_titre) || '—'}</td>
+            <td>${c.nombre_personne || '—'}</td>
+            <td>${formatDate(c.date_prestation)}</td>
+            <td style="font-size:12px; max-width:160px;">${e(c.adresse_livraison) || '—'}</td>
+            <td>${badgeStatut(c.statut_commande)}</td>
+            <td>${boutonsTransition(c)}</td>
+        </tr>`).join('');
+}
+
+async function changerStatut(id, nouveauStatut, ancienStatut) {
+    if (nouveauStatut === 'annulée') {
+        ouvrirModalAnnulation(id);
+        return;
+    }
+    try {
+        const res = await fetch(`/api/commandes/${id}/statut`, {
+            method: 'PUT', credentials: 'include', headers: HEADERS,
+            body: JSON.stringify({ statut: nouveauStatut })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            afficherMessage(`Commande #${id} → ${STATUT_LABELS[nouveauStatut]}`);
+            chargerCommandes();
+            chargerKpis();
+        } else {
+            afficherMessage(data.error || 'Erreur lors du changement.', false);
+        }
+    } catch {
+        /* fallback dev */
+        const c = cmdCache.find(x => x.commande_id === id);
+        if (c) { c.statut_commande = nouveauStatut; remplirTableauCommandes(cmdCache, 'tb-commandes', 8); }
+        afficherMessage(`Statut mis à jour (mode hors-ligne).`);
+    }
+}
+
+/* ── Modal annulation ── */
+let cmdIdAnnuler = null;
+function ouvrirModalAnnulation(id) {
+    cmdIdAnnuler = id;
+    document.getElementById('motif-annulation').value = '';
+    document.getElementById('mode-contact-annulation').value = '';
+    document.getElementById('modal-annulation').classList.add('open');
+}
+function fermerModalAnnulation() {
+    cmdIdAnnuler = null;
+    document.getElementById('modal-annulation').classList.remove('open');
+}
+document.getElementById('btn-confirmer-annulation').addEventListener('click', async () => {
+    const motif       = document.getElementById('motif-annulation').value.trim();
+    const modeContact = document.getElementById('mode-contact-annulation').value;
+    if (!modeContact) { alert('Veuillez indiquer comment le client a été contacté.'); return; }
+    if (!motif) { alert('Veuillez indiquer le motif d\'annulation.'); return; }
+    try {
+        const res = await fetch(`/api/commandes/${cmdIdAnnuler}/statut`, {
+            method: 'PUT', credentials: 'include', headers: HEADERS,
+            body: JSON.stringify({ statut: 'annulée', motif, mode_contact: modeContact })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            afficherMessage(`Commande #${cmdIdAnnuler} annulée.`);
+        } else {
+            afficherMessage(data.error || 'Erreur.', false);
+        }
+    } catch {
+        afficherMessage('Annulation enregistrée (mode hors-ligne).');
+    }
+    fermerModalAnnulation();
+    chargerCommandes(); chargerKpis();
+});
+
+/* ── Avis ── */
+async function chargerAvis() {
+    const statut = document.getElementById('f-avis-statut').value;
+    const tb     = document.getElementById('tb-avis');
+    tb.innerHTML = '<tr><td colspan="7" class="emp-table-vide">Chargement…</td></tr>';
+
+    let avis = [];
+    try {
+        const res = await fetch(`/api/admin/avis?statut=${encodeURIComponent(statut)}`, { credentials: 'include', headers: HEADERS });
+        avis = res.ok ? await res.json() : [];
+        if (!Array.isArray(avis)) avis = avis.avis || [];
+    } catch {
+        avis = AVIS_FALLBACK.filter(a => a.statut_validation === statut);
+    }
+
+    if (!avis.length) {
+        tb.innerHTML = '<tr><td colspan="7" class="emp-table-vide">Aucun avis.</td></tr>';
+        return;
+    }
+    tb.innerHTML = avis.map(a => `
+        <tr>
+            <td>${e(a.prenom)} ${e(a.nom)}</td>
+            <td>${e(a.titre_menu || a.menu) || '—'}</td>
+            <td><span class="note-etoiles">${'★'.repeat(a.note || 0)}${'☆'.repeat(5 - (a.note || 0))}</span> <small>${a.note || 0}/5</small></td>
+            <td style="max-width:240px; font-size:12px;">${e(a.description) || '—'}</td>
+            <td style="font-size:12px;">${formatDate(a.date_avis)}</td>
+            <td>${badgeAvis(a.statut_validation)}</td>
+            <td>
+                ${a.statut_validation === 'en_attente' ? `
+                <div class="btn-emp-action-group">
+                    <button class="btn-emp-action btn-emp-action--green" onclick="validerAvis(${a.avis_id}, true)">Valider</button>
+                    <button class="btn-emp-action btn-emp-action--red"   onclick="validerAvis(${a.avis_id}, false)">Refuser</button>
+                </div>` : '—'}
+            </td>
+        </tr>`).join('');
+}
+
+function badgeAvis(s) {
+    const map = { en_attente: ['#fef3c7','#92400e'], 'validé': ['#d1fae5','#065f46'], 'refusé': ['#fee2e2','#991b1b'] };
+    const [bg, c] = map[s] || ['#f0f0f0','#555'];
+    return `<span class="statut-badge" style="background:${bg};color:${c}">${s}</span>`;
+}
+
+function badgeStatut(s) {
+    const map = { en_attente: ['#fef3c7','#92400e'], 'approuvé': ['#d1fae5','#065f46'], 'refusé': ['#fee2e2','#991b1b'] };
+    const [bg, c] = map[s] || ['#f0f0f0','#555'];
+    return `<span class="statut-badge" style="background:${bg};color:${c}">${s}</span>`;
+}
+
+async function validerAvis(id, valider) {
+    try {
+        const res  = await fetch(`/api/avis/${id}/validation`, {
+            method: 'PUT', credentials: 'include', headers: HEADERS,
+            body: JSON.stringify({ statut: valider ? 'validé' : 'refusé' })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            afficherMessage(`Avis ${valider ? 'validé' : 'refusé'}.`);
+        } else {
+            afficherMessage(data.error || 'Erreur.', false);
+        }
+    } catch {
+        afficherMessage(`Avis ${valider ? 'validé' : 'refusé'} (mode hors-ligne).`);
+    }
+    chargerAvis();
+    chargerKpis();
+}
+
+/* ── KPIs accueil ── */
+async function chargerKpis() {
+    let toutes = [];
+    try {
+        const res = await fetch('/api/commandes', { credentials: 'include', headers: HEADERS });
+        toutes = res.ok ? await res.json() : [];
+        if (!Array.isArray(toutes)) toutes = toutes.commandes || [];
+    } catch { toutes = COMMANDES_FALLBACK; }
+
+    const now   = new Date();
+    const mois  = now.getMonth(); const an = now.getFullYear();
+
+    document.getElementById('kpi-attente').textContent      = toutes.filter(c => c.statut_commande === 'en_attente').length;
+    document.getElementById('kpi-preparation').textContent  = toutes.filter(c => c.statut_commande === 'en_preparation').length;
+    document.getElementById('kpi-livraison').textContent    = toutes.filter(c => c.statut_commande === 'en_cours_livraison').length;
+    document.getElementById('kpi-terminees').textContent    = toutes.filter(c => {
+        const d = new Date(c.date_commande || c.date_prestation || '');
+        return c.statut_commande === 'terminée' && d.getMonth() === mois && d.getFullYear() === an;
+    }).length;
+
+    /* Badge sidebar */
+    const nbAttente = toutes.filter(c => c.statut_commande === 'en_attente').length;
+    const bdg = document.getElementById('badge-cmd');
+    bdg.hidden      = nbAttente === 0;
+    bdg.textContent = nbAttente;
+
+    /* Table accueil */
+    const enAttente = toutes.filter(c => c.statut_commande === 'en_attente').slice(0, 5);
+    remplirTableauCommandes(enAttente, 'tb-accueil-attente', 6);
+
+    /* Badge avis */
+    let avisEn = 0;
+    try {
+        const ra = await fetch('/api/admin/avis?statut=en_attente', { credentials: 'include', headers: HEADERS });
+        const da = ra.ok ? await ra.json() : [];
+        avisEn   = Array.isArray(da) ? da.length : (da.avis || []).length;
+    } catch { avisEn = AVIS_FALLBACK.filter(a => a.statut_validation === 'en_attente').length; }
+    const bdgA = document.getElementById('badge-avis');
+    bdgA.hidden      = avisEn === 0;
+    bdgA.textContent = avisEn;
+}
+
+/* ── Helpers ── */
+function formatDate(iso) {
+    if (!iso) return '—';
+    try { return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }); }
+    catch { return iso; }
+}
+
+/* ── Données de fallback (hors-ligne / dev) ── */
+const COMMANDES_FALLBACK = [
+    { commande_id:1, prenom:'Jean', nom:'Martin',  email:'jean.martin@email.fr', titre_menu:'Menu Prestige Bordeaux', nombre_personne:25, date_prestation:'2026-08-15', adresse_livraison:'12 rue des Chartrons, Bordeaux', statut_commande:'en_attente',        date_commande:'2026-06-01' },
+    { commande_id:2, prenom:'Sophie', nom:'Bernard', email:'sophie.b@email.fr',  titre_menu:'Menu Saveurs d\'Été',    nombre_personne:12, date_prestation:'2026-07-20', adresse_livraison:'5 allée de la Tour, Bordeaux',    statut_commande:'acceptée',          date_commande:'2026-06-05' },
+    { commande_id:3, prenom:'Pierre', nom:'Dupont', email:'pierre.d@email.fr',   titre_menu:'Menu Végétarien',        nombre_personne:8,  date_prestation:'2026-07-05', adresse_livraison:'Avenue Thiers, Bordeaux',          statut_commande:'en_preparation',    date_commande:'2026-05-20' },
+    { commande_id:4, prenom:'Marie',  nom:'Leblanc', email:'marie@email.fr',     titre_menu:'Menu Tradition Girondine',nombre_personne:15, date_prestation:'2026-07-01', adresse_livraison:'Rue Sainte-Catherine, Bordeaux',  statut_commande:'en_cours_livraison',date_commande:'2026-05-10' },
+    { commande_id:5, prenom:'Luc',    nom:'Fontaine', email:'luc@email.fr',      titre_menu:'Menu Gastronomique',     nombre_personne:30, date_prestation:'2026-06-28', adresse_livraison:'Cours du Chapeau Rouge, Bordeaux', statut_commande:'terminée',          date_commande:'2026-05-01' },
+];
+const AVIS_FALLBACK = [
+    { avis_id:1, prenom:'Jean',   nom:'Martin',  titre_menu:'Menu Prestige',    note:5, description:'Excellent service, équipe au top !',   date_avis:'2026-06-20', statut_validation:'en_attente' },
+    { avis_id:2, prenom:'Sophie', nom:'Bernard', titre_menu:'Menu Été',         note:4, description:'Très bon repas, livraison ponctuelle.', date_avis:'2026-06-15', statut_validation:'en_attente' },
+    { avis_id:3, prenom:'Pierre', nom:'Dupont',  titre_menu:'Menu Végétarien',  note:5, description:'Parfait pour notre événement.',         date_avis:'2026-06-10', statut_validation:'validé'     },
+];
+/* ── STOCK — Mise à jour des disponibilités ── */
+let stockCache = [];
+
+async function chargerMenusStock() {
+    const tb = document.getElementById('tb-stock');
+    tb.innerHTML = '<tr><td colspan="6" class="emp-table-vide">Chargement…</td></tr>';
+    try {
+        const res   = await fetch('/api/menus', { credentials: 'include', headers: HEADERS });
+        stockCache  = res.ok ? await res.json() : [];
+        if (!Array.isArray(stockCache)) stockCache = stockCache.menus || [];
+        if (!stockCache.length) { tb.innerHTML = '<tr><td colspan="6" class="emp-table-vide">Aucun menu.</td></tr>'; return; }
+        tb.innerHTML = stockCache.map(m => `
+            <tr>
+                <td><strong>${m.titre}</strong></td>
+                <td style="font-size:12px">${m.theme || '—'}</td>
+                <td>${parseFloat(m.prix_par_personne || 0).toFixed(2)} €</td>
+                <td>
+                    <span style="font-weight:700;color:${m.quantite_restante > 0 ? 'var(--bordeaux)' : '#ef4444'}">
+                        ${m.quantite_restante ?? 0}
+                    </span>
+                    ${m.quantite_restante == 0 ? '<span style="font-size:11px;color:#ef4444;margin-left:4px">Complet</span>' : ''}
+                </td>
+                <td>
+                    <div style="display:flex;align-items:center;gap:8px">
+                        <button class="btn-emp-action" style="padding:4px 8px;font-size:13px" onclick="ajusterStock(${m.menu_id}, -1)">−</button>
+                        <input type="number" id="stock-input-${m.menu_id}" value="${m.quantite_restante ?? 0}" min="0"
+                            style="width:70px;padding:5px 8px;border:1.5px solid #e5e0d5;border-radius:6px;font-size:13px;text-align:center">
+                        <button class="btn-emp-action" style="padding:4px 8px;font-size:13px" onclick="ajusterStock(${m.menu_id}, +1)">+</button>
+                    </div>
+                </td>
+                <td><button class="btn-emp-action btn-emp-action--green" onclick="sauvegarderStock(${m.menu_id})">Enregistrer</button></td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="6" class="emp-table-vide">API non disponible.</td></tr>'; }
+}
+
+function ajusterStock(menuId, delta) {
+    const inp = document.getElementById(`stock-input-${menuId}`);
+    inp.value = Math.max(0, (parseInt(inp.value) || 0) + delta);
+}
+
+async function sauvegarderStock(menuId) {
+    const val = parseInt(document.getElementById(`stock-input-${menuId}`).value);
+    if (isNaN(val) || val < 0) { afficherMessage('Valeur invalide.', false); return; }
+    try {
+        const res = await fetch(`/api/menus/${menuId}`, {
+            method: 'PUT', credentials: 'include', headers: HEADERS,
+            body: JSON.stringify({ quantite_restante: val })
+        });
+        const d = await res.json();
+        afficherMessage(res.ok ? `Stock mis à jour : ${val} prestation${val > 1 ? 's' : ''}` : (d.error || 'Erreur.'), res.ok);
+        if (res.ok) chargerMenusStock();
+    } catch { afficherMessage('API non disponible.', false); }
+}
+
+/* ── Filtres commandes temps réel ── */
+document.getElementById('f-cmd-q').addEventListener('input', () => {
+    const q = document.getElementById('f-cmd-q').value.toLowerCase();
+    const filtered = cmdCache.filter(c =>
+        (c.prenom + ' ' + c.nom + ' ' + (c.titre_menu || '') + ' ' + c.email).toLowerCase().includes(q)
+    );
+    remplirTableauCommandes(filtered, 'tb-commandes', 8);
+});
+document.getElementById('f-cmd-statut').addEventListener('change', chargerCommandes);
+document.getElementById('f-avis-statut').addEventListener('change', chargerAvis);
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

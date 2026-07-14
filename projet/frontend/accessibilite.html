@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibilité — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="legal-container">
+            <h1 class="legal-titre">Déclaration d'accessibilité</h1>
+            <p class="legal-maj">Établie le 1er janvier 2026 — Référentiel RGAA 4.1</p>
+
+            <section class="legal-section">
+                <h2>État de conformité</h2>
+                <p>Le site <strong>viteetgourmand.fr</strong> est en conformité <strong>partielle</strong> avec le RGAA 4.1 en raison des non-conformités et des dérogations listées ci-après.</p>
+                <div style="background:var(--creme);border-left:4px solid var(--or);padding:16px 20px;border-radius:0 8px 8px 0;margin:16px 0">
+                    <p style="margin:0;font-weight:600;color:var(--bordeaux)">Résultat des tests</p>
+                    <p style="margin:6px 0 0;font-size:14px;">Taux de conformité global : <strong>environ 75 %</strong> des critères RGAA vérifiés</p>
+                </div>
+            </section>
+
+            <section class="legal-section">
+                <h2>Résultats des tests</h2>
+                <h3>Critères conformes</h3>
+                <ul class="legal-liste">
+                    <li>Langue de la page définie (<code>lang="fr"</code>)</li>
+                    <li>Titre de chaque page renseigné</li>
+                    <li>Navigation clavier possible sur l'ensemble du site</li>
+                    <li>Attributs <code>aria-label</code> sur les éléments interactifs clés</li>
+                    <li>Formulaires avec labels associés</li>
+                    <li>Messages d'erreur liés aux champs concernés</li>
+                    <li>Contrastes de couleurs conformes pour le texte principal</li>
+                    <li>Images décoratives avec <code>alt=""</code></li>
+                    <li>Structure de titres hiérarchique (h1 → h2 → h3)</li>
+                    <li>Responsive : utilisable sur mobile et tablette</li>
+                </ul>
+
+                <h3>Non-conformités identifiées</h3>
+                <ul class="legal-liste">
+                    <li>Certaines images de menus n'ont pas d'alternative textuelle descriptive suffisante</li>
+                    <li>Les boutons d'étoiles (notation) pourraient bénéficier d'une meilleure description pour les lecteurs d'écran</li>
+                    <li>L'animation CSS de la galerie de photos peut être perturbante pour les utilisateurs sensibles aux mouvements</li>
+                </ul>
+
+                <h3>Dérogations</h3>
+                <ul class="legal-liste">
+                    <li><strong>Charge disproportionnée</strong> : les documents PDF (devis, factures) ne sont pas entièrement accessibles — une alternative textuelle est proposée sur demande</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>Technologies utilisées</h2>
+                <ul class="legal-liste">
+                    <li>HTML5</li>
+                    <li>CSS3 (custom properties)</li>
+                    <li>JavaScript (ES2020+, sans framework)</li>
+                </ul>
+                <p>Agents utilisateurs testés : Chrome 120+, Firefox 121+, Safari 17+ (macOS et iOS), Edge 120+, NVDA + Chrome (Windows).</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Retour d'information et contact</h2>
+                <p>Si vous constatez un défaut d'accessibilité sur ce site, vous pouvez :</p>
+                <ul class="legal-liste">
+                    <li>Envoyer un email à <strong>contact@viteetgourmand.fr</strong></li>
+                    <li>Utiliser le <a href="contact.html" class="auth-lien">formulaire de contact</a></li>
+                </ul>
+                <p>Nous nous engageons à vous répondre sous <strong>5 jours ouvrés</strong> et à traiter votre demande dans un délai de 30 jours.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Voie de recours</h2>
+                <p>Si vous n'obtenez pas de réponse satisfaisante, vous pouvez contacter le <strong>Défenseur des droits</strong> :</p>
+                <ul class="legal-liste">
+                    <li>Via le formulaire en ligne : <a href="https://formulaire.defenseurdesdroits.fr" class="auth-lien" target="_blank" rel="noopener">formulaire.defenseurdesdroits.fr</a></li>
+                    <li>Par téléphone : 09 69 39 00 00</li>
+                    <li>Par courrier : Défenseur des droits — Libre réponse 71120 — 75342 Paris CEDEX 07</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html" class="active">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

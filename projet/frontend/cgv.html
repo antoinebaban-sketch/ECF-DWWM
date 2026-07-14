@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditions Générales de Vente — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="legal-container">
+            <h1 class="legal-titre">Conditions Générales de Vente</h1>
+            <p class="legal-maj">En vigueur au 1er janvier 2026</p>
+
+            <section class="legal-section">
+                <h2>Article 1 — Objet</h2>
+                <p>Les présentes Conditions Générales de Vente (CGV) régissent toute commande passée auprès de <strong>Vite et Gourmand</strong>, traiteur à Bordeaux, que ce soit via le site internet <em>viteetgourmand.fr</em> ou par tout autre moyen.</p>
+                <p>Toute commande implique l'acceptation sans réserve des présentes CGV.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 2 — Commandes</h2>
+                <h3>2.1 Délai de préavis</h3>
+                <p>Chaque prestation est soumise à un délai minimum de préavis indiqué sur la fiche du menu concerné (généralement 5 à 10 jours ouvrés). Aucune commande ne peut être validée en dehors de ce délai.</p>
+                <h3>2.2 Nombre de convives</h3>
+                <p>Chaque menu précise un nombre minimum de personnes. Toute commande doit respecter ce minimum. Au-delà de 5 convives supplémentaires par rapport au minimum, une <strong>remise de 10 %</strong> est automatiquement appliquée.</p>
+                <h3>2.3 Validation</h3>
+                <p>La commande est confirmée après acceptation explicite par un employé de Vite et Gourmand. Un email de confirmation est envoyé dès validation.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 3 — Prix et paiement</h2>
+                <p>Les prix sont indiqués en euros TTC. Ils peuvent être modifiés à tout moment ; le prix applicable est celui affiché au moment de la validation de la commande.</p>
+                <h3>3.1 Frais de livraison</h3>
+                <p>La livraison dans Bordeaux intra-muros est incluse. Pour les prestations hors Bordeaux, des <strong>frais de déplacement</strong> sont calculés automatiquement (5 € de base + 0,59 €/km).</p>
+                <h3>3.2 Modalités de paiement</h3>
+                <p>Le règlement s'effectue selon les modalités convenues lors de la confirmation de commande (virement, chèque, espèces ou carte bancaire sur place).</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 4 — Annulation et remboursement</h2>
+                <table class="legal-table">
+                    <thead><tr><th>Délai avant prestation</th><th>Conditions</th></tr></thead>
+                    <tbody>
+                        <tr><td>Plus de 10 jours</td><td>Annulation sans frais, remboursement intégral</td></tr>
+                        <tr><td>5 à 10 jours</td><td>50 % du montant retenu en frais de préparation</td></tr>
+                        <tr><td>Moins de 5 jours</td><td>Acompte non remboursable — facturation complète</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:12px">Toute demande d'annulation doit être adressée par écrit à <strong>contact@viteetgourmand.fr</strong>.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 5 — Matériel et logistique</h2>
+                <p>Vite et Gourmand se charge de la mise en place et du service. Le matériel (vaisselle, tréteaux, nappes, etc.) prêté doit être rendu propre dans les <strong>10 jours</strong> suivant la prestation. En cas de casse ou perte, le remplacement sera facturé au client.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 6 — Allergènes</h2>
+                <p>La composition et les allergènes de chaque menu sont précisés sur la fiche produit. Il appartient au client de signaler tout régime alimentaire spécifique ou allergie lors de la commande. Vite et Gourmand ne peut être tenu responsable d'une réaction due à une information erronée ou omise par le client.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 7 — Responsabilité</h2>
+                <p>Vite et Gourmand s'engage à réaliser ses prestations avec soin dans le respect des normes d'hygiène alimentaire en vigueur (paquet hygiène, HACCP). La responsabilité de Vite et Gourmand ne saurait être engagée en cas de force majeure (intempéries, grèves, etc.).</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 8 — Données personnelles</h2>
+                <p>Les données collectées lors de la commande sont utilisées exclusivement à des fins de gestion commerciale. Pour exercer vos droits RGPD, consultez notre <a href="rgpd.html" class="auth-lien">Politique de confidentialité</a>.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>Article 9 — Litiges</h2>
+                <p>En cas de litige, une solution amiable sera recherchée en priorité. À défaut d'accord, le Tribunal de Commerce de Bordeaux sera seul compétent.</p>
+                <p>Conformément à l'article L.612-1 du Code de la consommation, le consommateur peut recourir gratuitement au médiateur de la consommation compétent.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html" class="active">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+# Variables d'environnement — ne jamais committer
+projet/api/.env
+
+# Dépendances
+node_modules/
+vendor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/settings.json
+*.swp
+.claude
+
+# Autres
+./utile
+./RH_archive
+
+# Dossier technique perso — notes de préparation à l'oral, ne doit jamais être public
+./ECF PROJET

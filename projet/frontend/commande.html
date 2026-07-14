@@ -1,0 +1,608 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline" id="nav-connecter">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled" id="nav-inscrire">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="cmd-main">
+        <div class="cmd-inner">
+
+            <div class="cmd-entete">
+                <div>
+                    <h1 class="cmd-h1">Passer une commande</h1>
+                    <p class="cmd-sous-h1">Complétez les 4 étapes ci-dessous pour finaliser votre réservation.</p>
+                </div>
+                <a href="menu.html" class="cmd-retour">← Retour aux menus</a>
+            </div>
+
+            <!-- ── STEPPER ── -->
+            <nav class="cmd-stepper" aria-label="Étapes">
+                <div class="cmd-si active" id="si-1"><div class="cmd-circle">1</div><span>Vos infos</span></div>
+                <div class="cmd-sline"></div>
+                <div class="cmd-si" id="si-2"><div class="cmd-circle">2</div><span>Menu</span></div>
+                <div class="cmd-sline"></div>
+                <div class="cmd-si" id="si-3"><div class="cmd-circle">3</div><span>Livraison</span></div>
+                <div class="cmd-sline"></div>
+                <div class="cmd-si" id="si-4"><div class="cmd-circle">4</div><span>Confirmation</span></div>
+            </nav>
+
+            <!-- ══ ÉTAPE 1 : Vos informations ══ -->
+            <section class="cmd-step active" id="step-1">
+                <h2 class="cmd-step-titre">Vos informations personnelles</h2>
+                <p class="cmd-step-desc">Ces informations sont pré-remplies depuis votre compte. Vérifiez-les avant de continuer.</p>
+                <div class="cmd-form-grid">
+                    <div class="form-champ">
+                        <label for="c-prenom">Prénom *</label>
+                        <input type="text" id="c-prenom" autocomplete="given-name" required>
+                    </div>
+                    <div class="form-champ">
+                        <label for="c-nom">Nom *</label>
+                        <input type="text" id="c-nom" autocomplete="family-name" required>
+                    </div>
+                    <div class="form-champ">
+                        <label for="c-email">Email</label>
+                        <input type="email" id="c-email" autocomplete="email" readonly class="input-readonly">
+                    </div>
+                    <div class="form-champ">
+                        <label for="c-tel">Téléphone *</label>
+                        <input type="tel" id="c-tel" autocomplete="tel" placeholder="06 12 34 56 78" required>
+                    </div>
+                </div>
+                <div class="cmd-nav">
+                    <span></span>
+                    <button class="btn-step-next" onclick="valider(1)">Suivant →</button>
+                </div>
+            </section>
+
+            <!-- ══ ÉTAPE 2 : Votre menu ══ -->
+            <section class="cmd-step" id="step-2">
+                <h2 class="cmd-step-titre">Votre commande</h2>
+
+                <div class="form-champ">
+                    <label for="c-menu">Menu *</label>
+                    <select id="c-menu" required>
+                        <option value="">Choisir un menu…</option>
+                    </select>
+                </div>
+
+                <!-- Fiche du menu sélectionné -->
+                <div id="menu-fiche" class="cmd-menu-fiche" hidden></div>
+
+                <div class="cmd-form-grid">
+                    <div class="form-champ">
+                        <label for="c-nb">Nombre de personnes * <span class="form-hint-inline" id="c-nb-hint"></span></label>
+                        <input type="number" id="c-nb" min="1" value="" placeholder="ex : 20" required>
+                        <p class="form-hint remise-hint" id="remise-hint" hidden>🎉 Réduction de <strong>10 %</strong> appliquée (vous dépassez de 5 personnes ou plus le minimum requis)</p>
+                    </div>
+                    <div class="form-champ">
+                        <label for="c-date">Date de la prestation *</label>
+                        <input type="date" id="c-date" required>
+                        <p class="form-hint" id="date-hint"></p>
+                    </div>
+                </div>
+                <div class="form-champ" style="max-width:220px">
+                    <label for="c-heure">Heure de début *</label>
+                    <input type="time" id="c-heure" value="12:00" required>
+                </div>
+
+                <div class="cmd-nav">
+                    <button class="btn-step-prev" onclick="aller(1)">← Retour</button>
+                    <button class="btn-step-next" onclick="valider(2)">Suivant →</button>
+                </div>
+            </section>
+
+            <!-- ══ ÉTAPE 3 : Livraison et prix ══ -->
+            <section class="cmd-step" id="step-3">
+                <h2 class="cmd-step-titre">Adresse de livraison</h2>
+
+                <div class="form-champ">
+                    <label for="c-adresse">Adresse *</label>
+                    <input type="text" id="c-adresse" placeholder="12 rue des Chartrons" autocomplete="street-address" required>
+                </div>
+                <div class="cmd-form-grid">
+                    <div class="form-champ">
+                        <label for="c-cp">Code postal *</label>
+                        <input type="text" id="c-cp" placeholder="33000" autocomplete="postal-code" required>
+                    </div>
+                    <div class="form-champ">
+                        <label for="c-ville">Ville *</label>
+                        <input type="text" id="c-ville" placeholder="Bordeaux" autocomplete="address-level2" required>
+                    </div>
+                </div>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="c-hors-bdx">
+                    <span>Livraison hors de la ville de Bordeaux</span>
+                </label>
+
+                <div id="distance-bloc" class="form-champ" hidden style="margin-top:1rem">
+                    <label for="c-distance">Distance estimée depuis le centre de Bordeaux (km) *</label>
+                    <input type="number" id="c-distance" min="1" max="500" placeholder="ex : 15">
+                    <p class="form-hint">Frais de livraison : 5 € de base + 0,59 €/km</p>
+                </div>
+
+                <!-- Aperçu du prix en temps réel -->
+                <div class="cmd-prix-apercu" id="prix-apercu">
+                    <h3 class="cmd-prix-titre">Détail du prix</h3>
+                    <div class="cmd-prix-ligne">
+                        <span id="pa-base-lbl">Sous-total</span>
+                        <span id="pa-base">—</span>
+                    </div>
+                    <div class="cmd-prix-ligne cmd-prix-remise" id="pa-remise-ligne" hidden>
+                        <span>Réduction 10 %</span>
+                        <span id="pa-remise">—</span>
+                    </div>
+                    <div class="cmd-prix-ligne">
+                        <span>Frais de livraison</span>
+                        <span id="pa-livraison">Offerts</span>
+                    </div>
+                    <div class="cmd-prix-sep"></div>
+                    <div class="cmd-prix-ligne cmd-prix-total">
+                        <span>Total estimé</span>
+                        <strong id="pa-total">—</strong>
+                    </div>
+                </div>
+
+                <div class="cmd-nav">
+                    <button class="btn-step-prev" onclick="aller(2)">← Retour</button>
+                    <button class="btn-step-next" onclick="valider(3)">Voir le récapitulatif →</button>
+                </div>
+            </section>
+
+            <!-- ══ ÉTAPE 4 : Récapitulatif ══ -->
+            <section class="cmd-step" id="step-4">
+                <h2 class="cmd-step-titre">Récapitulatif de votre commande</h2>
+                <div id="recap-content" class="cmd-recap"></div>
+                <div class="cmd-nav">
+                    <button class="btn-step-prev" onclick="aller(3)">← Modifier</button>
+                    <button class="btn-confirmer" id="btn-confirmer">Confirmer la commande</button>
+                </div>
+            </section>
+
+            <!-- ══ SUCCÈS ══ -->
+            <div class="cmd-succes" id="cmd-succes" hidden>
+                <div class="cmd-succes-check">✓</div>
+                <h2>Commande enregistrée !</h2>
+                <p id="succes-msg">Un email de confirmation vous a été envoyé. Notre équipe vous contactera sous 24 h pour valider les détails.</p>
+                <div class="cmd-succes-actions">
+                    <a href="MonCompte.html" class="btn-or">Suivre ma commande</a>
+                    <a href="menu.html" class="btn-outline-dark">Voir d'autres menus</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+    const esc = s => escapeHtml(s);
+
+    /* ── État global ── */
+    const params    = new URLSearchParams(location.search);
+    const menuIdUrl = parseInt(params.get('menu_id')) || null;
+    const nbUrl     = parseInt(params.get('personnes')) || null;
+    let currentStep = 1;
+    let menus       = [];
+    let menuActuel  = null;
+
+    const MENUS_FALLBACK = [
+        { menu_id:1, titre:'Menu Prestige Bordeaux',      prix_par_personne:85,  nombre_personne_mini:20, quantite_restante:15, delai_prevenance:14,
+          description:'L\'excellence du terroir bordelais. Terrine de foie gras, chapon farci aux morilles et dôme chocolat signature.',
+          conditions:'Réservation minimum 14 jours à l\'avance. Acompte de 30% à la commande. Annulation remboursable jusqu\'à J-7.',
+          regimes:[{libelle:'Sans régime particulier'}] },
+        { menu_id:2, titre:'Menu Saveurs d\'Été',          prix_par_personne:55,  nombre_personne_mini:10, quantite_restante:20, delai_prevenance:7,
+          description:'Carpaccio de Saint-Jacques, bar sauvage rôti et panna cotta à la vanille.',
+          conditions:'Réservation minimum 7 jours à l\'avance. Disponible mai–septembre.',
+          regimes:[{libelle:'Sans régime particulier'}] },
+        { menu_id:3, titre:'Menu Végétarien Harmony',      prix_par_personne:45,  nombre_personne_mini:8,  quantite_restante:25, delai_prevenance:5,
+          description:'100% végétarien. Gaspacho de tomates, curry de légumes et tarte Tatin maison.',
+          conditions:'Réservation minimum 5 jours à l\'avance. Déclinable en version végétalienne (+5 €/pers.).',
+          regimes:[{libelle:'Végétarien'},{libelle:'Sans gluten'}] },
+        { menu_id:4, titre:'Menu Gastronomique Prestige',  prix_par_personne:120, nombre_personne_mini:15, quantite_restante:8,  delai_prevenance:21,
+          description:'Foie gras, Bœuf Wellington et Millefeuille artisanal pour vos soirées de gala.',
+          conditions:'Réservation minimum 21 jours à l\'avance. Acompte de 40% obligatoire.',
+          regimes:[{libelle:'Sans régime particulier'}] },
+        { menu_id:5, titre:'Menu Tradition Girondine',     prix_par_personne:65,  nombre_personne_mini:12, quantite_restante:18, delai_prevenance:7,
+          description:'Salade landaise, magret de canard à l\'orange et crème brûlée grand-mère.',
+          conditions:'Réservation minimum 7 jours à l\'avance. Vins du Bordelais en option.',
+          regimes:[{libelle:'Sans régime particulier'}] },
+    ];
+
+    /* ── Initialisation ── */
+    document.addEventListener('DOMContentLoaded', async () => {
+        /* Auth guard : la page n'est accessible qu'aux personnes connectées */
+        const meRes = await fetch('/api/auth/me', { credentials: 'include' });
+        if (!meRes.ok) {
+            const dest = 'commande.html' + location.search;
+            window.location.replace('SeConnecter.html?retour=' + encodeURIComponent(dest));
+            return;
+        }
+
+        configurerBurger();
+        await Promise.all([chargerProfil(), chargerMenus()]);
+        configurerListeners();
+    });
+
+    async function chargerProfil() {
+        try {
+            const res = await fetch('/api/utilisateurs/moi', { credentials: 'include' });
+            if (res.ok) {
+                const u = await res.json();
+                document.getElementById('c-prenom').value  = u.prenom || '';
+                document.getElementById('c-nom').value     = u.nom    || '';
+                document.getElementById('c-email').value   = u.email  || '';
+                document.getElementById('c-tel').value     = u.telephone || '';
+                document.getElementById('c-adresse').value = u.adresse || '';
+                document.getElementById('c-ville').value   = u.ville  || '';
+                document.getElementById('c-cp').value      = u.ville === 'Bordeaux' ? '33000' : '';
+            }
+        } catch {}
+    }
+
+    async function chargerMenus() {
+        const sel = document.getElementById('c-menu');
+        try {
+            const res = await fetch('/api/menus');
+            if (res.ok) menus = await res.json();
+        } catch {}
+        if (!menus.length) menus = MENUS_FALLBACK;
+
+        menus.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m.menu_id;
+            opt.textContent = `${m.titre} — ${parseFloat(m.prix_par_personne).toFixed(2).replace('.',',')} €/pers. (min. ${m.nombre_personne_mini} pers.)`;
+            if (m.quantite_restante <= 0) { opt.disabled = true; opt.textContent += ' — Complet'; }
+            sel.appendChild(opt);
+        });
+
+        if (menuIdUrl) {
+            sel.value = menuIdUrl;
+            onMenuChange();
+        }
+        sel.addEventListener('change', onMenuChange);
+    }
+
+    function rendreFicheMenu() {
+        const fiche = document.getElementById('menu-fiche');
+        if (!menuActuel) { fiche.hidden = true; return; }
+        const regimes = (menuActuel.regimes || []).map(r => `<span class="mf-badge">${r.libelle || r}</span>`).join('');
+        const platsHtml = (() => {
+            if (!menuActuel.plats) return '';
+            const types = ['Entrée','Plat','Dessert','Boisson'];
+            return types.map(t => {
+                const liste = (menuActuel.plats || []).filter(p => p.type_plat === t);
+                if (!liste.length) return '';
+                return `<div class="mf-plat-type"><strong>${t} :</strong> ${liste.map(p => p.titre_plat).join(', ')}</div>`;
+            }).join('');
+        })();
+        fiche.hidden  = false;
+        fiche.innerHTML = `
+            <p class="mf-desc">${menuActuel.description || ''}</p>
+            ${menuActuel.conditions ? `<div class="mf-conditions"><span class="mf-cond-ico">⚠</span><div><strong>Conditions de prestation</strong><p>${menuActuel.conditions}</p></div></div>` : ''}
+            ${regimes ? `<div class="mf-regimes">${regimes}</div>` : ''}
+            ${platsHtml ? `<div class="mf-composition">${platsHtml}</div>` : ''}
+        `;
+    }
+
+    function onMenuChange() {
+        const id = parseInt(document.getElementById('c-menu').value);
+        menuActuel = menus.find(m => m.menu_id === id) || null;
+
+        const fiche = document.getElementById('menu-fiche');
+        if (!menuActuel) { fiche.hidden = true; return; }
+
+        const mini  = menuActuel.nombre_personne_mini;
+        const delai = menuActuel.delai_prevenance || 7;
+
+        /* Nb personnes minimum */
+        const nbInput = document.getElementById('c-nb');
+        nbInput.min   = mini;
+        if (!nbInput.value || parseInt(nbInput.value) < mini) nbInput.value = nbUrl && nbUrl >= mini ? nbUrl : mini;
+        document.getElementById('c-nb-hint').textContent = `(minimum ${mini} personnes)`;
+
+        /* Date minimum */
+        const minDate = new Date(); minDate.setDate(minDate.getDate() + delai);
+        const minStr  = minDate.toISOString().split('T')[0];
+        const dateEl  = document.getElementById('c-date');
+        dateEl.min    = minStr;
+        if (!dateEl.value || dateEl.value < minStr) dateEl.value = minStr;
+        document.getElementById('date-hint').textContent = `Délai minimum : ${delai} jour${delai > 1 ? 's' : ''} avant la prestation`;
+
+        rendreFicheMenu();
+
+        /* Fetch détail complet (plats, régimes) — rendreFicheMenu uniquement, pas onMenuChange */
+        fetch('/api/menus/' + id)
+            .then(r => r.json())
+            .then(detail => { menuActuel = { ...menuActuel, ...detail }; rendreFicheMenu(); })
+            .catch(() => {});
+
+        calculerPrix();
+    }
+
+    function calculerPrix() {
+        if (!menuActuel) return;
+        const nb       = parseInt(document.getElementById('c-nb').value) || 0;
+        const horsVdx  = document.getElementById('c-hors-bdx').checked;
+        const distKm   = parseFloat(document.getElementById('c-distance').value) || 0;
+        if (nb < 1) return;
+
+        const mini     = menuActuel.nombre_personne_mini;
+        const pxBase   = parseFloat(menuActuel.prix_par_personne);
+        const hasRemise = (nb - mini) >= 5;
+        const pxUnit   = hasRemise ? pxBase * 0.9 : pxBase;
+        const sousTotal = pxUnit * nb;
+        const fraisLiv  = horsVdx && distKm > 0 ? +(5 + 0.59 * distKm).toFixed(2) : 0;
+        const total     = +(sousTotal + fraisLiv).toFixed(2);
+
+        const fmt = n => n.toFixed(2).replace('.', ',') + ' €';
+
+        document.getElementById('pa-base-lbl').textContent = hasRemise
+            ? `${nb} × ${fmt(pxUnit)}/pers. (avec remise 10 %)`
+            : `${nb} × ${fmt(pxBase)}/pers.`;
+        document.getElementById('pa-base').textContent     = fmt(hasRemise ? pxBase * nb : sousTotal);
+
+        const remiseLigne = document.getElementById('pa-remise-ligne');
+        const remiseHint  = document.getElementById('remise-hint');
+        if (hasRemise) {
+            remiseLigne.hidden = false; remiseHint.hidden = false;
+            document.getElementById('pa-remise').textContent = '−' + fmt(pxBase * nb * 0.1);
+        } else {
+            remiseLigne.hidden = true; remiseHint.hidden = true;
+        }
+
+        document.getElementById('pa-livraison').textContent = fraisLiv > 0 ? fmt(fraisLiv) : 'Offerts';
+        document.getElementById('pa-total').textContent     = fmt(total);
+
+        window._prixCalc = { nb, sousTotal, fraisLiv, total, hasRemise, pxUnit, pxBase };
+    }
+
+    /* ── Navigation entre étapes ── */
+    function aller(n) {
+        document.getElementById('step-' + currentStep).classList.remove('active');
+        const siOld = document.getElementById('si-' + currentStep);
+        siOld.classList.remove('active');
+        siOld.classList.add('done');
+
+        currentStep = n;
+
+        document.getElementById('step-' + n).classList.add('active');
+        const siNew = document.getElementById('si-' + n);
+        siNew.classList.add('active');
+        siNew.classList.remove('done');
+
+        if (n === 4) construireRecap();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function valider(n) {
+        if (n === 1) {
+            if (!document.getElementById('c-prenom').value.trim()) { alert('Veuillez renseigner votre prénom.'); return; }
+            if (!document.getElementById('c-nom').value.trim())    { alert('Veuillez renseigner votre nom.'); return; }
+            if (!document.getElementById('c-tel').value.trim())    { alert('Veuillez renseigner votre téléphone.'); return; }
+        }
+        if (n === 2) {
+            if (!document.getElementById('c-menu').value)   { alert('Veuillez sélectionner un menu.'); return; }
+            const nb   = parseInt(document.getElementById('c-nb').value);
+            const mini = menuActuel?.nombre_personne_mini || 1;
+            if (!nb || nb < mini) { alert(`Ce menu nécessite au minimum ${mini} personnes.`); return; }
+            if (!document.getElementById('c-date').value)   { alert('Veuillez choisir une date.'); return; }
+            if (document.getElementById('c-date').value < document.getElementById('c-date').min) {
+                alert(`Ce menu nécessite un préavis de ${menuActuel.delai_prevenance} jours.`); return;
+            }
+        }
+        if (n === 3) {
+            if (!document.getElementById('c-adresse').value.trim()) { alert('Veuillez renseigner l\'adresse de livraison.'); return; }
+            if (!document.getElementById('c-cp').value.trim())      { alert('Veuillez renseigner le code postal.'); return; }
+            if (!document.getElementById('c-ville').value.trim())   { alert('Veuillez renseigner la ville.'); return; }
+            if (document.getElementById('c-hors-bdx').checked && !document.getElementById('c-distance').value) {
+                alert('Veuillez indiquer la distance estimée pour calculer les frais de livraison.'); return;
+            }
+            calculerPrix();
+        }
+        aller(n + 1);
+    }
+
+    function construireRecap() {
+        const pc   = window._prixCalc || {};
+        const fmt  = n => (+(n || 0)).toFixed(2).replace('.', ',') + ' €';
+        const menu = menuActuel || {};
+        document.getElementById('recap-content').innerHTML = `
+            <div class="recap-bloc">
+                <h3>Vos informations</h3>
+                <p>${esc(document.getElementById('c-prenom').value)} ${esc(document.getElementById('c-nom').value)}</p>
+                <p>${esc(document.getElementById('c-email').value)} · ${esc(document.getElementById('c-tel').value)}</p>
+            </div>
+            <div class="recap-bloc">
+                <h3>Commande</h3>
+                <p><strong>${esc(menu.titre || '')}</strong></p>
+                <p>${pc.nb || '—'} personnes</p>
+                <p>${esc(document.getElementById('c-date').value)} à ${esc(document.getElementById('c-heure').value)}</p>
+                ${pc.hasRemise ? '<p class="recap-remise-tag">🎉 Réduction 10 % appliquée</p>' : ''}
+            </div>
+            <div class="recap-bloc">
+                <h3>Livraison</h3>
+                <p>${esc(document.getElementById('c-adresse').value)}</p>
+                <p>${esc(document.getElementById('c-cp').value)} ${esc(document.getElementById('c-ville').value)}</p>
+            </div>
+            <div class="recap-prix-bloc">
+                <div class="recap-prix-ligne"><span>Sous-total</span><span>${fmt(pc.pxBase && pc.nb ? pc.pxBase * pc.nb : pc.sousTotal)}</span></div>
+                ${pc.hasRemise ? `<div class="recap-prix-ligne recap-remise"><span>Réduction 10 %</span><span>−${fmt(pc.pxBase * pc.nb * 0.1)}</span></div>` : ''}
+                <div class="recap-prix-ligne"><span>Frais de livraison</span><span>${pc.fraisLiv > 0 ? fmt(pc.fraisLiv) : 'Offerts'}</span></div>
+                <div class="recap-prix-sep"></div>
+                <div class="recap-prix-ligne recap-total"><span>Total</span><strong>${fmt(pc.total)}</strong></div>
+            </div>`;
+    }
+
+    /* ── Confirmation ── */
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('btn-confirmer').addEventListener('click', confirmer);
+    });
+
+    async function confirmer() {
+        const btn = document.getElementById('btn-confirmer');
+        btn.disabled = true; btn.textContent = 'Envoi en cours…';
+
+        const pc       = window._prixCalc || {};
+        const horsVdx  = document.getElementById('c-hors-bdx').checked;
+        const payload  = {
+            menu_id:          parseInt(document.getElementById('c-menu').value),
+            nombre_personne:  pc.nb,
+            date_prestation:  document.getElementById('c-date').value + 'T' + document.getElementById('c-heure').value + ':00',
+            adresse_livraison: [
+                document.getElementById('c-adresse').value,
+                document.getElementById('c-cp').value,
+                document.getElementById('c-ville').value
+            ].join(' '),
+            distance_km: horsVdx ? (parseFloat(document.getElementById('c-distance').value) || 0) : 0,
+        };
+
+        try {
+            const res  = await fetch('/api/commandes', {
+                method:      'POST',
+                credentials: 'include',
+                headers:     { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const data = await res.json();
+            if (res.ok) { afficherSucces(data.commande_id); return; }
+            alert(data.error || 'Une erreur est survenue. Veuillez réessayer.');
+        } catch {
+            alert('Service temporairement indisponible. Veuillez réessayer.');
+        }
+
+        btn.disabled = false; btn.textContent = 'Confirmer la commande';
+    }
+
+    function afficherSucces(cmdId) {
+        document.getElementById('step-4').classList.remove('active');
+        document.getElementById('cmd-succes').hidden = false;
+        document.getElementById('succes-msg').textContent =
+            `Commande n°${cmdId} enregistrée. Un email de confirmation vous a été envoyé. Notre équipe vous contactera sous 24 h.`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ── Listeners prix temps réel ── */
+    function configurerListeners() {
+        document.getElementById('c-nb').addEventListener('input', calculerPrix);
+        document.getElementById('c-hors-bdx').addEventListener('change', () => {
+            document.getElementById('distance-bloc').hidden = !document.getElementById('c-hors-bdx').checked;
+            calculerPrix();
+        });
+        document.getElementById('c-distance').addEventListener('input', calculerPrix);
+    }
+
+    /* ── Burger mobile ── */
+    function configurerBurger() {
+        const b = document.getElementById('burger'), m = document.getElementById('mobile-nav');
+        b.addEventListener('click', () => {
+            const open = m.classList.toggle('open');
+            b.setAttribute('aria-expanded', open); m.setAttribute('aria-hidden', !open);
+            b.classList.toggle('active', open);
+        });
+    }
+    </script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

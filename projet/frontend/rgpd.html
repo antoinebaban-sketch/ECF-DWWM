@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politique de confidentialité — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="legal-container">
+            <h1 class="legal-titre">Politique de confidentialité</h1>
+            <p class="legal-maj">Dernière mise à jour : janvier 2026 — Conforme au RGPD (Règlement UE 2016/679)</p>
+
+            <section class="legal-section">
+                <h2>1. Responsable du traitement</h2>
+                <table class="legal-table">
+                    <tr><td>Identité</td><td>Vite et Gourmand — José Fernandez</td></tr>
+                    <tr><td>Adresse</td><td>12 rue des Chartrons, 33000 Bordeaux</td></tr>
+                    <tr><td>Email</td><td>contact@viteetgourmand.fr</td></tr>
+                    <tr><td>Téléphone</td><td>05 56 00 00 00</td></tr>
+                </table>
+            </section>
+
+            <section class="legal-section">
+                <h2>2. Données collectées</h2>
+                <table class="legal-table">
+                    <thead><tr><th>Catégorie</th><th>Données</th><th>Finalité</th><th>Base légale</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Compte client</td>
+                            <td>Prénom, nom, email, téléphone, adresse, ville, pays</td>
+                            <td>Gestion du compte et des commandes</td>
+                            <td>Exécution du contrat</td>
+                        </tr>
+                        <tr>
+                            <td>Commandes</td>
+                            <td>Détails de prestation, date, adresse de livraison, prix</td>
+                            <td>Traitement et suivi des commandes</td>
+                            <td>Exécution du contrat</td>
+                        </tr>
+                        <tr>
+                            <td>Avis</td>
+                            <td>Note, commentaire (pseudonymisé à l'affichage)</td>
+                            <td>Qualité et référencement</td>
+                            <td>Consentement</td>
+                        </tr>
+                        <tr>
+                            <td>Contact / devis</td>
+                            <td>Email, message</td>
+                            <td>Réponse aux demandes</td>
+                            <td>Intérêt légitime</td>
+                        </tr>
+                        <tr>
+                            <td>Journaux d'activité</td>
+                            <td>Adresse IP, horodatage des connexions (anonymisées après 30 jours)</td>
+                            <td>Sécurité du site</td>
+                            <td>Intérêt légitime</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:12px;font-size:13px;color:var(--brun)">Aucune donnée sensible (santé, origine ethnique, opinions politiques…) n'est collectée.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>3. Durée de conservation</h2>
+                <table class="legal-table">
+                    <tr><td>Données de compte</td><td>Durée de vie du compte + 3 ans après inactivité</td></tr>
+                    <tr><td>Commandes</td><td>10 ans (obligation comptable légale)</td></tr>
+                    <tr><td>Journaux d'activité</td><td>30 jours, puis suppression automatique</td></tr>
+                    <tr><td>Cookies de session</td><td>30 jours (JWT)</td></tr>
+                </table>
+            </section>
+
+            <section class="legal-section">
+                <h2>4. Destinataires des données</h2>
+                <p>Vos données ne sont jamais vendues ni transmises à des tiers à des fins commerciales. Elles peuvent être communiquées :</p>
+                <ul class="legal-liste">
+                    <li>À nos prestataires techniques (hébergeur) dans le seul but d'assurer le service</li>
+                    <li>Aux autorités compétentes sur réquisition judiciaire</li>
+                </ul>
+                <p>L'hébergeur est situé dans l'Union Européenne. Aucun transfert de données hors UE n'est effectué.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>5. Vos droits (RGPD Art. 15 à 22)</h2>
+                <table class="legal-table">
+                    <tr><td><strong>Droit d'accès</strong></td><td>Obtenir une copie de vos données → <a href="MonCompte.html" class="auth-lien">Mon Compte</a></td></tr>
+                    <tr><td><strong>Droit de rectification</strong></td><td>Modifier vos informations → <a href="MonCompte.html" class="auth-lien">Mon Compte</a></td></tr>
+                    <tr><td><strong>Droit à l'effacement</strong></td><td>Supprimer votre compte → Mon Compte → Supprimer mon compte</td></tr>
+                    <tr><td><strong>Droit à la portabilité</strong></td><td>Exporter vos données → <a href="MonCompte.html" class="auth-lien">Mon Compte</a></td></tr>
+                    <tr><td><strong>Droit d'opposition</strong></td><td>S'opposer à un traitement basé sur l'intérêt légitime</td></tr>
+                    <tr><td><strong>Droit à la limitation</strong></td><td>Suspendre temporairement le traitement</td></tr>
+                </table>
+                <p style="margin-top:16px">Pour exercer vos droits, contactez : <strong>contact@viteetgourmand.fr</strong><br>
+                Délai de réponse : 1 mois maximum (RGPD Art. 12).<br>
+                En cas de réponse insatisfaisante, vous pouvez saisir la <strong>CNIL</strong> : <a href="https://www.cnil.fr" class="auth-lien" target="_blank" rel="noopener">cnil.fr</a></p>
+            </section>
+
+            <section class="legal-section" id="cookies">
+                <h2>6. Cookies et stockage local</h2>
+                <p>Ce site utilise un <strong>cookie de session</strong> (authentification) et le <strong>stockage local du navigateur (localStorage)</strong> pour le panier et vos préférences.</p>
+                <table class="legal-table">
+                    <thead><tr><th>Identifiant</th><th>Contenu</th><th>Durée</th><th>Finalité</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code>PHPSESSID</code></td>
+                            <td>Identifiant de session (cookie)</td>
+                            <td>Le temps de la session</td>
+                            <td>Authentification — Strictement nécessaire</td>
+                        </tr>
+                        <tr>
+                            <td><code>vg_panier</code></td>
+                            <td>Contenu du panier</td>
+                            <td>Jusqu'à validation ou vidage</td>
+                            <td>Fonctionnement du panier — Strictement nécessaire</td>
+                        </tr>
+                        <tr>
+                            <td><code>vg_cookie_consent</code></td>
+                            <td>Préférence cookies (accepted/refused)</td>
+                            <td>13 mois (CNIL max)</td>
+                            <td>Mémorisation du consentement — Strictement nécessaire</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:12px">Ces données sont strictement nécessaires au fonctionnement du site et sont exemptées d'obligation de consentement (lignes directrices CNIL 2020). Aucun cookie publicitaire ou de mesure d'audience n'est utilisé.</p>
+                <p><strong>Pour effacer ces données :</strong> Paramètres de votre navigateur → Données de site → viteetgourmand.fr → Effacer.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>7. Sécurité</h2>
+                <p>Vite et Gourmand met en œuvre les mesures techniques suivantes :</p>
+                <ul class="legal-liste">
+                    <li>Chiffrement des mots de passe (bcrypt, facteur de coût 12)</li>
+                    <li>Authentification par session serveur (cookie de session)</li>
+                    <li>Communications chiffrées HTTPS (TLS 1.2+)</li>
+                    <li>Requêtes SQL préparées (protection contre les injections)</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html" class="active">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

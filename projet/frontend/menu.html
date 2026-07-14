@@ -1,0 +1,723 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Menus — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html" class="active">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html" class="active">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ── BARRE DE FILTRES ── -->
+        <section class="filtres-section">
+            <div class="filtres-inner">
+
+                <div class="filtre-groupe">
+                    <label for="recherche-plat">Rechercher</label>
+                    <input type="text" id="recherche-plat" class="filtre-search" placeholder="Un menu…">
+                </div>
+
+                <div class="filtre-sep"></div>
+
+                <!-- Fourchette de prix min-max -->
+                <div class="filtre-groupe">
+                    <label>Prix / personne</label>
+                    <div class="prix-range-wrapper">
+                        <div class="prix-range-inputs">
+                            <input type="number" id="prix-min" min="0" max="500" value="0" placeholder="Min">
+                            <span class="prix-range-sep">–</span>
+                            <input type="number" id="prix-max" min="0" max="500" value="200" placeholder="Max">
+                            <span class="prix-range-unit">€</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filtre-sep"></div>
+
+                <!-- Nb personnes minimum -->
+                <div class="filtre-groupe">
+                    <label>Personnes</label>
+                    <div class="nb-personnes-wrapper">
+                        <button type="button" class="btn-counter" id="btn-moins" aria-label="Diminuer">−</button>
+                        <input type="number" id="nb-personnes" min="1" max="500" value="1">
+                        <button type="button" class="btn-counter" id="btn-plus" aria-label="Augmenter">+</button>
+                    </div>
+                </div>
+
+                <div class="filtre-sep"></div>
+
+                <!-- Thème -->
+                <div class="filtre-groupe">
+                    <label for="filtre-theme">Thème</label>
+                    <select id="filtre-theme" class="filtre-select">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+
+                <div class="filtre-sep"></div>
+
+                <!-- Régime alimentaire — NOUVEAU -->
+                <div class="filtre-groupe">
+                    <label for="filtre-regime">Régime</label>
+                    <select id="filtre-regime" class="filtre-select">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+
+                <div class="filtre-sep"></div>
+
+                <button type="button" class="btn-reserver" onclick="window.location.href='commande.html'">
+                    Commander
+                </button>
+
+            </div>
+        </section>
+
+        <!-- ── GRILLE DES MENUS ── -->
+        <section class="catalogue-section">
+            <div class="catalogue-grid" id="catalogue-grid">
+
+                <!-- Menus statiques (remplacés par l'API si connectée) -->
+
+                <article class="carte-plat" data-menu-id="1" data-prix="85" data-prix-min="85" data-theme-id="1" data-regime-id="1" data-personnes-mini="20">
+                    <div class="carte-img">
+                        <img src="images/plateau_charcuterie.png" alt="Plateau de charcuterie et plateau traiteur pour le Menu Prestige Bordeaux">
+                        <span class="carte-stock-badge">15 disponibles</span>
+                    </div>
+                    <div class="carte-body">
+                        <div class="carte-meta-row">
+                            <span class="carte-theme-tag">Mariage</span>
+                            <span class="carte-mini-tag">min. 20 pers.</span>
+                        </div>
+                        <h2 class="carte-titre">Menu Prestige Bordeaux</h2>
+                        <p class="carte-desc">Foie gras, chapon farci aux morilles et dôme chocolat signature. L'excellence du terroir bordelais.</p>
+                        <div class="carte-footer">
+                            <span class="carte-prix">85 € / pers.</span>
+                            <button class="btn-details">Détails et Commander</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="carte-plat" data-menu-id="2" data-prix="45" data-prix-min="45" data-theme-id="2" data-regime-id="2" data-personnes-mini="8">
+                    <div class="carte-img">
+                        <img src="images/avocat_bowl.png" alt="Bowl santé avec avocat et quinoa pour le Menu Végétarien Harmony">
+                        <span class="carte-stock-badge">25 disponibles</span>
+                    </div>
+                    <div class="carte-body">
+                        <div class="carte-meta-row">
+                            <span class="carte-theme-tag carte-theme-tag--veggie">Végétarien</span>
+                            <span class="carte-mini-tag">min. 8 pers.</span>
+                        </div>
+                        <h2 class="carte-titre">Menu Végétarien Harmony</h2>
+                        <p class="carte-desc">Gaspacho de tomates, curry de légumes de saison et tarte Tatin maison. 100% végétarien.</p>
+                        <div class="carte-footer">
+                            <span class="carte-prix">45 € / pers.</span>
+                            <button class="btn-details">Détails et Commander</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="carte-plat" data-menu-id="3" data-prix="65" data-prix-min="65" data-theme-id="3" data-regime-id="1" data-personnes-mini="12">
+                    <div class="carte-img">
+                        <img src="images/creme_brulee.png" alt="Crème brûlée dorée à la cassonade pour le Menu Tradition Girondine">
+                        <span class="carte-stock-badge">18 disponibles</span>
+                    </div>
+                    <div class="carte-body">
+                        <div class="carte-meta-row">
+                            <span class="carte-theme-tag">Entreprise</span>
+                            <span class="carte-mini-tag">min. 12 pers.</span>
+                        </div>
+                        <h2 class="carte-titre">Menu Tradition Girondine</h2>
+                        <p class="carte-desc">Salade landaise, magret de canard à l'orange et crème brûlée grand-mère. Le Sud-Ouest authentique.</p>
+                        <div class="carte-footer">
+                            <span class="carte-prix">65 € / pers.</span>
+                            <button class="btn-details">Détails et Commander</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="carte-plat" data-menu-id="4" data-prix="38" data-prix-min="38" data-theme-id="7" data-regime-id="1" data-personnes-mini="15">
+                    <div class="carte-img">
+                        <img src="images/macarons.png" alt="Assortiment de petits fours et macarons pour le Cocktail Dinatoire Gourmand">
+                        <span class="carte-stock-badge">20 disponibles</span>
+                    </div>
+                    <div class="carte-body">
+                        <div class="carte-meta-row">
+                            <span class="carte-theme-tag">Cocktail dinatoire</span>
+                            <span class="carte-mini-tag">min. 15 pers.</span>
+                        </div>
+                        <h2 class="carte-titre">Cocktail Dinatoire Gourmand</h2>
+                        <p class="carte-desc">Assortiment de bouchées gourmandes, petits fours et desserts en verrines. Idéal pour vos soirées d'entreprise.</p>
+                        <div class="carte-footer">
+                            <span class="carte-prix">38 € / pers.</span>
+                            <button class="btn-details">Détails et Commander</button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <p class="catalogue-vide" id="catalogue-vide" hidden>Aucun menu ne correspond à vos critères.</p>
+        </section>
+
+    </main>
+
+    <!-- ── MODAL DÉTAIL MENU ── -->
+    <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+        <div class="modal-plat" role="dialog" aria-modal="true" aria-labelledby="modal-titre">
+            <button class="modal-fermer" id="modal-fermer" aria-label="Fermer">×</button>
+
+            <!-- Galerie images -->
+            <div class="modal-galerie">
+                <img id="modal-img" src="" alt="">
+                <div class="modal-thumbs" id="modal-thumbs"></div>
+            </div>
+
+            <div class="modal-info">
+                <h2 class="modal-titre" id="modal-titre"></h2>
+
+                <!-- Conditions en évidence (spec : "mises en évidence") -->
+                <div class="modal-conditions" id="modal-conditions" hidden>
+                    <span class="modal-cond-ico">⚠</span>
+                    <div>
+                        <strong>Conditions de prestation</strong>
+                        <p id="modal-cond-txt"></p>
+                    </div>
+                </div>
+
+                <p class="modal-desc" id="modal-desc"></p>
+
+                <!-- Régimes -->
+                <div class="modal-regimes" id="modal-regimes"></div>
+
+                <!-- Composition (entrée / plat / dessert) -->
+                <div class="modal-composition" id="modal-composition"></div>
+
+                <!-- Allergènes -->
+                <div id="modal-allergenes-bloc">
+                    <p class="modal-section-titre">Allergènes</p>
+                    <ul class="modal-allergenes-liste" id="modal-allergenes-liste"><li>Données non disponibles</li></ul>
+                </div>
+
+                <!-- Nb personnes + prix -->
+                <div class="modal-personnes-section">
+                    <p class="modal-section-titre">Nombre de personnes <span id="modal-mini-txt" class="modal-mini-txt"></span></p>
+                    <div class="nb-personnes-wrapper">
+                        <button type="button" class="btn-counter" id="modal-btn-moins" aria-label="Diminuer">−</button>
+                        <input type="number" id="modal-nb" min="1" max="500" value="1">
+                        <button type="button" class="btn-counter" id="modal-btn-plus" aria-label="Augmenter">+</button>
+                    </div>
+                    <p class="modal-remise" id="modal-remise" hidden>🎉 Réduction de 10 % appliquée</p>
+                </div>
+
+                <div class="modal-prix-bloc">
+                    <span class="modal-prix-label" id="modal-prix-label">Prix estimé</span>
+                    <strong class="modal-prix-total" id="modal-prix-total">—</strong>
+                </div>
+
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <button type="button" id="btn-panier-modal" class="btn-panier-ajouter">
+                        🛒 Ajouter au panier
+                    </button>
+                    <a class="btn-commander" id="btn-commander" href="#">
+                        Commander maintenant →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+    function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+    /* ── Badge panier ── */
+    (function() {
+        const p = JSON.parse(localStorage.getItem('vg_panier') || '[]');
+        const b = document.getElementById('panier-badge');
+        if (b) b.textContent = p.length;
+    })();
+
+    /* ── Filtres ── */
+    const inputRecherche = document.getElementById('recherche-plat');
+    const inputPrixMin   = document.getElementById('prix-min');
+    const inputPrixMax   = document.getElementById('prix-max');
+    const inputPersonnes = document.getElementById('nb-personnes');
+    const selectTheme    = document.getElementById('filtre-theme');
+    const selectRegime   = document.getElementById('filtre-regime');
+
+    function filtrerCartes() {
+        const terme  = inputRecherche.value.toLowerCase().trim();
+        const pMin   = parseFloat(inputPrixMin.value)  || 0;
+        const pMax   = parseFloat(inputPrixMax.value)  || 99999;
+        const nb     = parseInt(inputPersonnes.value)  || 1;
+        const theme  = selectTheme.value;
+        const regime = selectRegime.value;
+
+        let visible = 0;
+        document.querySelectorAll('.carte-plat').forEach(c => {
+            const prixBase = parseFloat(c.dataset.prixMin || c.dataset.prix) || 0;
+            const mini     = parseInt(c.dataset.personnesMini) || 1;
+            const themeId  = c.dataset.themeId  || '';
+            const regimeId = c.dataset.regimeId || '';
+            const titre    = (c.querySelector('.carte-titre')?.textContent || '').toLowerCase();
+            const desc     = (c.querySelector('.carte-desc')?.textContent  || '').toLowerCase();
+
+            // Filtre prix sur le prix de base (par personne)
+            const okPrix   = prixBase >= pMin && prixBase <= pMax;
+            const okTheme  = !theme  || themeId  === theme;
+            const okRegime = !regime || regimeId === regime;
+            const okSearch = !terme  || titre.includes(terme) || desc.includes(terme);
+
+            // Le filtre personnes ne masque plus les cartes — juste prix + badge
+            const ok = okPrix && okTheme && okRegime && okSearch;
+            c.style.display = ok ? '' : 'none';
+            if (ok) visible++;
+
+            // ── Mise à jour du prix affiché ──
+            const prixEl = c.querySelector('.carte-prix');
+            if (prixEl) {
+                if (nb > 1) {
+                    const remise  = nb >= mini && (nb - mini) >= 5;
+                    const pxFinal = remise ? prixBase * 0.9 : prixBase;
+                    const total   = pxFinal * nb;
+                    prixEl.textContent = total.toFixed(2).replace('.', ',') + ' € pour ' + nb + ' pers.';
+                    prixEl.style.color = remise ? 'var(--or)' : '';
+                } else {
+                    prixEl.textContent = prixBase.toFixed(2).replace('.', ',') + ' € / pers.';
+                    prixEl.style.color = '';
+                }
+            }
+
+            // ── Badge "Pour au moins X personnes" ──
+            let notif = c.querySelector('.carte-pers-notif');
+            if (nb > 1 && mini > nb) {
+                if (!notif) {
+                    notif = document.createElement('span');
+                    notif.className = 'carte-pers-notif';
+                    (prixEl || c).insertAdjacentElement('afterend', notif);
+                }
+                notif.textContent = '⚠ Pour au moins ' + mini + ' personnes';
+            } else if (notif) {
+                notif.remove();
+            }
+        });
+        document.getElementById('catalogue-vide').hidden = visible > 0;
+    }
+
+    inputRecherche.addEventListener('input', filtrerCartes);
+    inputPrixMin.addEventListener('input', filtrerCartes);
+    inputPrixMax.addEventListener('input', filtrerCartes);
+    selectTheme.addEventListener('change', filtrerCartes);
+    selectRegime.addEventListener('change', filtrerCartes);
+
+    // Saisie directe + boutons +/- pour le filtre personnes
+    inputPersonnes.addEventListener('input', () => {
+        let v = parseInt(inputPersonnes.value) || 1;
+        if (v < 1) { inputPersonnes.value = 1; v = 1; }
+        if (v > 500) { inputPersonnes.value = 500; v = 500; }
+        filtrerCartes();
+    });
+    document.getElementById('btn-moins').addEventListener('click', () => {
+        const v = parseInt(inputPersonnes.value) || 1;
+        if (v > 1) { inputPersonnes.value = v - 1; filtrerCartes(); }
+    });
+    document.getElementById('btn-plus').addEventListener('click', () => {
+        const v = parseInt(inputPersonnes.value) || 1;
+        if (v < 500) { inputPersonnes.value = v + 1; filtrerCartes(); }
+    });
+
+    /* ── Chargement thèmes ── */
+    async function chargerThemes() {
+        try {
+            const res = await fetch('/api/themes');
+            if (!res.ok) return;
+            const themes = await res.json();
+            themes.forEach(t => {
+                const o = document.createElement('option');
+                o.value = t.theme_id; o.textContent = t.libelle;
+                selectTheme.appendChild(o);
+            });
+        } catch {}
+    }
+
+    /* ── Chargement régimes ── */
+    async function chargerRegimes() {
+        try {
+            const res = await fetch('/api/regimes');
+            if (!res.ok) return;
+            const regimes = await res.json();
+            regimes.forEach(r => {
+                const o = document.createElement('option');
+                o.value = r.regime_id; o.textContent = r.libelle;
+                selectRegime.appendChild(o);
+            });
+        } catch {}
+    }
+
+    /* ── Construction carte menu (depuis API) ── */
+    function construireCarteMenu(menu) {
+        const img    = (menu.images && menu.images[0]) || menu.image || 'images/avocat_bowl.png';
+        const theme  = menu.theme ? `<span class="carte-theme-tag">${esc(menu.theme)}</span>` : '';
+        const regimes = (menu.regimes || []).map(r => r.libelle || r).join(', ');
+        const regBadge = regimes && regimes !== 'Sans régime particulier'
+            ? `<span class="carte-theme-tag carte-theme-tag--veggie">${esc(regimes)}</span>` : '';
+        const stock  = menu.quantite_restante > 0
+            ? `<span class="carte-stock-badge">${menu.quantite_restante} disponibles</span>`
+            : `<span class="carte-stock-badge carte-stock-badge--complet">Complet</span>`;
+        // Fallback regime_id : prend le premier de la liste
+        const regId  = (menu.regimes && menu.regimes[0]?.regime_id) || menu.regime_id || '';
+
+        const a = document.createElement('article');
+        a.className = 'carte-plat';
+        a.dataset.menuId       = menu.menu_id;
+        a.dataset.prix         = menu.prix_par_personne;
+        a.dataset.prixMin      = menu.prix_par_personne;
+        a.dataset.themeId      = menu.theme_id || '';
+        a.dataset.regimeId     = regId;
+        a.dataset.personnesMini = menu.nombre_personne_mini;
+        a.innerHTML = `
+            <div class="carte-img">
+                <img src="${img}" alt="${esc(menu.titre)}">
+                ${stock}
+            </div>
+            <div class="carte-body">
+                <div class="carte-meta-row">${theme}${regBadge}<span class="carte-mini-tag">min. ${menu.nombre_personne_mini} pers.</span></div>
+                <h2 class="carte-titre">${esc(menu.titre)}</h2>
+                <p class="carte-desc">${esc(menu.description || '')}</p>
+                <div class="carte-footer">
+                    <span class="carte-prix">${parseFloat(menu.prix_par_personne).toFixed(2).replace('.',',')} € / pers.</span>
+                    <button class="btn-details">Détails et Commander</button>
+                </div>
+            </div>`;
+        return a;
+    }
+
+    /* ── Chargement menus depuis API ── */
+    async function chargerMenus() {
+        try {
+            const res = await fetch('/api/menus');
+            if (!res.ok) return;
+            const menus = await res.json();
+            const grille = document.getElementById('catalogue-grid');
+            grille.innerHTML = '';
+            menus.forEach(m => grille.appendChild(construireCarteMenu(m)));
+            attacherDetails();
+        } catch { /* cartes statiques conservées */ }
+    }
+
+    /* ── Modal détail ── */
+    const overlay      = document.getElementById('modal-overlay');
+    const modalImg     = document.getElementById('modal-img');
+    const modalThumbs  = document.getElementById('modal-thumbs');
+    const modalTitre   = document.getElementById('modal-titre');
+    const modalDesc    = document.getElementById('modal-desc');
+    const modalConds   = document.getElementById('modal-conditions');
+    const modalCondTxt = document.getElementById('modal-cond-txt');
+    const modalRegimes = document.getElementById('modal-regimes');
+    const modalCompo   = document.getElementById('modal-composition');
+    const modalAllerLi = document.getElementById('modal-allergenes-liste');
+    const modalNb      = document.getElementById('modal-nb');
+    const modalPrixLbl = document.getElementById('modal-prix-label');
+    const modalPrixTot = document.getElementById('modal-prix-total');
+    const modalMiniTxt = document.getElementById('modal-mini-txt');
+    const modalRemise  = document.getElementById('modal-remise');
+    const btnCmd       = document.getElementById('btn-commander');
+
+    let menuActuel = null;
+
+    function majPrixModal() {
+        if (!menuActuel) return;
+        const nb      = parseInt(modalNb.value) || 1;
+        const mini    = menuActuel.nombre_personne_mini;
+        const px      = parseFloat(menuActuel.prix_par_personne);
+        const remise  = (nb - mini) >= 5;
+        const pxFinal = remise ? px * 0.9 : px;
+        const total   = pxFinal * nb;
+
+        modalPrixLbl.textContent = remise
+            ? `${nb} × ${pxFinal.toFixed(2).replace('.',',')} €/pers. (avec remise 10 %)`
+            : `${nb} × ${px.toFixed(2).replace('.',',')} €/pers.`;
+        modalPrixTot.textContent = total.toFixed(2).replace('.', ',') + ' €';
+        modalRemise.hidden = !remise;
+    }
+
+    function ouvrirModal(carte) {
+        const id = parseInt(carte.dataset.menuId);
+        const px = parseFloat(carte.dataset.prix);
+        const mini = parseInt(carte.dataset.personnesMini) || 1;
+
+        menuActuel = { menu_id: id, prix_par_personne: px, nombre_personne_mini: mini,
+                       titre: carte.querySelector('.carte-titre').textContent };
+
+        modalImg.src  = carte.querySelector('.carte-img img')?.src || '';
+        modalImg.alt  = menuActuel.titre;
+        modalTitre.textContent = menuActuel.titre;
+        modalDesc.textContent  = carte.querySelector('.carte-desc')?.textContent || '';
+        modalConds.hidden      = true;
+        modalRegimes.innerHTML = '';
+        modalCompo.innerHTML   = '';
+        modalAllerLi.innerHTML = '<li>Chargement…</li>';
+        modalThumbs.innerHTML  = '';
+        modalNb.min   = mini;
+        modalNb.value = mini;
+        modalMiniTxt.textContent = `(min. ${mini} personnes)`;
+        majPrixModal();
+        btnCmd.href = `commande.html?menu_id=${id}&personnes=${mini}`;
+
+        overlay.classList.add('open');
+        majBtnPanier();
+        overlay.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        majBtnPanier();
+
+        /* Fetch détail complet */
+        fetch('/api/menus/' + id)
+            .then(r => r.json())
+            .then(m => {
+                menuActuel = { ...menuActuel, ...m };
+
+                /* Conditions */
+                if (m.conditions) {
+                    modalCondTxt.textContent = m.conditions;
+                    modalConds.hidden = false;
+                }
+
+                /* Galerie */
+                if (m.images && m.images.length) {
+                    modalImg.src = m.images[0];
+                    m.images.forEach((url, i) => {
+                        const t = document.createElement('img');
+                        t.src = url; t.alt = `Vue ${i+1}`;
+                        t.className = i === 0 ? 'thumb active' : 'thumb';
+                        t.addEventListener('click', () => {
+                            modalImg.src = url;
+                            modalThumbs.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+                            t.classList.add('active');
+                        });
+                        modalThumbs.appendChild(t);
+                    });
+                }
+
+                /* Régimes */
+                if (m.regimes && m.regimes.length) {
+                    modalRegimes.innerHTML = '<p class="modal-section-titre">Régimes</p>' +
+                        m.regimes.map(r => `<span class="mf-badge">${r.libelle}</span>`).join('');
+                }
+
+                /* Composition (entrée / plat / dessert) */
+                if (m.plats && m.plats.length) {
+                    const types = ['Entrée','Plat','Dessert','Boisson'];
+                    const html  = types.map(t => {
+                        const liste = m.plats.filter(p => p.type_plat === t);
+                        if (!liste.length) return '';
+                        return `<div class="mf-plat-type"><strong>${t} :</strong> ${liste.map(p => p.titre_plat).join(', ')}</div>`;
+                    }).join('');
+                    if (html) modalCompo.innerHTML = '<p class="modal-section-titre">Composition</p>' + html;
+                }
+
+                /* Allergènes */
+                if (m.allergenes && m.allergenes.length) {
+                    modalAllerLi.innerHTML = m.allergenes.map(a => `<li>${a.libelle}</li>`).join('');
+                } else {
+                    modalAllerLi.innerHTML = '<li>Aucun allergène majeur identifié</li>';
+                }
+
+                majLienCommander();
+            })
+            .catch(() => { modalAllerLi.innerHTML = '<li>Non disponible (API non connectée)</li>'; });
+    }
+
+    function fermerModal() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        menuActuel = null;
+    }
+
+    document.getElementById('modal-fermer').addEventListener('click', fermerModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) fermerModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') fermerModal(); });
+
+    document.getElementById('modal-btn-moins').addEventListener('click', () => {
+        const mini = menuActuel?.nombre_personne_mini || 1;
+        const v    = parseInt(modalNb.value) || mini;
+        if (v > mini) { modalNb.value = v - 1; majPrixModal(); majLienCommander(); }
+    });
+    document.getElementById('modal-btn-plus').addEventListener('click', () => {
+        const v = parseInt(modalNb.value) || 1;
+        if (v < 500) { modalNb.value = v + 1; majPrixModal(); majLienCommander(); }
+    });
+    modalNb.addEventListener('input', () => {
+        const mini = menuActuel?.nombre_personne_mini || 1;
+        let v = parseInt(modalNb.value);
+        if (isNaN(v) || v < 1) return; // laisser taper sans bloquer
+        if (v > 500) { modalNb.value = 500; v = 500; }
+        majPrixModal();
+        majLienCommander();
+    });
+    modalNb.addEventListener('blur', () => {
+        const mini = menuActuel?.nombre_personne_mini || 1;
+        const v    = parseInt(modalNb.value);
+        if (isNaN(v) || v < mini) { modalNb.value = mini; majPrixModal(); majLienCommander(); }
+    });
+
+    function majLienCommander() {
+        if (!menuActuel) return;
+        const nb = parseInt(modalNb.value) || menuActuel.nombre_personne_mini;
+        document.getElementById('btn-commander').href =
+            `commande.html?menu_id=${menuActuel.menu_id}&personnes=${nb}`;
+    }
+
+    /* ── Panier ── */
+    function getPanier() { return JSON.parse(localStorage.getItem('vg_panier') || '[]'); }
+    function savePanier(p) {
+        localStorage.setItem('vg_panier', JSON.stringify(p));
+        const b = document.getElementById('panier-badge');
+        if (b) b.textContent = p.length;
+    }
+    function majBtnPanier() {
+        const btn = document.getElementById('btn-panier-modal');
+        if (!btn || !menuActuel) return;
+        const dejaDedans = getPanier().some(x => x.menu_id === menuActuel.menu_id);
+        btn.textContent = dejaDedans ? '✓ Dans le panier' : '🛒 Ajouter au panier';
+        btn.style.background = dejaDedans ? 'var(--brun)' : '';
+        btn.disabled = dejaDedans;
+    }
+
+    document.getElementById('btn-panier-modal').addEventListener('click', () => {
+        if (!menuActuel) return;
+        const panier = getPanier();
+        if (!panier.some(x => x.menu_id === menuActuel.menu_id)) {
+            panier.push({
+                menu_id:             menuActuel.menu_id,
+                titre:               menuActuel.titre,
+                prix_par_personne:   menuActuel.prix_par_personne,
+                nombre_personne_mini:menuActuel.nombre_personne_mini,
+                image:               document.getElementById('modal-img')?.src || '',
+            });
+            savePanier(panier);
+        }
+        majBtnPanier();
+    });
+
+
+    function attacherDetails() {
+        document.querySelectorAll('.btn-details').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                ouvrirModal(btn.closest('.carte-plat'));
+            });
+        });
+    }
+    attacherDetails();
+
+    /* ── Chargement API ── */
+    chargerThemes();
+    chargerRegimes();
+    chargerMenus();
+    </script>
+
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

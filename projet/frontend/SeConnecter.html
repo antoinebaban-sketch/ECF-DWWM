@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline active">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="auth-main">
+        <div class="auth-card" id="card-login">
+            <h1 class="auth-titre">Connexion</h1>
+            <div class="auth-sep"></div>
+
+            <form class="auth-form" id="form-connexion" novalidate>
+                <div class="form-champ">
+                    <label for="co-email">Email</label>
+                    <input type="email" id="co-email" placeholder="votre@email.fr" required autocomplete="email">
+                </div>
+                <div class="form-champ">
+                    <label for="co-password">Mot de passe</label>
+                    <input type="password" id="co-password" placeholder="••••••••" required autocomplete="current-password">
+                    <a href="#" class="auth-lien-oubli" id="lien-mdp-oublie">Mot de passe oublié ?</a>
+                </div>
+
+                <p class="auth-erreur" id="erreur-login" hidden></p>
+                <p class="auth-info" id="info-login" hidden></p>
+
+                <button type="submit" class="btn-form-submit btn-form-submit--full">Se connecter</button>
+            </form>
+
+            <p class="auth-bas">
+                Pas encore inscrit ?
+                <a href="SInscrire.html" class="auth-lien">Créer mon compte</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+        const retourRaw = new URLSearchParams(window.location.search).get('retour');
+        const retour = (retourRaw && !retourRaw.includes('://') && !retourRaw.startsWith('//') && !/^javascript:/i.test(retourRaw) && !/^data:/i.test(retourRaw)) ? retourRaw : 'MonCompte.html';
+
+        function showError(elId, msg) {
+            const el = document.getElementById(elId);
+            el.textContent = msg;
+            el.hidden = false;
+        }
+        function hideError(elId) { document.getElementById(elId).hidden = true; }
+
+        document.getElementById('form-connexion').addEventListener('submit', async e => {
+            e.preventDefault();
+            hideError('erreur-login');
+
+            const email    = document.getElementById('co-email').value.trim();
+            const password = document.getElementById('co-password').value;
+            const btn      = e.target.querySelector('button[type="submit"]');
+
+            btn.disabled    = true;
+            btn.textContent = 'Connexion…';
+
+            try {
+                const res  = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    showError('erreur-login', data.error || 'Identifiants incorrects.');
+                    btn.disabled = false;
+                    btn.textContent = 'Se connecter';
+                    return;
+                }
+
+                if (data.role === 'administrateur') {
+                    window.location.href = 'admin-dashboard.html';
+                } else if (data.role === 'employe') {
+                    window.location.href = 'employe-dashboard.html';
+                } else {
+                    window.location.href = retour || 'MonCompte.html';
+                }
+            } catch {
+                showError('erreur-login', 'Service temporairement indisponible. Réessayez.');
+                btn.disabled = false;
+                btn.textContent = 'Se connecter';
+            }
+        });
+
+        document.getElementById('lien-mdp-oublie').addEventListener('click', async e => {
+            e.preventDefault();
+            const email = prompt('Entrez votre adresse email pour recevoir un lien de réinitialisation :');
+            if (!email) return;
+
+            await fetch('/api/auth/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            hideError('erreur-login');
+            const info = document.getElementById('info-login');
+            info.textContent = 'Si ce compte existe, un email de réinitialisation a été envoyé.';
+            info.hidden = false;
+        });
+    </script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

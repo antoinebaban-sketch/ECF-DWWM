@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon panier — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier active-page" id="btn-panier-nav">
+                <span class="panier-ico">🛒</span> Mon panier
+                <span class="panier-badge" id="panier-badge">0</span>
+            </a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="panier-page">
+            <div class="panier-entete">
+                <h1 class="panier-titre">Mon panier</h1>
+                <div class="contact-sep"></div>
+            </div>
+
+            <!-- État vide -->
+            <div class="panier-vide" id="panier-vide" hidden>
+                <p class="panier-vide-ico">🛒</p>
+                <p class="panier-vide-txt">Votre panier est vide.</p>
+                <p class="panier-vide-sub">Parcourez nos menus et ajoutez vos coups de cœur.</p>
+                <a href="menu.html" class="btn-form-submit" style="display:inline-block;text-decoration:none;margin-top:8px">
+                    Voir nos menus →
+                </a>
+            </div>
+
+            <!-- Liste des menus sélectionnés -->
+            <div id="panier-liste" class="panier-liste"></div>
+
+            <!-- Pied de page panier (résumé + vider) -->
+            <div class="panier-footer" id="panier-footer" hidden>
+                <button class="panier-vider-btn" id="btn-vider">Vider le panier</button>
+                <p class="panier-aide">Chaque menu est commandé séparément — cliquez sur "Commander" pour choisir la date et les détails.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+        /* ── PANIER ── */
+        function getPanier() { return JSON.parse(localStorage.getItem('vg_panier') || '[]'); }
+        function savePanier(p) {
+            localStorage.setItem('vg_panier', JSON.stringify(p));
+            document.getElementById('panier-badge').textContent = p.length;
+        }
+
+        function rendrePanier() {
+            const panier   = getPanier();
+            const liste    = document.getElementById('panier-liste');
+            const vide     = document.getElementById('panier-vide');
+            const footer   = document.getElementById('panier-footer');
+            const badge    = document.getElementById('panier-badge');
+            badge.textContent = panier.length;
+
+            if (!panier.length) {
+                vide.hidden   = false;
+                footer.hidden = true;
+                liste.innerHTML = '';
+                return;
+            }
+
+            vide.hidden   = true;
+            footer.hidden = false;
+
+            liste.innerHTML = panier.map((item, idx) => {
+                const mini = item.nombre_personne_mini || 1;
+                const prix = item.prix_par_personne ? (parseFloat(item.prix_par_personne).toFixed(2).replace('.', ',') + ' €/pers.') : '—';
+                const img  = item.image || 'images/en_tete.png';
+                return `
+                <div class="panier-card" data-idx="${idx}">
+                    <div class="panier-card-img">
+                        <img src="${img}" alt="${item.titre}" onerror="this.src='images/en_tete.png'">
+                    </div>
+                    <div class="panier-card-body">
+                        <h2 class="panier-card-titre">${item.titre}</h2>
+                        <p class="panier-card-meta">
+                            À partir de <strong>${prix}</strong> · Min. ${mini} personnes
+                        </p>
+                    </div>
+                    <div class="panier-card-actions">
+                        <a href="commande.html?menu_id=${item.menu_id}&personnes=${mini}"
+                           class="panier-btn-commander">
+                            Commander →
+                        </a>
+                        <button class="panier-btn-supprimer" data-idx="${idx}" aria-label="Retirer ${item.titre}">
+                            ✕ Retirer
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            /* Boutons supprimer */
+            liste.querySelectorAll('.panier-btn-supprimer').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const p = getPanier();
+                    p.splice(parseInt(btn.dataset.idx), 1);
+                    savePanier(p);
+                    rendrePanier();
+                });
+            });
+        }
+
+        document.getElementById('btn-vider').addEventListener('click', () => {
+            if (!confirm('Vider tout le panier ?')) return;
+            savePanier([]);
+            rendrePanier();
+        });
+
+        rendrePanier();
+    </script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

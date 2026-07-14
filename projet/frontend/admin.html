@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="auth-main" style="background: var(--bordeaux); min-height: 100vh;">
+        <div class="auth-card">
+            <p class="contact-surtitre" style="text-align:center;">Espace réservé</p>
+            <h1 class="auth-titre" style="text-align:center;">Administration</h1>
+            <div class="auth-sep" style="margin: 0 auto 32px;"></div>
+
+            <form class="auth-form" id="form-admin" novalidate>
+                <div class="form-champ">
+                    <label for="admin-email">Email administrateur</label>
+                    <input type="email" id="admin-email" placeholder="admin@viteetgourmand.fr" required autocomplete="username">
+                </div>
+                <div class="form-champ">
+                    <label for="admin-password">Mot de passe</label>
+                    <input type="password" id="admin-password" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <p class="auth-erreur" id="admin-erreur" hidden>Identifiants incorrects.</p>
+                <button type="submit" class="btn-form-submit" style="align-self:stretch; text-align:center;">
+                    Accéder au tableau de bord
+                </button>
+            </form>
+
+            <p class="auth-bas">
+                <a href="index.html" class="auth-lien" style="color: var(--brun);">← Retour au site</a>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        /* Déjà connecté en admin → redirection directe */
+        (async () => {
+            const res = await fetch('/api/auth/me', { credentials: 'include' });
+            if (!res.ok) return;
+            const user = await res.json();
+            if (user.role === 'administrateur') {
+                window.location.replace('admin-dashboard.html');
+            }
+        })();
+
+        document.getElementById('form-admin').addEventListener('submit', async e => {
+            e.preventDefault();
+            const email    = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-password').value;
+            const erreur   = document.getElementById('admin-erreur');
+            const btn      = e.target.querySelector('button[type="submit"]');
+            btn.disabled   = true; btn.textContent = 'Connexion…';
+            erreur.hidden  = true;
+
+            try {
+                const res  = await fetch('/api/auth/login', {
+                    method:      'POST',
+                    credentials: 'include',
+                    headers:     { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (res.ok && data.role === 'administrateur') {
+                    window.location.href = 'admin-dashboard.html';
+                    return;
+                }
+                if (res.ok) await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                erreur.textContent = data.error || 'Identifiants incorrects ou accès non autorisé.';
+                erreur.hidden = false;
+            } catch {
+                erreur.textContent = 'Service temporairement indisponible. Réessayez.';
+                erreur.hidden = false;
+            }
+            btn.disabled = false; btn.textContent = 'Accéder au tableau de bord';
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+<button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ── HERO ── -->
+        <section class="hero hero-title-only">
+            <p class="hero-tagline">Traiteur · Bordeaux · Depuis 1999</p>
+            <h1 class="hero-title">Contact</h1>
+            <div class="hero-separator"></div>
+            <p class="hero-subtitle">Une question, une commande, un avis — nous sommes à votre écoute.</p>
+        </section>
+
+        <!-- ── QUI SOMMES-NOUS ── -->
+        <section class="contact-section qui-section">
+            <div class="qui-inner">
+                <div class="qui-texte">
+                    <p class="contact-surtitre">Notre histoire</p>
+                    <h2 class="contact-titre">Qui sommes-nous ?</h2>
+                    <div class="contact-sep"></div>
+                    <p class="qui-desc">
+                        Vite et Gourmand, c'est avant tout une aventure humaine. Depuis 1999, José et Julie composent
+                        des menus sur-mesure pour chaque événement, du simple repas de famille aux grandes réceptions.
+                    </p>
+                    <p class="qui-desc">
+                        Installés à Bordeaux, nous mettons un point d'honneur à travailler avec des producteurs locaux
+                        et des produits de saison. Notre philosophie : une cuisine généreuse, sincère et livrée chez vous
+                        avec soin.
+                    </p>
+                    <ul class="qui-valeurs">
+                        <li><span class="valeur-dot"></span>Produits locaux et de saison</li>
+                        <li><span class="valeur-dot"></span>Menus personnalisés pour chaque événement</li>
+                        <li><span class="valeur-dot"></span>Livraison en Aquitaine</li>
+                        <li><span class="valeur-dot"></span>25 ans d'expérience</li>
+                    </ul>
+                </div>
+                <div class="qui-image">
+                    <img src="images/filet_poulet.png" alt="Plat signature Vite et Gourmand">
+                </div>
+            </div>
+        </section>
+
+        <!-- ── COORDONNÉES ── -->
+        <section class="contact-section coords-section">
+            <div class="contact-section-inner">
+                <p class="contact-surtitre">Coordonnées</p>
+                <h2 class="contact-titre">Nous contacter</h2>
+                <div class="contact-sep"></div>
+                <div class="coords-grille">
+                    <div class="coord-card">
+                        <h3 class="coord-label">Téléphone</h3>
+                        <p class="coord-valeur"><a href="tel:+33556000000">05 56 00 00 00</a></p>
+                        <p class="coord-note">Lun – Ven · 09h – 18h<br>Sam · 10h – 16h</p>
+                    </div>
+                    <div class="coord-card">
+                        <h3 class="coord-label">Email</h3>
+                        <p class="coord-valeur"><a href="mailto:contact@viteetgourmand.fr">contact@viteetgourmand.fr</a></p>
+                        <p class="coord-note">Réponse sous 24h ouvrées</p>
+                    </div>
+                    <div class="coord-card">
+                        <h3 class="coord-label">Adresse</h3>
+                        <p class="coord-valeur">12 rue du Marché des Chartrons</p>
+                        <p class="coord-note">33000 Bordeaux, France</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── RÉCLAMATIONS ET REMBOURSEMENTS ── -->
+        <section class="contact-section reclamation-section">
+            <div class="contact-section-inner contact-deux-col">
+                <div class="form-intro">
+                    <p class="contact-surtitre">Service client</p>
+                    <h2 class="contact-titre">Réclamation et<br>Remboursement</h2>
+                    <div class="contact-sep"></div>
+                    <p class="form-desc">
+                        Un problème avec votre commande ? Nous prenons chaque réclamation au sérieux
+                        et nous engageons à vous répondre sous <strong>48h ouvrées</strong>.
+                    </p>
+                    <p class="form-desc">
+                        Pour toute demande de remboursement, munissez-vous de votre numéro de commande.
+                    </p>
+                </div>
+                <form class="contact-form" id="form-reclamation" novalidate>
+                    <div class="form-ligne">
+                        <div class="form-champ">
+                            <label for="rec-nom">Nom complet</label>
+                            <input type="text" id="rec-nom" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-champ">
+                            <label for="rec-email">Email</label>
+                            <input type="email" id="rec-email" placeholder="votre@email.fr" required>
+                        </div>
+                    </div>
+                    <div class="form-champ">
+                        <label for="rec-commande">Numéro de commande <span class="form-optionnel">(facultatif)</span></label>
+                        <input type="text" id="rec-commande" placeholder="Ex : CMD-2026-00123">
+                    </div>
+                    <div class="form-champ">
+                        <label for="rec-type">Type de demande</label>
+                        <select id="rec-type" required>
+                            <option value="">Sélectionner…</option>
+                            <option value="reclamation">Réclamation</option>
+                            <option value="remboursement">Demande de remboursement</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-champ">
+                        <label for="rec-message">Décrivez votre problème</label>
+                        <textarea id="rec-message" rows="5" placeholder="Décrivez votre situation en détail…" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-form-submit">Envoyer ma demande</button>
+                    <p class="form-confirmation" id="conf-reclamation" hidden>
+                        Votre demande a bien été envoyée. Nous vous répondrons sous 48h.
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <!-- ── LAISSER UN AVIS ── -->
+        <section class="contact-section avis-form-section">
+            <div class="contact-section-inner contact-deux-col contact-deux-col--inverse">
+                <form class="contact-form" id="form-avis" novalidate>
+                    <div class="form-ligne">
+                        <div class="form-champ">
+                            <label for="avis-nom">Votre prénom</label>
+                            <input type="text" id="avis-nom" placeholder="Prénom" required>
+                        </div>
+                        <div class="form-champ">
+                            <label for="avis-email">Email</label>
+                            <input type="email" id="avis-email" placeholder="votre@email.fr" required>
+                        </div>
+                    </div>
+                    <div class="form-champ">
+                        <label>Note</label>
+                        <div class="etoiles-wrapper" role="radiogroup" aria-label="Choisir une note">
+                            <button type="button" class="etoile" data-val="1" aria-label="1 étoile">★</button>
+                            <button type="button" class="etoile" data-val="2" aria-label="2 étoiles">★</button>
+                            <button type="button" class="etoile" data-val="3" aria-label="3 étoiles">★</button>
+                            <button type="button" class="etoile" data-val="4" aria-label="4 étoiles">★</button>
+                            <button type="button" class="etoile" data-val="5" aria-label="5 étoiles">★</button>
+                        </div>
+                        <input type="hidden" id="avis-note" value="">
+                    </div>
+                    <div class="form-champ">
+                        <label for="avis-message">Votre avis</label>
+                        <textarea id="avis-message" rows="5" placeholder="Partagez votre expérience…" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-form-submit">Publier mon avis</button>
+                    <p class="form-confirmation" id="conf-avis" hidden>
+                        Merci pour votre avis ! Il sera publié après validation.
+                    </p>
+                </form>
+                <div class="form-intro">
+                    <p class="contact-surtitre">Votre expérience</p>
+                    <h2 class="contact-titre">Laisser<br>un avis</h2>
+                    <div class="contact-sep"></div>
+                    <p class="form-desc">
+                        Votre retour est précieux. Chaque avis nous aide à nous améliorer et permet
+                        à d'autres clients de faire leur choix en confiance.
+                    </p>
+                    <p class="form-desc">
+                        Les avis sont vérifiés avant publication. Merci de rester courtois et factuel.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Commander</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+        (function() { const p = JSON.parse(localStorage.getItem('vg_panier') || '[]'); const b = document.getElementById('panier-badge'); if (b) b.textContent = p.length; })();
+
+
+        /* ── ÉTOILES ── */
+        const etoiles = document.querySelectorAll('.etoile');
+        const noteInput = document.getElementById('avis-note');
+        etoiles.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = parseInt(btn.dataset.val);
+                noteInput.value = val;
+                etoiles.forEach(e => e.classList.toggle('active', parseInt(e.dataset.val) <= val));
+            });
+            btn.addEventListener('mouseenter', () => {
+                const val = parseInt(btn.dataset.val);
+                etoiles.forEach(e => e.classList.toggle('survol', parseInt(e.dataset.val) <= val));
+            });
+            btn.addEventListener('mouseleave', () => {
+                etoiles.forEach(e => e.classList.remove('survol'));
+            });
+        });
+
+        /* ── FORMULAIRE RÉCLAMATION ── */
+        document.getElementById('form-reclamation').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            try {
+                await fetch('/api/contact', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        titre:           document.getElementById('rec-type').value + ' — ' + document.getElementById('rec-commande').value,
+                        email:           document.getElementById('rec-email').value,
+                        description:     'De : ' + document.getElementById('rec-nom').value + '\n\n' + document.getElementById('rec-message').value,
+                    }),
+                });
+            } catch { /* API non disponible */ }
+            document.getElementById('conf-reclamation').hidden = false;
+            e.target.reset();
+            btn.disabled = false;
+        });
+
+        /* ── FORMULAIRE AVIS ── */
+        document.getElementById('form-avis').addEventListener('submit', async e => {
+            e.preventDefault();
+            if (!noteInput.value) { alert('Veuillez choisir une note.'); return; }
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            try {
+                await fetch('/api/avis', {
+                    method:      'POST',
+                    credentials: 'include',
+                    headers:     { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        note:            parseInt(noteInput.value),
+                        description:     document.getElementById('avis-message').value,
+                    }),
+                });
+            } catch { /* API non disponible */ }
+            document.getElementById('conf-avis').hidden = false;
+            e.target.reset();
+            noteInput.value = '';
+            etoiles.forEach(el => el.classList.remove('active'));
+            btn.disabled = false;
+        });
+    </script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

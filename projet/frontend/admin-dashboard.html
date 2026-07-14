@@ -1,0 +1,1007 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { background: #f4f1ec; max-width: none; margin: 0; }
+
+        .admin-layout { display: grid; grid-template-columns: 230px 1fr; min-height: 100vh; }
+
+        /* Sidebar */
+        .admin-sidebar { background: var(--bordeaux); padding: 32px 0; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+        .admin-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--creme); text-align: center; padding: 0 20px 28px; border-bottom: 1px solid rgba(196,154,45,.2); margin-bottom: 24px; }
+        .admin-logo em { color: var(--or); }
+        .admin-logo span { display: block; font-family: 'DM Sans', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: rgba(247,241,232,.4); margin-top: 6px; }
+        .admin-logo .admin-prenom { display: block; font-size: 12px; color: rgba(247,241,232,.55); margin-top: 4px; font-family: 'DM Sans', sans-serif; }
+
+        .admin-nav { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 0 12px; }
+        .admin-nav-sep { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: rgba(247,241,232,.25); padding: 16px 14px 6px; }
+        .admin-nav-btn { background: none; border: none; color: rgba(247,241,232,.6); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; text-align: left; padding: 10px 14px; border-radius: 6px; cursor: pointer; transition: background .15s, color .15s; display: flex; align-items: center; gap: 10px; }
+        .admin-nav-btn:hover { background: rgba(255,255,255,.06); color: var(--creme); }
+        .admin-nav-btn.active { background: rgba(196,154,45,.18); color: var(--or); font-weight: 600; }
+        .admin-nav-ico { font-size: 15px; width: 18px; text-align: center; }
+        .admin-nav-badge { margin-left: auto; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+        .admin-logout { margin: 16px 12px 0; background: none; border: 1px solid rgba(196,154,45,.3); color: rgba(247,241,232,.5); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 9px; border-radius: 6px; cursor: pointer; transition: border-color .15s, color .15s; }
+        .admin-logout:hover { border-color: var(--or); color: var(--or); }
+
+        /* Main */
+        .admin-main { padding: 40px 48px; }
+        .admin-topbar { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; }
+        .admin-page-titre { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--bordeaux); font-weight: 600; }
+        .admin-page-sous { font-size: 13px; color: var(--brun); margin-top: 4px; }
+        .admin-lien-site { font-size: 12px; color: var(--brun); text-decoration: none; border: 1px solid #ddd; padding: 7px 16px; border-radius: 6px; transition: border-color .15s; white-space: nowrap; margin-top: 4px; }
+        .admin-lien-site:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
+
+        .admin-section { display: none; }
+        .admin-section.active { display: block; animation: adFade .2s; }
+        @keyframes adFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+        /* KPIs */
+        .stats-admin { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .stat-admin-card { background: #fff; border-radius: 8px; padding: 22px; border-left: 3px solid var(--or); }
+        .stat-admin-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--brun); margin-bottom: 8px; }
+        .stat-admin-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--bordeaux); line-height: 1; }
+        .stat-admin-card--alerte { border-left-color: #ef4444; }
+        .stat-admin-card--alerte .stat-admin-val { color: #ef4444; }
+        .stat-admin-sub { font-size: 11px; color: var(--brun); margin-top: 4px; }
+
+        /* Filtre bar */
+        .admin-filtre-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+        .admin-filtre-bar input, .admin-filtre-bar select { padding: 8px 14px; border: 1.5px solid #e5e0d5; border-radius: 6px; font-size: 13px; background: #fff; }
+        .admin-filtre-bar input:focus, .admin-filtre-bar select:focus { outline: none; border-color: var(--bordeaux); }
+
+        /* Tableau */
+        .admin-tableau-wrap { background: #fff; border-radius: 8px; overflow: hidden; margin-bottom: 24px; }
+        .admin-tableau-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid #f0ebe0; gap: 12px; flex-wrap: wrap; }
+        .admin-tableau-titre { font-size: 14px; font-weight: 600; color: var(--dark); }
+        .btn-admin-ajouter { background: var(--bordeaux); color: var(--or); border: none; padding: 8px 18px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: background .15s; }
+        .btn-admin-ajouter:hover { background: #7a2222; }
+        table.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.admin-table th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--brun); background: #faf8f4; border-bottom: 1px solid #f0ebe0; }
+        table.admin-table td { padding: 13px 16px; border-bottom: 1px solid #f7f3ee; vertical-align: middle; }
+        table.admin-table tr:last-child td { border-bottom: none; }
+        table.admin-table tr:hover td { background: #faf8f4; }
+        .admin-vide { text-align: center; padding: 40px; color: var(--brun); font-size: 13px; }
+
+        /* Statut badges (alignés sur le vrai ENUM) */
+        .sb { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .sb-attente      { background: #fef3c7; color: #92400e; }
+        .sb-acceptee     { background: #d1fae5; color: #065f46; }
+        .sb-preparation  { background: #dbeafe; color: #1e40af; }
+        .sb-livraison    { background: #ede9fe; color: #5b21b6; }
+        .sb-livree       { background: #dcfce7; color: #166534; }
+        .sb-retour       { background: #ffedd5; color: #9a3412; }
+        .sb-terminee     { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .sb-annulee      { background: #fee2e2; color: #991b1b; }
+        .sb-actif        { background: #d1fae5; color: #065f46; }
+        .sb-inactif      { background: #fee2e2; color: #991b1b; }
+        .sb-admin        { background: rgba(196,154,45,.15); color: var(--bordeaux); }
+        .sb-employe      { background: #dbeafe; color: #1e40af; }
+        .sb-client       { background: #f0f0f0; color: #555; }
+        .sb-valide       { background: #d1fae5; color: #065f46; }
+        .sb-refuse       { background: #fee2e2; color: #991b1b; }
+        .sb-en_attente   { background: #fef3c7; color: #92400e; }
+
+        /* Boutons actions */
+        .btn-ad { background: none; border: 1px solid #ddd; border-radius: 4px; padding: 5px 12px; font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600; transition: background .12s, color .12s, border-color .12s; color: var(--dark); }
+        .btn-ad:hover { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
+        .btn-ad--red   { color: #dc2626; border-color: #fca5a5; }
+        .btn-ad--red:hover   { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .btn-ad--green { color: #16a34a; border-color: #86efac; }
+        .btn-ad--green:hover { background: #16a34a; border-color: #16a34a; color: #fff; }
+        .btn-ad-group { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        /* Note étoiles */
+        .note-et { color: var(--or); font-size: 13px; }
+
+        /* Modal création employé */
+        .ad-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; align-items: center; justify-content: center; }
+        .ad-modal-overlay.open { display: flex; }
+        .ad-modal { background: #fff; border-radius: 12px; padding: 32px; width: 100%; max-width: 520px; }
+        .ad-modal h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--bordeaux); margin-bottom: 1.2rem; }
+        .ad-modal .form-champ { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+        .ad-modal .form-champ label { font-size: .85rem; font-weight: 600; color: var(--bordeaux); }
+        .ad-modal .form-champ input { padding: 9px 14px; border: 1.5px solid #e5e0d5; border-radius: 8px; font-size: .9rem; }
+        .ad-modal .form-champ input:focus { outline: none; border-color: var(--bordeaux); }
+        .ad-modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ad-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.2rem; }
+        .btn-ad-modal { background: var(--bordeaux); color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-ad-modal:hover { background: #7a2222; }
+        .btn-ad-cancel { background: none; border: 1.5px solid #ddd; color: var(--brun); padding: 10px 18px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+
+        /* Message flash */
+        .ad-flash { display: none; padding: 12px 18px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; font-weight: 500; }
+        .ad-flash.ok  { display: block; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .ad-flash.err { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        @media (max-width: 1024px) {
+            .stats-admin { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .admin-layout { grid-template-columns: 1fr; }
+            .admin-sidebar { display: none; }
+            .admin-main { padding: 20px; }
+        }
+
+    </style>
+</head>
+<body>
+<div class="admin-layout">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="admin-sidebar">
+        <div class="admin-logo">
+            Vite et <em>Gourmand</em>
+            <span>Administration</span>
+            <span class="admin-prenom" id="sb-prenom"></span>
+        </div>
+        <nav class="admin-nav">
+            <div class="admin-nav-sep">Vue générale</div>
+            <button class="admin-nav-btn active" data-section="dashboard" onclick="nav('dashboard','Tableau de bord','Aperçu des activités et statistiques',this)">
+                <span class="admin-nav-ico">▦</span> Tableau de bord
+            </button>
+
+            <div class="admin-nav-sep">Catalogue</div>
+            <button class="admin-nav-btn" data-section="menus" onclick="nav('menus','Menus','Gérer les menus proposés à la vente',this)">
+                <span class="admin-nav-ico">📋</span> Menus
+            </button>
+            <button class="admin-nav-btn" data-section="plats" onclick="nav('plats','Plats','Gérer les plats individuels',this)">
+                <span class="admin-nav-ico">🍽</span> Plats
+            </button>
+            <button class="admin-nav-btn" data-section="themes" onclick="nav('themes','Thèmes','Gérer les thèmes d\'événements',this)">
+                <span class="admin-nav-ico">🏷</span> Thèmes
+            </button>
+            <button class="admin-nav-btn" data-section="horaires" onclick="nav('horaires','Horaires','Modifier les horaires d\'ouverture',this)">
+                <span class="admin-nav-ico">🕒</span> Horaires
+            </button>
+
+            <div class="admin-nav-sep">Exploitation</div>
+            <button class="admin-nav-btn" data-section="commandes" onclick="nav('commandes','Commandes','Suivi de toutes les commandes',this)">
+                <span class="admin-nav-ico">📦</span> Commandes
+                <span class="admin-nav-badge" id="badge-cmd" hidden>0</span>
+            </button>
+            <button class="admin-nav-btn" data-section="avis" onclick="nav('avis','Avis clients','Modération des avis déposés',this)">
+                <span class="admin-nav-ico">⭐</span> Avis
+                <span class="admin-nav-badge" id="badge-avis" hidden>0</span>
+            </button>
+
+            <div class="admin-nav-sep">Comptes</div>
+            <button class="admin-nav-btn" data-section="utilisateurs" onclick="nav('utilisateurs','Utilisateurs','Tous les comptes inscrits',this)">
+                <span class="admin-nav-ico">👤</span> Utilisateurs
+            </button>
+            <button class="admin-nav-btn" data-section="employes" onclick="nav('employes','Gestion employés','Créer et gérer les comptes employés',this)">
+                <span class="admin-nav-ico">👷</span> Employés
+            </button>
+
+        </nav>
+        <button class="admin-logout" onclick="deconnecter()">← Déconnexion</button>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <h1 class="admin-page-titre" id="page-titre">Tableau de bord</h1>
+                <p class="admin-page-sous" id="page-sous">Aperçu des activités et statistiques</p>
+            </div>
+            <a href="index.html" class="admin-lien-site" target="_blank">← Voir le site</a>
+        </div>
+
+        <div class="ad-flash" id="ad-flash"></div>
+
+        <!-- ══ TABLEAU DE BORD ══ -->
+        <section class="admin-section active" id="section-dashboard">
+            <div class="stats-admin">
+                <div class="stat-admin-card stat-admin-card--alerte">
+                    <div class="stat-admin-label">Commandes en attente</div>
+                    <div class="stat-admin-val" id="kpi-attente">—</div>
+                </div>
+                <div class="stat-admin-card">
+                    <div class="stat-admin-label">CA total (hors annulées)</div>
+                    <div class="stat-admin-val" id="kpi-ca">—</div>
+                    <div class="stat-admin-sub">€</div>
+                </div>
+                <div class="stat-admin-card">
+                    <div class="stat-admin-label">Total commandes</div>
+                    <div class="stat-admin-val" id="kpi-total">—</div>
+                </div>
+                <div class="stat-admin-card">
+                    <div class="stat-admin-label">Clients inscrits</div>
+                    <div class="stat-admin-val" id="kpi-clients">—</div>
+                </div>
+            </div>
+
+            <!-- Chiffre d'affaires par menu (MySQL, filtrable) -->
+            <div class="admin-tableau-wrap" style="margin-bottom:20px">
+                <div class="admin-tableau-header"><span class="admin-tableau-titre">Chiffre d'affaires par menu</span></div>
+                <table class="admin-table">
+                    <thead><tr><th>#</th><th>Menu</th><th>Commandes</th><th>CA généré</th></tr></thead>
+                    <tbody id="tb-top-menus"><tr><td colspan="4" class="admin-vide">Chargement…</td></tr></tbody>
+                </table>
+            </div>
+
+            <!-- Nombre de commandes par menu (MongoDB) — graphique en barres -->
+            <div class="admin-tableau-wrap" style="margin-bottom:20px">
+                <div class="admin-tableau-header"><span class="admin-tableau-titre">Commandes par menu (base non relationnelle)</span></div>
+                <div id="chart-commandes-par-menu" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+                    <p style="color:var(--brun);font-size:13px">Chargement…</p>
+                </div>
+            </div>
+
+            <!-- Dernières commandes -->
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header">
+                    <span class="admin-tableau-titre">Dernières commandes</span>
+                    <button class="btn-admin-ajouter" onclick="nav('commandes','Commandes','Suivi de toutes les commandes',document.querySelector('[data-section=commandes]'))">Voir toutes</button>
+                </div>
+                <div style="overflow-x:auto"><table class="admin-table">
+                    <thead><tr><th>N°</th><th>Client</th><th>Menu</th><th>Personnes</th><th>Date prestation</th><th>Total</th><th>Statut</th></tr></thead>
+                    <tbody id="tb-dashboard-cmds"><tr><td colspan="7" class="admin-vide">Chargement…</td></tr></tbody>
+                </table></div>
+            </div>
+        </section>
+
+        <!-- ══ MENUS ══ -->
+        <section class="admin-section" id="section-menus">
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header">
+                    <span class="admin-tableau-titre" id="menus-titre">Menus</span>
+                </div>
+                <div style="overflow-x:auto"><table class="admin-table">
+                    <thead><tr><th>ID</th><th>Titre</th><th>Prix/pers.</th><th>Min. pers.</th><th>Stock</th><th>Thème</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-menus"><tr><td colspan="7" class="admin-vide">Chargement…</td></tr></tbody>
+                </table></div>
+            </div>
+        </section>
+
+        <!-- ══ PLATS ══ -->
+        <section class="admin-section" id="section-plats">
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header">
+                    <span class="admin-tableau-titre" id="plats-titre">Plats</span>
+                    <button class="btn-admin-ajouter" onclick="ouvrirModalPlat()">+ Ajouter un plat</button>
+                </div>
+                <div style="overflow-x:auto"><table class="admin-table">
+                    <thead><tr><th>ID</th><th>Titre</th><th>Type</th><th>Prix unit.</th><th>Description</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-plats"><tr><td colspan="6" class="admin-vide">Chargement…</td></tr></tbody>
+                </table></div>
+            </div>
+        </section>
+
+        <!-- ══ HORAIRES ══ -->
+        <section class="admin-section" id="section-horaires">
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header">
+                    <span class="admin-tableau-titre">Horaires d'ouverture</span>
+                    <span style="font-size:12px;color:var(--brun)">Les modifications sont appliquées immédiatement sur le site.</span>
+                </div>
+                <table class="admin-table">
+                    <thead><tr><th>Jour</th><th>Ouverture</th><th>Fermeture</th><th>Fermé</th><th>Action</th></tr></thead>
+                    <tbody id="tb-horaires"><tr><td colspan="5" class="admin-vide">Chargement…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══ THEMES ══ -->
+        <section class="admin-section" id="section-themes">
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header">
+                    <span class="admin-tableau-titre">Thèmes d'événement</span>
+                    <button class="btn-admin-ajouter" onclick="ajouterTheme()">+ Ajouter un thème</button>
+                </div>
+                <table class="admin-table">
+                    <thead><tr><th>ID</th><th>Libellé</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-themes"><tr><td colspan="3" class="admin-vide">Chargement…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══ COMMANDES ══ -->
+        <section class="admin-section" id="section-commandes">
+            <div class="admin-filtre-bar">
+                <input type="text" id="f-cmd-q" placeholder="Client, menu…">
+                <select id="f-cmd-statut">
+                    <option value="">Tous les statuts</option>
+                    <option value="en_attente">En attente</option>
+                    <option value="acceptée">Acceptée</option>
+                    <option value="en_preparation">En préparation</option>
+                    <option value="en_cours_livraison">En livraison</option>
+                    <option value="livrée">Livrée</option>
+                    <option value="retour_materiel">Retour matériel</option>
+                    <option value="terminée">Terminée</option>
+                    <option value="annulée">Annulée</option>
+                </select>
+                <button class="btn-admin-ajouter" onclick="chargerCommandes()">Actualiser</button>
+            </div>
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header"><span class="admin-tableau-titre" id="cmd-total-lbl">Commandes</span></div>
+                <div style="overflow-x:auto"><table class="admin-table">
+                    <thead><tr><th>N°</th><th>Client</th><th>Menu</th><th>Pers.</th><th>Date prestation</th><th>Adresse</th><th>Total</th><th>Statut</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-commandes"><tr><td colspan="9" class="admin-vide">Chargement…</td></tr></tbody>
+                </table></div>
+            </div>
+        </section>
+
+        <!-- ══ AVIS ══ -->
+        <section class="admin-section" id="section-avis">
+            <div class="admin-filtre-bar">
+                <select id="f-avis-statut">
+                    <option value="en_attente">En attente</option>
+                    <option value="validé">Validés</option>
+                    <option value="refusé">Refusés</option>
+                </select>
+                <button class="btn-admin-ajouter" onclick="chargerAvis()">Actualiser</button>
+            </div>
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header"><span class="admin-tableau-titre">Avis clients</span></div>
+                <table class="admin-table">
+                    <thead><tr><th>Client</th><th>Note</th><th>Commentaire</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-avis"><tr><td colspan="6" class="admin-vide">Chargement…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══ UTILISATEURS ══ -->
+        <section class="admin-section" id="section-utilisateurs">
+            <div class="admin-filtre-bar">
+                <select id="f-user-role">
+                    <option value="">Tous les rôles</option>
+                    <option value="client">Clients</option>
+                    <option value="employe">Employés</option>
+                    <option value="administrateur">Administrateurs</option>
+                </select>
+                <button class="btn-admin-ajouter" onclick="chargerUtilisateurs()">Actualiser</button>
+            </div>
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header"><span class="admin-tableau-titre" id="users-total-lbl">Utilisateurs</span></div>
+                <div style="overflow-x:auto"><table class="admin-table">
+                    <thead><tr><th>ID</th><th>Prénom Nom</th><th>Email</th><th>Ville</th><th>Rôle</th><th>Inscription</th><th>Statut</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-utilisateurs"><tr><td colspan="8" class="admin-vide">Chargement…</td></tr></tbody>
+                </table></div>
+            </div>
+        </section>
+
+        <!-- ══ EMPLOYÉS ══ -->
+        <section class="admin-section" id="section-employes">
+            <div class="admin-tableau-wrap">
+                <div class="admin-tableau-header">
+                    <span class="admin-tableau-titre">Comptes employés</span>
+                    <button class="btn-admin-ajouter" onclick="ouvrirModalEmploye()">+ Créer un employé</button>
+                </div>
+                <div style="overflow-x:auto"><table class="admin-table">
+                    <thead><tr><th>ID</th><th>Prénom Nom</th><th>Email</th><th>Téléphone</th><th>Inscription</th><th>Statut</th><th>Actions</th></tr></thead>
+                    <tbody id="tb-employes"><tr><td colspan="7" class="admin-vide">Chargement…</td></tr></tbody>
+                </table></div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- ── Modal création employé ── -->
+<div class="ad-modal-overlay" id="modal-employe">
+    <div class="ad-modal">
+        <h3>Créer un compte employé</h3>
+        <p style="font-size:13px;color:var(--brun);margin-bottom:1rem">Un mot de passe temporaire sera généré et envoyé par email à l'employé.</p>
+        <div class="ad-modal-grid">
+            <div class="form-champ"><label>Prénom *</label><input type="text" id="emp-prenom" placeholder="Julie"></div>
+            <div class="form-champ"><label>Nom *</label><input type="text" id="emp-nom" placeholder="Dupont"></div>
+        </div>
+        <div class="form-champ"><label>Email *</label><input type="email" id="emp-email" placeholder="julie.dupont@viteetgourmand.fr"></div>
+        <div class="form-champ"><label>Téléphone *</label><input type="tel" id="emp-tel" placeholder="06 12 34 56 78"></div>
+        <div class="ad-modal-actions">
+            <button class="btn-ad-cancel" onclick="fermerModalEmploye()">Annuler</button>
+            <button class="btn-ad-modal" onclick="creerEmploye()">Créer le compte</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Modal plat (ajouter / modifier) ── -->
+<div class="ad-modal-overlay" id="modal-plat">
+    <div class="ad-modal" style="max-width:580px">
+        <h3 id="modal-plat-titre">Ajouter un plat</h3>
+        <input type="hidden" id="plat-edit-id" value="">
+        <div class="ad-modal-grid">
+            <div class="form-champ" style="grid-column:1/-1">
+                <label>Titre du plat *</label>
+                <input type="text" id="plat-titre" placeholder="Ex : Magret de canard à l'orange">
+            </div>
+        </div>
+        <div class="ad-modal-grid">
+            <div class="form-champ">
+                <label>Type *</label>
+                <select id="plat-type" style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;background:#fff">
+                    <option value="Entrée">Entrée</option>
+                    <option value="Plat">Plat</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Boisson">Boisson</option>
+                </select>
+            </div>
+            <div class="form-champ">
+                <label>Prix unitaire (€) *</label>
+                <input type="number" id="plat-prix" placeholder="18.50" min="0" step="0.01">
+            </div>
+        </div>
+        <div class="form-champ" style="margin-bottom:1rem">
+            <label>Description</label>
+            <textarea id="plat-desc" rows="3" placeholder="Description courte du plat…"
+                style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;width:100%;box-sizing:border-box;font-family:'DM Sans',sans-serif;resize:vertical"></textarea>
+        </div>
+        <div class="ad-modal-actions">
+            <button class="btn-ad-cancel" onclick="fermerModalPlat()">Annuler</button>
+            <button class="btn-ad-modal" onclick="sauvegarderPlat()">Enregistrer</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Modal stock menu ── -->
+<div class="ad-modal-overlay" id="modal-stock">
+    <div class="ad-modal" style="max-width:380px">
+        <h3>Modifier la disponibilité</h3>
+        <input type="hidden" id="stock-menu-id" value="">
+        <p id="stock-menu-nom" style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--bordeaux);margin-bottom:1rem"></p>
+        <div class="form-champ">
+            <label>Stock disponible (nombre de prestations)</label>
+            <input type="number" id="stock-valeur" min="0" step="1" style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:1rem;width:100%;box-sizing:border-box">
+            <small style="color:var(--brun);font-size:12px;margin-top:4px;display:block">Mettre 0 pour afficher "Complet" sur le site.</small>
+        </div>
+        <div class="ad-modal-actions">
+            <button class="btn-ad-cancel" onclick="fermerModalStock()">Annuler</button>
+            <button class="btn-ad-modal" onclick="sauvegarderStock()">Enregistrer</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ── Auth guard ── */
+(async () => {
+    const res = await fetch('/api/auth/me', { credentials: 'include' });
+    if (!res.ok) { window.location.replace('admin.html'); return; }
+    const user = await res.json();
+    if (user.role !== 'administrateur') {
+        alert('Accès réservé aux administrateurs.');
+        window.location.replace('admin.html');
+        return;
+    }
+    document.getElementById('sb-prenom').textContent = user.prenom ? user.prenom + ' — Admin' : '';
+    chargerDashboard();
+})();
+
+const H = { 'Content-Type': 'application/json' };
+const e = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+/* ── Navigation ── */
+function nav(id, titre, sous, btn) {
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('page-titre').textContent = titre;
+    document.getElementById('page-sous').textContent  = sous;
+
+    const loaders = { menus: chargerMenus, plats: chargerPlats, themes: chargerThemes, horaires: chargerHoraires, commandes: chargerCommandes, avis: chargerAvis, utilisateurs: chargerUtilisateurs, employes: chargerEmployes };
+    if (loaders[id]) loaders[id]();
+}
+
+async function deconnecter() {
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    window.location.href = 'admin.html';
+}
+
+function flash(msg, ok = true) {
+    const el = document.getElementById('ad-flash');
+    el.textContent = msg; el.className = 'ad-flash ' + (ok ? 'ok' : 'err');
+    setTimeout(() => { el.className = 'ad-flash'; }, 4000);
+}
+
+/* ── Helpers formatage ── */
+function fmtDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' }); } catch { return iso; } }
+function fmtPrix(n)  { return n !== null && n !== undefined ? parseFloat(n).toFixed(2).replace('.',',') + ' €' : '—'; }
+
+const STATUT_LABELS = { en_attente:'En attente', 'acceptée':'Acceptée', en_preparation:'En préparation', en_cours_livraison:'En livraison', 'livrée':'Livrée', retour_materiel:'Retour matériel', 'terminée':'Terminée', 'annulée':'Annulée' };
+const STATUT_CLS    = { en_attente:'attente', 'acceptée':'acceptee', en_preparation:'preparation', en_cours_livraison:'livraison', 'livrée':'livree', retour_materiel:'retour', 'terminée':'terminee', 'annulée':'annulee' };
+function sbCmd(s)  { return `<span class="sb sb-${STATUT_CLS[s]||'attente'}">${STATUT_LABELS[s]||s}</span>`; }
+function sbRole(r) { const m={'administrateur':'sb-admin','employe':'sb-employe','client':'sb-client'}; return `<span class="sb ${m[r]||'sb-client'}">${r}</span>`; }
+function sbActif(v){ return `<span class="sb ${v?'sb-actif':'sb-inactif'}">${v?'Actif':'Inactif'}</span>`; }
+function sbAvis(s) { const m={'validé':'sb-valide','refusé':'sb-refuse','en_attente':'sb-en_attente'}; return `<span class="sb ${m[s]||'sb-en_attente'}">${s}</span>`; }
+
+/* ── TABLEAU DE BORD ── */
+async function chargerDashboard() {
+    try {
+        const res  = await fetch('/api/admin/stats', { credentials: 'include', headers: H });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+
+        document.getElementById('kpi-attente').textContent = data.globales?.en_attente ?? '—';
+        document.getElementById('kpi-ca').textContent      = data.globales?.ca_total ? parseFloat(data.globales.ca_total).toFixed(0) : '—';
+        document.getElementById('kpi-total').textContent   = data.globales?.total_commandes ?? '—';
+        document.getElementById('kpi-clients').textContent = data.nb_clients ?? '—';
+
+        /* Chiffre d'affaires par menu (MySQL) */
+        const tbTop = document.getElementById('tb-top-menus');
+        if (data.ca_par_menu?.length) {
+            tbTop.innerHTML = data.ca_par_menu.map((m, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td><strong>${m.titre}</strong></td>
+                    <td>${m.nb}</td>
+                    <td>${fmtPrix(m.ca_menu)}</td>
+                </tr>`).join('');
+        } else { tbTop.innerHTML = '<tr><td colspan="4" class="admin-vide">Aucune donnée.</td></tr>'; }
+
+        /* Commandes par menu (MongoDB) — graphique en barres */
+        const chart = document.getElementById('chart-commandes-par-menu');
+        if (data.commandes_par_menu?.length) {
+            const max = Math.max(...data.commandes_par_menu.map(m => m.nb_commandes));
+            chart.innerHTML = data.commandes_par_menu.map(m => {
+                const pct = max > 0 ? Math.round((m.nb_commandes / max) * 100) : 0;
+                return `
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+                            <span>${e(m.menu_titre)}</span><strong>${m.nb_commandes}</strong>
+                        </div>
+                        <div style="background:#f0ebe0;border-radius:6px;height:14px;overflow:hidden">
+                            <div style="background:var(--bordeaux);height:100%;width:${pct}%"></div>
+                        </div>
+                    </div>`;
+            }).join('');
+        } else {
+            chart.innerHTML = '<p style="color:var(--brun);font-size:13px">Aucune donnée (MongoDB non configuré ?).</p>';
+        }
+
+    } catch {
+        ['kpi-attente', 'kpi-ca', 'kpi-total', 'kpi-clients'].forEach(id => {
+            document.getElementById(id).textContent = '—';
+        });
+        document.getElementById('tb-top-menus').innerHTML = '<tr><td colspan="4" class="admin-vide">Impossible de charger les statistiques.</td></tr>';
+        document.getElementById('chart-commandes-par-menu').innerHTML = '<p style="color:var(--brun);font-size:13px">Impossible de charger les statistiques.</p>';
+    }
+
+    /* Dernières commandes */
+    await chargerDernieresCommandes();
+}
+
+async function chargerDernieresCommandes() {
+    const tb = document.getElementById('tb-dashboard-cmds');
+    try {
+        const res = await fetch('/api/commandes', { credentials: 'include', headers: H });
+        const cmds = res.ok ? await res.json() : [];
+        const liste = Array.isArray(cmds) ? cmds : (cmds.commandes || []);
+        remplirTableauCommandes(liste.slice(0, 8), 'tb-dashboard-cmds', 7, false);
+
+        const nbAttente = liste.filter(c => c.statut_commande === 'en_attente').length;
+        const bdg = document.getElementById('badge-cmd');
+        bdg.hidden = nbAttente === 0; bdg.textContent = nbAttente;
+    } catch {
+        tb.innerHTML = '<tr><td colspan="7" class="admin-vide">API non connectée.</td></tr>';
+    }
+}
+
+/* ── MENUS ── */
+async function chargerMenus() {
+    const tb = document.getElementById('tb-menus');
+    try {
+        const res   = await fetch('/api/menus', { credentials: 'include', headers: H });
+        const menus = res.ok ? await res.json() : [];
+        document.getElementById('menus-titre').textContent = `Menus (${menus.length})`;
+        if (!menus.length) { tb.innerHTML = '<tr><td colspan="7" class="admin-vide">Aucun menu.</td></tr>'; return; }
+        tb.innerHTML = menus.map(m => `
+            <tr>
+                <td>${m.menu_id}</td>
+                <td><strong>${m.titre}</strong></td>
+                <td>${fmtPrix(m.prix_par_personne)}</td>
+                <td>${m.nombre_personne_mini}</td>
+                <td>
+                    <span style="font-weight:600;color:${m.quantite_restante > 0 ? 'var(--bordeaux)' : '#ef4444'}">${m.quantite_restante ?? 0}</span>
+                </td>
+                <td>${m.theme || '—'}</td>
+                <td><div class="btn-ad-group">
+                    <button class="btn-ad" onclick="ouvrirModalStock(${m.menu_id},'${m.titre.replace(/'/g,"\\'")}',${m.quantite_restante ?? 0})">Stock</button>
+                    <button class="btn-ad btn-ad--red" onclick="supprimerMenu(${m.menu_id},'${m.titre.replace(/'/g,"\\'")}')">Supprimer</button>
+                </div></td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="7" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+async function supprimerMenu(id, titre) {
+    if (!confirm(`Supprimer le menu "${titre}" ? Cette action est irréversible.`)) return;
+    try {
+        const res = await fetch('/api/menus/' + id, { method: 'DELETE', credentials: 'include', headers: H });
+        flash(res.ok ? 'Menu supprimé.' : 'Erreur lors de la suppression.', res.ok);
+        chargerMenus();
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── PLATS ── */
+async function chargerPlats() {
+    const tb = document.getElementById('tb-plats');
+    try {
+        const res   = await fetch('/api/plats', { credentials: 'include', headers: H });
+        const plats = res.ok ? await res.json() : [];
+        document.getElementById('plats-titre').textContent = `Plats (${plats.length})`;
+        if (!plats.length) { tb.innerHTML = '<tr><td colspan="5" class="admin-vide">Aucun plat.</td></tr>'; return; }
+        tb.innerHTML = plats.map(p => `
+            <tr>
+                <td>${p.plat_id}</td>
+                <td><strong>${p.titre_plat}</strong></td>
+                <td>${p.type_plat || '—'}</td>
+                <td>${fmtPrix(p.prix_unitaire)}</td>
+                <td style="font-size:12px;color:var(--brun);max-width:200px">${p.description ? p.description.slice(0,80) + (p.description.length > 80 ? '…' : '') : '—'}</td>
+                <td><div class="btn-ad-group">
+                    <button class="btn-ad" onclick="ouvrirModalPlat(${p.plat_id},'${p.titre_plat.replace(/'/g,"\\'")}','${p.type_plat || 'Plat'}',${p.prix_unitaire},'${(p.description||'').replace(/'/g,"\\'")}')">Modifier</button>
+                    <button class="btn-ad btn-ad--red" onclick="supprimerPlat(${p.plat_id},'${p.titre_plat.replace(/'/g,"\\'")}')">Supprimer</button>
+                </div></td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="5" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+async function supprimerPlat(id, titre) {
+    if (!confirm(`Supprimer le plat "${titre}" ?`)) return;
+    try {
+        const res = await fetch('/api/plats/' + id, { method: 'DELETE', credentials: 'include', headers: H });
+        flash(res.ok ? 'Plat supprimé.' : 'Erreur.', res.ok);
+        chargerPlats();
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── THÈMES ── */
+async function chargerThemes() {
+    const tb = document.getElementById('tb-themes');
+    try {
+        const res    = await fetch('/api/themes', { credentials: 'include', headers: H });
+        const themes = res.ok ? await res.json() : [];
+        if (!themes.length) { tb.innerHTML = '<tr><td colspan="3" class="admin-vide">Aucun thème.</td></tr>'; return; }
+        tb.innerHTML = themes.map(t => `
+            <tr>
+                <td>${t.theme_id}</td>
+                <td>${t.libelle}</td>
+                <td><button class="btn-ad btn-ad--red" onclick="supprimerTheme(${t.theme_id},'${t.libelle.replace(/'/g,"\\'")}')">Supprimer</button></td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="3" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+async function ajouterTheme() {
+    const libelle = prompt('Nom du thème (ex : Mariage, Noël…)');
+    if (!libelle?.trim()) return;
+    try {
+        const res = await fetch('/api/themes', { method: 'POST', credentials: 'include', headers: H, body: JSON.stringify({ libelle: libelle.trim() }) });
+        flash(res.ok ? `Thème "${libelle}" ajouté.` : 'Erreur.', res.ok);
+        chargerThemes();
+    } catch { flash('API non disponible.', false); }
+}
+
+async function supprimerTheme(id, libelle) {
+    if (!confirm(`Supprimer le thème "${libelle}" ?`)) return;
+    try {
+        const res = await fetch('/api/themes/' + id, { method: 'DELETE', credentials: 'include', headers: H });
+        flash(res.ok ? 'Thème supprimé.' : 'Erreur.', res.ok);
+        chargerThemes();
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── COMMANDES ── */
+let cmdCache = [];
+
+async function chargerCommandes() {
+    const q      = document.getElementById('f-cmd-q').value.trim();
+    const statut = document.getElementById('f-cmd-statut').value;
+    const params = new URLSearchParams();
+    if (q) params.set('q', q); if (statut) params.set('statut', statut);
+    try {
+        const res   = await fetch('/api/commandes?' + params, { credentials: 'include', headers: H });
+        const data  = await res.json();
+        cmdCache    = Array.isArray(data) ? data : (data.commandes || []);
+    } catch {
+        cmdCache = CMD_FALLBACK.filter(c => !statut || c.statut_commande === statut);
+    }
+    remplirTableauCommandes(cmdCache, 'tb-commandes', 9, true);
+    document.getElementById('cmd-total-lbl').textContent = `${cmdCache.length} commande${cmdCache.length > 1 ? 's' : ''}`;
+}
+
+function remplirTableauCommandes(liste, tbId, colspan, avecActions) {
+    const tb = document.getElementById(tbId);
+    if (!liste.length) { tb.innerHTML = `<tr><td colspan="${colspan}" class="admin-vide">Aucune commande.</td></tr>`; return; }
+    tb.innerHTML = liste.map(c => `
+        <tr>
+            <td><strong>#${c.commande_id}</strong></td>
+            <td>${e(c.prenom)} ${e(c.nom)}<br><small style="color:var(--brun)">${e(c.email)}</small></td>
+            <td>${e(c.titre_menu || c.menu_titre) || '—'}</td>
+            <td>${c.nombre_personne}</td>
+            <td>${fmtDate(c.date_prestation)}</td>
+            ${avecActions ? `<td style="font-size:12px;max-width:140px">${e(c.adresse_livraison) || '—'}</td>` : ''}
+            <td>${fmtPrix(c.prix_commande)}</td>
+            <td>${sbCmd(c.statut_commande)}</td>
+            ${avecActions ? `<td>
+                <div class="btn-ad-group">
+                    <select class="admin-filtre-bar select" id="sel-${c.commande_id}" style="padding:4px 8px;font-size:11px;border-radius:4px;border:1px solid #ddd">
+                        ${Object.entries(STATUT_LABELS).map(([v,l]) => `<option value="${v}"${v===c.statut_commande?' selected':''}>${l}</option>`).join('')}
+                    </select>
+                    <button class="btn-ad" onclick="changerStatut(${c.commande_id})">OK</button>
+                </div>
+            </td>` : ''}
+        </tr>`).join('');
+}
+
+async function changerStatut(id) {
+    const sel     = document.getElementById('sel-' + id);
+    const statut  = sel.value;
+    const body    = { statut };
+
+    if (statut === 'annulée') {
+        const modeContact = prompt('Comment le client a-t-il été contacté avant l\'annulation ? (Téléphone / Email)');
+        if (!modeContact) return;
+        const motif = prompt('Motif de l\'annulation (visible par le client) :');
+        if (!motif) return;
+        body.mode_contact = modeContact;
+        body.motif = motif;
+    }
+
+    try {
+        const res = await fetch(`/api/commandes/${id}/statut`, { method: 'PUT', credentials: 'include', headers: H, body: JSON.stringify(body) });
+        const d   = await res.json();
+        flash(res.ok ? `Commande #${id} → ${STATUT_LABELS[statut]}` : (d.error || 'Erreur.'), res.ok);
+        chargerCommandes();
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── AVIS ── */
+async function chargerAvis() {
+    const statut = document.getElementById('f-avis-statut').value;
+    const tb     = document.getElementById('tb-avis');
+    try {
+        const res  = await fetch(`/api/admin/avis?statut=${encodeURIComponent(statut)}`, { credentials: 'include', headers: H });
+        const avis = res.ok ? (await res.json()) : [];
+        const liste = Array.isArray(avis) ? avis : (avis.avis || []);
+
+        const nbAtt = liste.filter(a => a.statut_validation === 'en_attente').length;
+        const bdg   = document.getElementById('badge-avis');
+        if (statut === 'en_attente' || !statut) { bdg.hidden = nbAtt === 0; bdg.textContent = nbAtt; }
+
+        if (!liste.length) { tb.innerHTML = '<tr><td colspan="6" class="admin-vide">Aucun avis.</td></tr>'; return; }
+        tb.innerHTML = liste.map(a => `
+            <tr>
+                <td>${a.prenom || ''} ${a.nom || ''}</td>
+                <td><span style="color:var(--or)">${'★'.repeat(a.note || 0)}${'☆'.repeat(5-(a.note||0))}</span> ${a.note}/5</td>
+                <td style="max-width:260px;font-size:12px">${a.description || '—'}</td>
+                <td style="font-size:12px">${fmtDate(a.date_avis)}</td>
+                <td>${sbAvis(a.statut_validation)}</td>
+                <td>
+                    ${a.statut_validation === 'en_attente' ? `
+                    <div class="btn-ad-group">
+                        <button class="btn-ad btn-ad--green" onclick="validerAvis(${a.avis_id}, 'validé')">Valider</button>
+                        <button class="btn-ad btn-ad--red"   onclick="validerAvis(${a.avis_id}, 'refusé')">Refuser</button>
+                    </div>` : '—'}
+                </td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="6" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+async function validerAvis(id, statut) {
+    try {
+        const res = await fetch(`/api/avis/${id}/validation`, { method: 'PUT', credentials: 'include', headers: H, body: JSON.stringify({ statut }) });
+        flash(res.ok ? `Avis ${statut}.` : 'Erreur.', res.ok);
+        chargerAvis();
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── UTILISATEURS ── */
+async function chargerUtilisateurs() {
+    const role = document.getElementById('f-user-role').value;
+    const tb   = document.getElementById('tb-utilisateurs');
+    try {
+        const url   = '/api/admin/utilisateurs' + (role ? '?role=' + encodeURIComponent(role) : '');
+        const res   = await fetch(url, { credentials: 'include', headers: H });
+        const users = res.ok ? await res.json() : [];
+        document.getElementById('users-total-lbl').textContent = `${users.length} utilisateur${users.length > 1 ? 's' : ''}`;
+        if (!users.length) { tb.innerHTML = '<tr><td colspan="8" class="admin-vide">Aucun utilisateur.</td></tr>'; return; }
+        tb.innerHTML = users.map(u => `
+            <tr>
+                <td>${u.utilisateur_id}</td>
+                <td>${u.prenom || ''} ${u.nom || ''}</td>
+                <td>${u.email}</td>
+                <td>${u.ville || '—'}</td>
+                <td>${sbRole(u.role)}</td>
+                <td style="font-size:12px">${fmtDate(u.date_creation)}</td>
+                <td>${sbActif(u.statut_compte)}</td>
+                <td>
+                    ${u.role !== 'administrateur' ? `
+                    <button class="btn-ad" onclick="toggleCompte(${u.utilisateur_id}, ${u.statut_compte ? 0 : 1})">
+                        ${u.statut_compte ? 'Désactiver' : 'Activer'}
+                    </button>` : '—'}
+                </td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="8" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+async function toggleCompte(id, activer) {
+    if (!confirm(activer ? 'Réactiver ce compte ?' : 'Désactiver ce compte ?')) return;
+    const action = activer ? 'activer' : 'desactiver';
+    try {
+        const res = await fetch(`/api/admin/employes/${id}/${action}`, { method: 'PUT', credentials: 'include', headers: H });
+        const d = await res.json();
+        flash(res.ok ? `Compte ${activer ? 'activé' : 'désactivé'}.` : (d.error || 'Erreur.'), res.ok);
+        if (res.ok) { chargerUtilisateurs(); chargerEmployes(); }
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── EMPLOYÉS ── */
+async function chargerEmployes() {
+    const tb = document.getElementById('tb-employes');
+    try {
+        const res   = await fetch('/api/admin/utilisateurs?role=employe', { credentials: 'include', headers: H });
+        const users = res.ok ? await res.json() : [];
+        if (!users.length) { tb.innerHTML = '<tr><td colspan="7" class="admin-vide">Aucun employé.</td></tr>'; return; }
+        tb.innerHTML = users.map(u => `
+            <tr>
+                <td>${u.utilisateur_id}</td>
+                <td>${e(u.prenom)} ${e(u.nom)}</td>
+                <td>${e(u.email)}</td>
+                <td>${e(u.telephone) || '—'}</td>
+                <td style="font-size:12px">${fmtDate(u.date_creation)}</td>
+                <td>${sbActif(u.statut_compte)}</td>
+                <td><button class="btn-ad ${u.statut_compte ? 'btn-ad--red' : 'btn-ad--green'}" onclick="toggleCompte(${u.utilisateur_id},${u.statut_compte ? 0 : 1})">
+                    ${u.statut_compte ? 'Désactiver' : 'Réactiver'}
+                </button></td>
+            </tr>`).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="7" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+/* ── Modal créer employé ── */
+function ouvrirModalEmploye() { document.getElementById('modal-employe').classList.add('open'); }
+function fermerModalEmploye() { document.getElementById('modal-employe').classList.remove('open'); }
+document.getElementById('modal-employe').addEventListener('click', e => { if (e.target === e.currentTarget) fermerModalEmploye(); });
+
+async function creerEmploye() {
+    const prenom = document.getElementById('emp-prenom').value.trim();
+    const nom    = document.getElementById('emp-nom').value.trim();
+    const email  = document.getElementById('emp-email').value.trim();
+    const tel    = document.getElementById('emp-tel').value.trim();
+    if (!prenom || !nom || !email || !tel) { alert('Tous les champs sont requis.'); return; }
+
+    try {
+        const res  = await fetch('/api/admin/employes', { method: 'POST', credentials: 'include', headers: H, body: JSON.stringify({ prenom, nom, email, telephone: tel }) });
+        const data = await res.json();
+        if (res.ok) {
+            flash(`Employé ${e(prenom)} ${e(nom)} créé. Un email lui a été envoyé.`);
+            fermerModalEmploye();
+            chargerEmployes();
+        } else { flash(data.error || 'Erreur lors de la création.', false); }
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── MODAL PLAT ── */
+function ouvrirModalPlat(id, titre, type, prix, desc) {
+    document.getElementById('plat-edit-id').value  = id   ?? '';
+    document.getElementById('plat-titre').value    = titre ?? '';
+    document.getElementById('plat-type').value     = type  ?? 'Plat';
+    document.getElementById('plat-prix').value     = prix  ?? '';
+    document.getElementById('plat-desc').value     = desc  ?? '';
+    document.getElementById('modal-plat-titre').textContent = id ? 'Modifier le plat' : 'Ajouter un plat';
+    document.getElementById('modal-plat').classList.add('open');
+}
+function fermerModalPlat() { document.getElementById('modal-plat').classList.remove('open'); }
+document.getElementById('modal-plat').addEventListener('click', e => { if (e.target === e.currentTarget) fermerModalPlat(); });
+
+async function sauvegarderPlat() {
+    const id    = document.getElementById('plat-edit-id').value;
+    const titre = document.getElementById('plat-titre').value.trim();
+    const type  = document.getElementById('plat-type').value;
+    const prix  = parseFloat(document.getElementById('plat-prix').value);
+    const desc  = document.getElementById('plat-desc').value.trim();
+    if (!titre || !type || isNaN(prix)) { alert('Titre, type et prix sont requis.'); return; }
+
+    const url    = id ? `/api/plats/${id}` : '/api/plats';
+    const method = id ? 'PUT' : 'POST';
+    try {
+        const res = await fetch(url, { method, credentials: 'include', headers: H, body: JSON.stringify({ titre_plat: titre, type_plat: type, prix_unitaire: prix, description: desc }) });
+        const d   = await res.json();
+        flash(res.ok ? (id ? 'Plat modifié.' : 'Plat ajouté.') : (d.error || 'Erreur.'), res.ok);
+        if (res.ok) { fermerModalPlat(); chargerPlats(); }
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── MODAL STOCK MENU ── */
+function ouvrirModalStock(id, titre, stock) {
+    document.getElementById('stock-menu-id').value    = id;
+    document.getElementById('stock-menu-nom').textContent = titre;
+    document.getElementById('stock-valeur').value     = stock;
+    document.getElementById('modal-stock').classList.add('open');
+}
+function fermerModalStock() { document.getElementById('modal-stock').classList.remove('open'); }
+document.getElementById('modal-stock').addEventListener('click', e => { if (e.target === e.currentTarget) fermerModalStock(); });
+
+async function sauvegarderStock() {
+    const id    = document.getElementById('stock-menu-id').value;
+    const stock = parseInt(document.getElementById('stock-valeur').value);
+    if (isNaN(stock) || stock < 0) { alert('Valeur invalide.'); return; }
+    try {
+        const res = await fetch(`/api/menus/${id}`, { method: 'PUT', credentials: 'include', headers: H, body: JSON.stringify({ quantite_restante: stock }) });
+        const d   = await res.json();
+        flash(res.ok ? `Disponibilité mise à jour → ${stock} prestation${stock > 1 ? 's' : ''}.` : (d.error || 'Erreur.'), res.ok);
+        if (res.ok) { fermerModalStock(); chargerMenus(); }
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── HORAIRES ── */
+async function chargerHoraires() {
+    const tb = document.getElementById('tb-horaires');
+    try {
+        const res      = await fetch('/api/horaires', { credentials: 'include', headers: H });
+        const horaires = res.ok ? await res.json() : [];
+        if (!horaires.length) { tb.innerHTML = '<tr><td colspan="5" class="admin-vide">Aucun horaire.</td></tr>'; return; }
+        tb.innerHTML = horaires.map(h => {
+            const ferme = h.heure_ouverture === '00:00:00' && h.heure_fermeture === '00:00:00';
+            return `<tr id="h-row-${h.horaire_id}">
+                <td><strong>${h.jour}</strong></td>
+                <td><input type="time" id="h-ouv-${h.horaire_id}" value="${h.heure_ouverture?.slice(0,5) || '09:00'}"
+                    ${ferme ? 'disabled' : ''}
+                    style="padding:5px 8px;border:1.5px solid #e5e0d5;border-radius:6px;font-size:13px;${ferme ? 'opacity:.4' : ''}"></td>
+                <td><input type="time" id="h-ferm-${h.horaire_id}" value="${h.heure_fermeture?.slice(0,5) || '18:00'}"
+                    ${ferme ? 'disabled' : ''}
+                    style="padding:5px 8px;border:1.5px solid #e5e0d5;border-radius:6px;font-size:13px;${ferme ? 'opacity:.4' : ''}"></td>
+                <td>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+                        <input type="checkbox" id="h-ferme-${h.horaire_id}" ${ferme ? 'checked' : ''}
+                            onchange="toggleFerme(${h.horaire_id})">
+                        Fermé
+                    </label>
+                </td>
+                <td><button class="btn-ad" onclick="sauvegarderHoraire(${h.horaire_id})">Enregistrer</button></td>
+            </tr>`;
+        }).join('');
+    } catch { tb.innerHTML = '<tr><td colspan="5" class="admin-vide">API non connectée.</td></tr>'; }
+}
+
+function toggleFerme(id) {
+    const ferme = document.getElementById(`h-ferme-${id}`).checked;
+    const inp1  = document.getElementById(`h-ouv-${id}`);
+    const inp2  = document.getElementById(`h-ferm-${id}`);
+    inp1.disabled = ferme; inp2.disabled = ferme;
+    inp1.style.opacity = ferme ? '.4' : '1';
+    inp2.style.opacity = ferme ? '.4' : '1';
+    if (ferme) { inp1.value = '00:00'; inp2.value = '00:00'; }
+}
+
+async function sauvegarderHoraire(id) {
+    const ferme = document.getElementById(`h-ferme-${id}`).checked;
+    const ouv   = ferme ? '00:00' : document.getElementById(`h-ouv-${id}`).value;
+    const ferm  = ferme ? '00:00' : document.getElementById(`h-ferm-${id}`).value;
+    if (!ouv || !ferm) { flash('Heures invalides.', false); return; }
+    try {
+        const res = await fetch(`/api/horaires/${id}`, { method: 'PUT', credentials: 'include', headers: H, body: JSON.stringify({ heure_ouverture: ouv, heure_fermeture: ferm }) });
+        flash(res.ok ? 'Horaire mis à jour.' : 'Erreur.', res.ok);
+    } catch { flash('API non disponible.', false); }
+}
+
+
+/* ── Filtres temps réel ── */
+document.getElementById('f-cmd-q').addEventListener('input', () => {
+    const q = document.getElementById('f-cmd-q').value.toLowerCase();
+    const filtered = cmdCache.filter(c => (c.prenom + ' ' + c.nom + ' ' + (c.titre_menu || '') + ' ' + c.email).toLowerCase().includes(q));
+    remplirTableauCommandes(filtered, 'tb-commandes', 9, true);
+});
+document.getElementById('f-cmd-statut').addEventListener('change', chargerCommandes);
+document.getElementById('f-avis-statut').addEventListener('change', chargerAvis);
+document.getElementById('f-user-role').addEventListener('change', chargerUtilisateurs);
+
+/* ── Données fallback dev ── */
+const CMD_FALLBACK = [
+    { commande_id:1, prenom:'Jean', nom:'Martin',  email:'jean@email.fr', titre_menu:'Menu Prestige Bordeaux', nombre_personne:25, date_prestation:'2026-08-15', adresse_livraison:'12 rue des Chartrons', prix_commande:2125, statut_commande:'en_attente' },
+    { commande_id:2, prenom:'Sophie', nom:'Bernard', email:'sophie@email.fr', titre_menu:'Menu Saveurs d\'Été', nombre_personne:12, date_prestation:'2026-07-20', adresse_livraison:'5 allée de la Tour', prix_commande:660, statut_commande:'acceptée' },
+    { commande_id:3, prenom:'Pierre', nom:'Dupont',  email:'pierre@email.fr', titre_menu:'Menu Végétarien', nombre_personne:8, date_prestation:'2026-07-05', adresse_livraison:'Avenue Thiers', prix_commande:360, statut_commande:'terminée' },
+];
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

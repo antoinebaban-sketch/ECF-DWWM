@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+            <div class="header-images">
+                <img src="images/en_tete.png" alt="Présentation de plats traiteur Vite et Gourmand">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur">
+                <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+<button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <!-- Menu mobile déroulant -->
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero titre seul -->
+        <section class="hero hero-title-only">
+            <p class="hero-tagline">Traiteur · Bordeaux · Depuis 1999</p>
+            <h1 class="hero-title">Vite et <em>Gourmand</em></h1>
+            <div class="hero-separator"></div>
+            <p class="hero-subtitle">L'art de la table, livré à votre porte.</p>
+        </section>
+
+        <!-- Section commentaires clients -->
+        <section class="avis-section" id="avis-section">
+            <!-- Fallback statique — remplacé par l'API dès qu'elle est disponible -->
+            <div class="avis-card">
+                <div class="avis-header">
+                    <span class="avis-avatar" style="background:#6B8F5E;">S</span>
+                    <div>
+                        <strong>Sophie M.</strong>
+                        <span class="avis-date">Février 2025</span>
+                    </div>
+                </div>
+                <div class="avis-stars">★★★★★</div>
+                <p class="avis-texte">« Une prestation irréprochable pour notre mariage. Julie a su répondre à toutes nos attentes avec une finesse rare. Les invités en parlent encore ! »</p>
+            </div>
+            <div class="avis-card">
+                <div class="avis-header">
+                    <span class="avis-avatar" style="background:#8B6914;">T</span>
+                    <div>
+                        <strong>Thomas D.</strong>
+                        <span class="avis-date">Janvier 2024</span>
+                    </div>
+                </div>
+                <div class="avis-stars">★★★★☆</div>
+                <p class="avis-texte">« Repas de Noël en famille absolument délicieux. Le chapon farci était fondant à souhait. Je recommande les yeux fermés. »</p>
+            </div>
+            <div class="avis-card">
+                <div class="avis-header">
+                    <span class="avis-avatar" style="background:#4A6B8A;">A</span>
+                    <div>
+                        <strong>Anaïs R.</strong>
+                        <span class="avis-date">Décembre 2025</span>
+                    </div>
+                </div>
+                <div class="avis-stars">★★★★★</div>
+                <p class="avis-texte">« Le menu végétarien était une révélation ! On ne pensait pas qu'un brunch sans viande pouvait être si généreux et saveureux. »</p>
+            </div>
+        </section>
+
+        <!-- Hero principale -->
+        <section class="hero hero-main">
+            <div class="hero-content">
+                <p class="hero-tagline">Traiteur à Bordeaux depuis 1999</p>
+                <strong class="hero-title">La Gastronomie,<br> livrée <em>chez vous</em></strong>
+                <div class="hero-separator"></div>
+                <p class="hero-subtitle">Julie et José composent des menus sur-mesure pour chaque événement. Du simple repas de famille aux grandes réceptions.</p>
+                <div class="hero-cta">
+                    <a href="menu.html" class="btn-or">Découvrir nos menus</a>
+                    <a href="contact.html" class="hero-link">Nous contacter →</a>
+                </div>
+            </div>
+
+            <div class="presentation-plat">
+                <img src="images/pizza.png" alt="Assortiment de plats traiteur" class="plat-small">
+                <div class="plat-featured">
+                    <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches, plat signature Vite et Gourmand">
+                    <div class="plat-card">
+                        <strong class="plat-card-nom">Filet de Poulet Grillé et Mousseline Maison</strong>
+                        <p class="plat-card-desc">Un classique revisité avec élégance. Profitez d'un filet de poulet doré, servi sur un lit de purée maison fondante.</p>
+                        <span class="plat-card-prix">Prix : 16,90 €</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carousel menus populaires -->
+        <section class="menus-pop-section">
+            <div class="menus-pop-inner">
+                <div class="menus-pop-header">
+                    <div>
+                        <p class="contact-surtitre">Les préférés de nos clients</p>
+                        <h2 class="menus-pop-titre">Menus les plus commandés</h2>
+                    </div>
+                    <div class="carousel-fleches">
+                        <button class="carousel-btn" id="carousel-prev" aria-label="Précédent">&#8249;</button>
+                        <button class="carousel-btn" id="carousel-next" aria-label="Suivant">&#8250;</button>
+                    </div>
+                </div>
+
+                <div class="carousel-viewport">
+                    <div class="carousel-track" id="carousel-track">
+                        <!-- Injecté par JS -->
+                    </div>
+                </div>
+
+                <div class="carousel-dots" id="carousel-dots"></div>
+            </div>
+        </section>
+
+        <!-- Bande stats -->
+        <section class="stats-band">
+            <div class="stat-item">
+                <span class="stat-chiffre">25</span>
+                <span class="stat-label">années d'expérience</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Livraison en Aquitaine</span>
+                <div class="stat-icon">
+                    <img src="images/livraison_aquitaine.png" alt="livraison aquitaine">
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-chiffre">98%</span>
+                <span class="stat-label">de clients satisfaits</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Livraison et location de matériel</span>
+                <div class="stat-icon">
+                    <img src="images/livraison_express.png" alt="livraison express">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Commander</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script>
+        function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+        (function() { const p = JSON.parse(localStorage.getItem('vg_panier') || '[]'); const b = document.getElementById('panier-badge'); if (b) b.textContent = p.length; })();
+
+        /* ── AVIS CLIENTS ── */
+        const COULEURS_AVATAR = ['#6B8F5E','#8B6914','#4A6B8A','#7B5EA7','#C0644A','#4A7B7B'];
+
+        function etoiles(note) {
+            return '★'.repeat(note) + '☆'.repeat(5 - note);
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+        }
+
+        function construireCarteAvis(avis) {
+            const prenom = avis.prenom || 'Client';
+            const initiale = prenom[0].toUpperCase();
+            const couleur = COULEURS_AVATAR[prenom.charCodeAt(0) % COULEURS_AVATAR.length];
+            const div = document.createElement('div');
+            div.className = 'avis-card';
+            div.innerHTML = `
+                <div class="avis-header">
+                    <span class="avis-avatar" style="background:${couleur};">${esc(initiale)}</span>
+                    <div>
+                        <strong>${esc(prenom)}</strong>
+                        <span class="avis-date">${formatDate(avis.date_avis)}</span>
+                    </div>
+                </div>
+                <div class="avis-stars">${etoiles(avis.note)}</div>
+                <p class="avis-texte">« ${esc(avis.description)} »</p>`;
+            return div;
+        }
+
+        async function chargerAvis() {
+            try {
+                /* Récupère les avis validés avec note >= 3, triés par date décroissante */
+                const res = await fetch('/api/avis?statut=validé&note_min=3&limit=3');
+                if (!res.ok) return;
+                const avis = await res.json();
+                if (!avis.length) return;
+                const section = document.getElementById('avis-section');
+                section.innerHTML = '';
+                avis.forEach(a => section.appendChild(construireCarteAvis(a)));
+            } catch { /* API non connectée — fallback statique affiché */ }
+        }
+        chargerAvis();
+
+        /* ── CAROUSEL MENUS POPULAIRES ── */
+        const MENUS_FALLBACK = [
+            {
+                titre: 'Filet de Poulet Grillé et Mousseline Maison',
+                description: 'Un classique revisité avec élégance. Filet de poulet doré, servi sur un lit de purée maison fondante aux herbes fraîches.',
+                prix: '16,90',
+                image: 'images/filet_poulet.png',
+                commandes: 142
+            },
+            {
+                titre: 'Bowl Santé Gourmand',
+                description: 'Quinoa, avocat frais, tomates cerises, feta crumble et vinaigrette citron-miel. Frais, nourrissant et plein de saveurs.',
+                prix: '12,00',
+                image: 'images/avocat_bowl.png',
+                commandes: 118
+            },
+            {
+                titre: 'Plateau de Charcuterie Aragonaise',
+                description: 'Jambon serrano affiné, chorizo pimenté, manchego fondant et olives marinées aux herbes. Idéal pour vos apéritifs.',
+                prix: '18,00',
+                image: 'images/plateau_charcuterie.png',
+                commandes: 97
+            }
+        ];
+
+        let indexActuel = 0;
+        let menus = [];
+
+        function construireCarteCarousel(menu) {
+            const div = document.createElement('div');
+            div.className = 'carousel-card';
+            div.innerHTML = `
+                <div class="carousel-card-img">
+                    <img src="${menu.image ?? menu.image_url ?? ''}" alt="${menu.titre ?? menu.titre_plat}">
+                </div>
+                <div class="carousel-card-body">
+                    <p class="carousel-card-commandes">${menu.nb_commandes ?? menu.commandes ?? ''} commandes</p>
+                    <h3 class="carousel-card-titre">${menu.titre ?? menu.titre_plat}</h3>
+                    <p class="carousel-card-desc">${menu.description}</p>
+                    <div class="carousel-card-footer">
+                        <span class="carousel-card-prix">À partir de ${menu.prix ?? menu.prix_par_personne} €</span>
+                        <a href="menu.html" class="btn-or" style="font-size:12px;padding:9px 20px;">Voir les menus</a>
+                    </div>
+                </div>`;
+            return div;
+        }
+
+        function afficherCarousel() {
+            const track = document.getElementById('carousel-track');
+            const dotsWrap = document.getElementById('carousel-dots');
+            track.innerHTML = '';
+            dotsWrap.innerHTML = '';
+
+            menus.forEach((m, i) => {
+                const card = construireCarteCarousel(m);
+                if (i === indexActuel) card.classList.add('active');
+                track.appendChild(card);
+
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot' + (i === indexActuel ? ' active' : '');
+                dot.setAttribute('aria-label', 'Menu ' + (i + 1));
+                dot.addEventListener('click', () => allerA(i));
+                dotsWrap.appendChild(dot);
+            });
+        }
+
+        function allerA(index) {
+            const cards = document.querySelectorAll('.carousel-card');
+            const dots  = document.querySelectorAll('.carousel-dot');
+            cards[indexActuel].classList.remove('active');
+            dots[indexActuel].classList.remove('active');
+            indexActuel = (index + menus.length) % menus.length;
+            cards[indexActuel].classList.add('active');
+            dots[indexActuel].classList.add('active');
+        }
+
+        document.getElementById('carousel-prev').addEventListener('click', () => allerA(indexActuel - 1));
+        document.getElementById('carousel-next').addEventListener('click', () => allerA(indexActuel + 1));
+
+        async function chargerMenusPopulaires() {
+            try {
+                const res = await fetch('/api/menus/populaires');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.length) { menus = data.slice(0, 3); afficherCarousel(); return; }
+                }
+            } catch { /* API non connectée — fallback */ }
+            menus = MENUS_FALLBACK;
+            afficherCarousel();
+        }
+        chargerMenusPopulaires();
+    </script>
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

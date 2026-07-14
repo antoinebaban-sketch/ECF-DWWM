@@ -1,0 +1,10 @@
+Options -Indexes
+RewriteEngine On
+
+# Route tous les appels /api/* vers le routeur PHP
+RewriteCond %{REQUEST_URI} /api/
+RewriteRule ^api/(.*)$ api/index.php [L,QSA]
+
+# Redirige la racine vers le frontend
+RewriteRule ^$ frontend/ [R,L]
+RewriteRule ^index\.html$ frontend/index.html [R,L]
