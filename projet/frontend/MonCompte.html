@@ -399,6 +399,75 @@
         </div>
     </footer>
 
+    <!-- Modal demande de facture -->
+    <div class="modal-overlay" id="modal-facture" aria-hidden="true">
+        <div class="modal-plat" style="max-width:460px;padding:36px 32px;" role="dialog" aria-modal="true">
+            <button class="modal-fermer" id="modal-facture-fermer" aria-label="Fermer">×</button>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--bordeaux);margin-bottom:6px;">Demander une facture</h2>
+            <div class="contact-sep" style="margin-bottom:20px;"></div>
+            <p style="font-family:'DM Sans',sans-serif;font-size:13px;color:#666;margin-bottom:20px;">
+                Commande <strong id="facture-ref"></strong> · <span id="facture-date"></span> · <strong id="facture-total"></strong>
+            </p>
+            <form id="form-facture" novalidate>
+                <div class="form-champ" style="margin-bottom:16px;">
+                    <label for="facture-email" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Email de réception</label>
+                    <input type="email" id="facture-email" placeholder="votre@email.fr" required
+                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
+                </div>
+                <div class="form-champ" style="margin-bottom:20px;">
+                    <label for="facture-entreprise" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Nom entreprise <span style="font-weight:400;color:#aaa;">(facultatif)</span></label>
+                    <input type="text" id="facture-entreprise" placeholder="Dupont SAS"
+                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
+                </div>
+                <button type="submit" class="btn-form-submit" style="width:100%;">Envoyer la demande</button>
+            </form>
+            <p id="facture-ok" hidden
+                style="margin-top:16px;text-align:center;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bordeaux);font-weight:600;">
+                Votre demande a bien été envoyée.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal modification de commande -->
+    <div class="modal-overlay" id="modal-modifier-commande" aria-hidden="true">
+        <div class="modal-plat" style="max-width:460px;padding:36px 32px;" role="dialog" aria-modal="true">
+            <button type="button" class="modal-fermer" id="modal-modifier-fermer" aria-label="Fermer">×</button>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--bordeaux);margin-bottom:6px;">Modifier ma commande</h2>
+            <div class="contact-sep" style="margin-bottom:20px;"></div>
+            <p style="font-family:'DM Sans',sans-serif;font-size:12px;color:#666;margin-bottom:20px;">Le menu choisi n'est pas modifiable.</p>
+            <form id="form-modifier-commande" novalidate>
+                <input type="hidden" id="modif-cmd-id">
+                <div class="form-champ" style="margin-bottom:16px;">
+                    <label for="modif-personnes" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Nombre de personnes</label>
+                    <input type="number" id="modif-personnes" min="1" required
+                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
+                </div>
+                <div class="form-champ" style="margin-bottom:16px;">
+                    <label for="modif-date" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Date et heure de prestation</label>
+                    <input type="datetime-local" id="modif-date" required
+                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
+                </div>
+                <div class="form-champ" style="margin-bottom:20px;">
+                    <label for="modif-adresse" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Adresse de livraison</label>
+                    <input type="text" id="modif-adresse" required
+                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
+                </div>
+                <p class="auth-erreur" id="modif-erreur" hidden></p>
+                <button type="submit" class="btn-form-submit" style="width:100%;">Enregistrer les modifications</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal suivi de commande -->
+    <div class="modal-overlay" id="modal-suivi-commande" aria-hidden="true">
+        <div class="modal-plat" style="max-width:460px;padding:36px 32px;" role="dialog" aria-modal="true">
+            <button type="button" class="modal-fermer" id="modal-suivi-fermer" aria-label="Fermer">×</button>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--bordeaux);margin-bottom:6px;">Suivi de la commande</h2>
+            <div class="contact-sep" style="margin-bottom:20px;"></div>
+            <div id="suivi-corps"></div>
+        </div>
+    </div>
+
     <script>
         function flashConfirm(id, duree = 3000) {
             const el = document.getElementById(id);
@@ -1054,74 +1123,6 @@
             seDeconnecter();
         });
     </script>
-    <!-- Modal demande de facture -->
-    <div class="modal-overlay" id="modal-facture" aria-hidden="true">
-        <div class="modal-plat" style="max-width:460px;padding:36px 32px;" role="dialog" aria-modal="true">
-            <button class="modal-fermer" id="modal-facture-fermer" aria-label="Fermer">×</button>
-            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--bordeaux);margin-bottom:6px;">Demander une facture</h2>
-            <div class="contact-sep" style="margin-bottom:20px;"></div>
-            <p style="font-family:'DM Sans',sans-serif;font-size:13px;color:#666;margin-bottom:20px;">
-                Commande <strong id="facture-ref"></strong> · <span id="facture-date"></span> · <strong id="facture-total"></strong>
-            </p>
-            <form id="form-facture" novalidate>
-                <div class="form-champ" style="margin-bottom:16px;">
-                    <label for="facture-email" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Email de réception</label>
-                    <input type="email" id="facture-email" placeholder="votre@email.fr" required
-                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
-                </div>
-                <div class="form-champ" style="margin-bottom:20px;">
-                    <label for="facture-entreprise" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Nom entreprise <span style="font-weight:400;color:#aaa;">(facultatif)</span></label>
-                    <input type="text" id="facture-entreprise" placeholder="Dupont SAS"
-                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
-                </div>
-                <button type="submit" class="btn-form-submit" style="width:100%;">Envoyer la demande</button>
-            </form>
-            <p id="facture-ok" hidden
-                style="margin-top:16px;text-align:center;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bordeaux);font-weight:600;">
-                Votre demande a bien été envoyée.
-            </p>
-        </div>
-    </div>
-
-    <!-- Modal modification de commande -->
-    <div class="modal-overlay" id="modal-modifier-commande" aria-hidden="true">
-        <div class="modal-plat" style="max-width:460px;padding:36px 32px;" role="dialog" aria-modal="true">
-            <button type="button" class="modal-fermer" id="modal-modifier-fermer" aria-label="Fermer">×</button>
-            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--bordeaux);margin-bottom:6px;">Modifier ma commande</h2>
-            <div class="contact-sep" style="margin-bottom:20px;"></div>
-            <p style="font-family:'DM Sans',sans-serif;font-size:12px;color:#666;margin-bottom:20px;">Le menu choisi n'est pas modifiable.</p>
-            <form id="form-modifier-commande" novalidate>
-                <input type="hidden" id="modif-cmd-id">
-                <div class="form-champ" style="margin-bottom:16px;">
-                    <label for="modif-personnes" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Nombre de personnes</label>
-                    <input type="number" id="modif-personnes" min="1" required
-                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
-                </div>
-                <div class="form-champ" style="margin-bottom:16px;">
-                    <label for="modif-date" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Date et heure de prestation</label>
-                    <input type="datetime-local" id="modif-date" required
-                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
-                </div>
-                <div class="form-champ" style="margin-bottom:20px;">
-                    <label for="modif-adresse" style="font-size:12px;font-weight:600;color:var(--bordeaux);text-transform:uppercase;letter-spacing:.08em;">Adresse de livraison</label>
-                    <input type="text" id="modif-adresse" required
-                        style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #d9c9b0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;margin-top:6px;">
-                </div>
-                <p class="auth-erreur" id="modif-erreur" hidden></p>
-                <button type="submit" class="btn-form-submit" style="width:100%;">Enregistrer les modifications</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal suivi de commande -->
-    <div class="modal-overlay" id="modal-suivi-commande" aria-hidden="true">
-        <div class="modal-plat" style="max-width:460px;padding:36px 32px;" role="dialog" aria-modal="true">
-            <button type="button" class="modal-fermer" id="modal-suivi-fermer" aria-label="Fermer">×</button>
-            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--bordeaux);margin-bottom:6px;">Suivi de la commande</h2>
-            <div class="contact-sep" style="margin-bottom:20px;"></div>
-            <div id="suivi-corps"></div>
-        </div>
-    </div>
 
     <script src="navbar.js"></script>
 </body>
