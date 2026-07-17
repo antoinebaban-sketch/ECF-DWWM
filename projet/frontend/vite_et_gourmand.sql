@@ -373,7 +373,6 @@ INSERT INTO `menu_image` (`menu_id`, `image_url`) VALUES
 (2, 'images/wraps_orientaux.png'),
 (3, 'images/filet_poulet.png'),
 (3, 'images/creme_brulee.png'),
-(4, 'images/burger.png'),
 (4, 'images/fondant_chocolat.png'),
 (4, 'images/macarons.png'),
 (5, 'images/toasts_apero.jpg'),
