@@ -97,8 +97,12 @@ CREATE DATABASE vite_et_gourmand CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_c
 Importer le schéma et les données de test :
 
 ```bash
-mysql -u root -p vite_et_gourmand < projet/frontend/vite_et_gourmand.sql
+mysql --default-character-set=utf8mb4 -u root -p vite_et_gourmand < projet/frontend/vite_et_gourmand.sql
 ```
+
+⚠️ Le paramètre `--default-character-set=utf8mb4` est important : sans lui, le client `mysql`
+peut utiliser l'encodage par défaut du terminal (souvent pas UTF-8 sous Windows) et corrompre
+les caractères accentués à l'import (ex : "Entrée" devient "EntrÃ©e").
 
 ### 2. Configuration backend
 

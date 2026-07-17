@@ -66,12 +66,46 @@ function require_fields(array $body, string ...$fields): void
 
 function sendMail(string $to, string $subject, string $htmlBody): bool
 {
-    $headers  = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=utf-8\r\n";
-    $headers .= "From: " . MAIL_NAME . " <" . MAIL_FROM . ">\r\n";
-    $headers .= "Reply-To: " . MAIL_FROM . "\r\n";
+    $apiKey = $_ENV['BREVO_API_KEY'] ?? '';
 
-    return @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $htmlBody, $headers);
+    // Environnement local (XAMPP) : pas de clé configurée → mail() natif
+    if ($apiKey === '') {
+        $headers  = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=utf-8\r\n";
+        $headers .= "From: " . MAIL_NAME . " <" . MAIL_FROM . ">\r\n";
+        $headers .= "Reply-To: " . MAIL_FROM . "\r\n";
+
+        return @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $htmlBody, $headers);
+    }
+
+    // Production : mail() nécessite un serveur mail local, absent sur un hébergeur
+    // conteneurisé (Render). On passe par l'API HTTP de Brevo à la place, avec
+    // curl (déjà utilisé nulle part ailleurs, mais extension standard de PHP).
+    $payload = json_encode([
+        'sender'      => ['name' => MAIL_NAME, 'email' => MAIL_FROM],
+        'to'          => [['email' => $to]],
+        'subject'     => $subject,
+        'htmlContent' => $htmlBody,
+    ]);
+    if ($payload === false) return false;
+
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_HTTPHEADER     => [
+            'accept: application/json',
+            'content-type: application/json',
+            'api-key: ' . $apiKey,
+        ],
+        CURLOPT_POSTFIELDS => $payload,
+    ]);
+    curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    return $code >= 200 && $code < 300;
 }
 
 function mailTemplate(string $titre, string $corps): string

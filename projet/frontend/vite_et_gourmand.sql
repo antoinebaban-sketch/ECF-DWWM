@@ -199,7 +199,15 @@ INSERT INTO `plat` (`titre_plat`, `type_plat`, `description`, `image_url`, `prix
 ('Crème Brûlée Grand-Mère',             'Dessert','Crème vanillée à l''ancienne, caramel craquant à la cassonade',                                          NULL,  7.50),
 -- Boissons (id 12-13)
 ('Eau Minérale Plate / Gazeuse',        'Boisson','Bouteille 75cl par personne',                                                                            NULL,  2.50),
-('Vin Rouge Bordeaux AOC',              'Boisson','Merlot-Cabernet Saint-Émilion — bouteille partagée (2 personnes)',                                        NULL,  9.00);
+('Vin Rouge Bordeaux AOC',              'Boisson','Merlot-Cabernet Saint-Émilion — bouteille partagée (2 personnes)',                                        NULL,  9.00),
+-- Entrées (id 14-15)
+('Brochettes de Crevettes Grillées',    'Entrée', 'Crevettes marinées, poivrons et champignons grillés, servies sur lit de salade',                        'images/brochettes_crevettes.jpg', 13.50),
+('Assortiment de Toasts Apéritifs',     'Entrée', 'Pain de campagne, mousse de saumon, tartinade fromagère aux herbes et radis',                            'images/toasts_apero.jpg', 10.00),
+-- Plats (id 16-17)
+('Poulet Mijoté Épicé Sésame',          'Plat',   'Morceaux de poulet mijotés en sauce piquante, oignons, poivrons et graines de sésame',                   'images/poulet_mijote_epice.jpg', 21.00),
+('Pizza Jambon Cru & Roquette',         'Plat',   'Pâte fine, mozzarella, jambon cru, roquette fraîche et copeaux de parmesan',                             'images/pizza_jambon_roquette.jpg', 15.00),
+-- Dessert (id 18)
+('Verrine Chocolat & Groseilles',       'Dessert','Mousse au chocolat sur biscuit croustillant, groseilles fraîches et menthe',                             'images/verrine_chocolat_groseille.jpg', 8.00);
 
 -- ============================================================
 -- TABLE : plat_allergene_regime
@@ -242,6 +250,22 @@ INSERT INTO `plat_allergene_regime` VALUES (11, 4, 2);
 INSERT INTO `plat_allergene_regime` VALUES (12, 1, 1);
 -- Vin Rouge (13) → sulfites, sans régime
 INSERT INTO `plat_allergene_regime` VALUES (13, 13, 1);
+-- Brochettes de crevettes (14) → crustacés, sans régime
+INSERT INTO `plat_allergene_regime` VALUES (14, 3, 1);
+-- Toasts apéritifs (15) → gluten + lait + poissons, sans régime
+INSERT INTO `plat_allergene_regime` VALUES (15, 2, 1);
+INSERT INTO `plat_allergene_regime` VALUES (15, 8, 1);
+INSERT INTO `plat_allergene_regime` VALUES (15, 5, 1);
+-- Poulet mijoté épicé (16) → sésame + soja, sans régime
+INSERT INTO `plat_allergene_regime` VALUES (16, 12, 1);
+INSERT INTO `plat_allergene_regime` VALUES (16, 7, 1);
+-- Pizza jambon roquette (17) → gluten + lait, sans régime
+INSERT INTO `plat_allergene_regime` VALUES (17, 2, 1);
+INSERT INTO `plat_allergene_regime` VALUES (17, 8, 1);
+-- Verrine chocolat groseilles (18) → lait + œufs + gluten, végétarien
+INSERT INTO `plat_allergene_regime` VALUES (18, 8, 2);
+INSERT INTO `plat_allergene_regime` VALUES (18, 4, 2);
+INSERT INTO `plat_allergene_regime` VALUES (18, 2, 2);
 
 -- ============================================================
 -- TABLE : menu
@@ -290,6 +314,20 @@ INSERT INTO `menu` (`titre`, `nombre_personne_mini`, `prix_par_personne`, `descr
   'Une formule cocktail élégante pour vos soirées d''entreprise et réceptions. Assortiment de bouchées gourmandes, petits fours et desserts en verrines.',
   'Réservation minimum 5 jours à l''avance. Acompte de 20% à la commande. Annulation remboursable jusqu''à J-3. Service debout, mise en place incluse. Prix incluant le service, hors boissons.',
   20, 7, 5
+),
+(
+  'Vin d''Honneur Élégance',
+  20, 32.00,
+  'Une sélection raffinée de bouchées et pièces cocktail pour accueillir vos invités avec élégance. Toasts gourmands, brochettes de crevettes grillées et douceur en verrine.',
+  'Réservation minimum 5 jours à l''avance. Acompte de 20% à la commande. Annulation remboursable jusqu''à J-3. Service debout, mise en place incluse. Prix incluant le service, hors boissons.',
+  20, 6, 5
+),
+(
+  'Soirée Fusion Gourmande',
+  15, 42.00,
+  'Un menu qui marie les influences pour une soirée mémorable. Salade landaise en entrée, choix entre pizza jambon cru & roquette ou poulet mijoté épicé au sésame, verrine chocolat en dessert.',
+  'Réservation minimum 7 jours à l''avance. Acompte de 25% à la commande. Annulation remboursable jusqu''à J-5. Prix incluant le service, hors boissons.',
+  15, 5, 7
 );
 
 -- ============================================================
@@ -311,6 +349,10 @@ INSERT INTO `menu_composition` VALUES (2,4),(2,8),(2,10),(2,12);
 INSERT INTO `menu_composition` VALUES (3,3),(3,6),(3,11),(3,13),(3,12);
 -- Menu 4 : Cocktail Dinatoire (carpaccio, tajine, dôme chocolat, eau)
 INSERT INTO `menu_composition` VALUES (4,1),(4,7),(4,9),(4,12);
+-- Menu 5 : Vin d'Honneur Élégance (toasts apéritifs, brochettes de crevettes, verrine, eau)
+INSERT INTO `menu_composition` VALUES (5,15),(5,14),(5,18),(5,12);
+-- Menu 6 : Soirée Fusion Gourmande (salade landaise, pizza, poulet mijoté épicé, verrine, vin rouge)
+INSERT INTO `menu_composition` VALUES (6,3),(6,17),(6,16),(6,18),(6,13);
 
 -- ============================================================
 -- TABLE : menu_image
@@ -333,7 +375,11 @@ INSERT INTO `menu_image` (`menu_id`, `image_url`) VALUES
 (3, 'images/creme_brulee.png'),
 (4, 'images/burger_gourmet.png'),
 (4, 'images/fondant_chocolat.png'),
-(4, 'images/macarons.png');
+(4, 'images/macarons.png'),
+(5, 'images/toasts_apero.jpg'),
+(5, 'images/brochettes_crevettes.jpg'),
+(6, 'images/pizza_jambon_roquette.jpg'),
+(6, 'images/poulet_mijote_epice.jpg');
 
 -- ============================================================
 -- TABLE : menu_regime
@@ -354,6 +400,10 @@ INSERT INTO `menu_regime` VALUES (2,2),(2,4);
 INSERT INTO `menu_regime` VALUES (3,1);
 -- Menu 4 : Cocktail Dinatoire → Sans régime
 INSERT INTO `menu_regime` VALUES (4,1);
+-- Menu 5 : Vin d'Honneur Élégance → Sans régime
+INSERT INTO `menu_regime` VALUES (5,1);
+-- Menu 6 : Soirée Fusion Gourmande → Sans régime
+INSERT INTO `menu_regime` VALUES (6,1);
 
 -- ============================================================
 -- UTILISATEURS

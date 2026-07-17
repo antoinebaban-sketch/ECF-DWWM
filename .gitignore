@@ -1,5 +1,6 @@
 # Variables d'environnement — ne jamais committer
 projet/api/.env
+/MongoDB connexion$.txt
 
 # Dépendances
 node_modules/
@@ -15,8 +16,8 @@ Thumbs.db
 .claude
 
 # Autres
-./utile
-./RH_archive
+/utile/
+/RH_archive/
 
 # Dossier technique perso — notes de préparation à l'oral, ne doit jamais être public
-./ECF PROJET
+/ECF PROJET/

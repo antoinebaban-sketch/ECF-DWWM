@@ -2,7 +2,7 @@
 // Chargement des variables d'environnement depuis .env si présent
 $envFile = __DIR__ . '/.env';
 if (file_exists($envFile)) {
-    foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+    foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
         if (str_starts_with(trim($line), '#')) continue;
         [$k, $v] = array_pad(explode('=', $line, 2), 2, '');
         $_ENV[trim($k)] = trim($v);
@@ -26,10 +26,19 @@ function getPDO(): PDO
     if ($pdo !== null) return $pdo;
 
     $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', DB_HOST, DB_PORT, DB_NAME);
-    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
+    $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
-    ]);
+    ];
+
+    // Aiven (production) exige une connexion SSL ; en local (XAMPP), DB_HOST
+    // vaut "localhost" et le certificat n'est pas nécessaire.
+    $caFile = __DIR__ . '/aiven-ca.pem';
+    if (!in_array(DB_HOST, ['localhost', '127.0.0.1'], true) && file_exists($caFile)) {
+        $options[PDO::MYSQL_ATTR_SSL_CA] = $caFile;
+    }
+
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
     return $pdo;
 }
