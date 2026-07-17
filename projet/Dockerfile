@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # mod_rewrite pour les .htaccess (routage /api/* vers api/index.php)
 # AllowOverride All pour que les .htaccess du projet soient bien lus
 # variables_order=EGPCS pour que $_ENV lise les variables injectées par l'hébergeur
-RUN a2enmod rewrite \
+RUN a2enmod rewrite headers \
     && sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf \
     && printf 'variables_order = "EGPCS"\ndisplay_errors = Off\n' > /usr/local/etc/php/conf.d/z-vite-et-gourmand.ini
 
