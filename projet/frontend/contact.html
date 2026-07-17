@@ -321,7 +321,7 @@
             const btn = e.target.querySelector('button[type="submit"]');
             btn.disabled = true;
             try {
-                await fetch('/api/avis', {
+                const res = await fetch('/api/avis', {
                     method:      'POST',
                     credentials: 'include',
                     headers:     { 'Content-Type': 'application/json' },
@@ -330,11 +330,21 @@
                         description:     document.getElementById('avis-message').value,
                     }),
                 });
-            } catch { /* API non disponible */ }
-            document.getElementById('conf-avis').hidden = false;
-            e.target.reset();
-            noteInput.value = '';
-            etoiles.forEach(el => el.classList.remove('active'));
+                const data = await res.json();
+                if (!res.ok) {
+                    alert(data.error === 'Vous devez être connecté'
+                        ? 'Vous devez être connecté pour déposer un avis. Connectez-vous depuis votre espace Mon Compte.'
+                        : (data.error || 'Une erreur est survenue.'));
+                    btn.disabled = false;
+                    return;
+                }
+                document.getElementById('conf-avis').hidden = false;
+                e.target.reset();
+                noteInput.value = '';
+                etoiles.forEach(el => el.classList.remove('active'));
+            } catch {
+                alert('Impossible de contacter le serveur. Réessayez plus tard.');
+            }
             btn.disabled = false;
         });
     </script>
