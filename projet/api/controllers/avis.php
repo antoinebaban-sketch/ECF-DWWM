@@ -105,7 +105,7 @@ function deposerAvis(array $body): void
         if ($dup->fetch()) jsonError('Vous avez déjà déposé un avis pour cette commande', 409);
     }
 
-    $pdo->prepare('INSERT INTO avis (client_id, commande_id, note, description, statut_validation) VALUES (?, ?, ?, ?, "en_attente")')
+    $pdo->prepare('INSERT INTO avis (client_id, commande_id, note, description, statut_validation) VALUES (?, ?, ?, ?, \'en_attente\')')
         ->execute([
             $user['id'],
             !empty($body['commande_id']) ? (int)$body['commande_id'] : null,

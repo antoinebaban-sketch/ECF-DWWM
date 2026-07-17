@@ -206,7 +206,7 @@ function creerCommande(array $body): void
         INSERT INTO commande
             (client_id, menu_id, nombre_personne, date_commande, date_prestation,
              prix_commande, statut_commande, adresse_livraison, theme_id)
-        VALUES (?, ?, ?, CURDATE(), ?, ?, "en_attente", ?, ?)
+        VALUES (?, ?, ?, CURDATE(), ?, ?, \'en_attente\', ?, ?)
     ');
     $ins->execute([
         $user['id'],
@@ -220,7 +220,7 @@ function creerCommande(array $body): void
     $commandeId = (int)$pdo->lastInsertId();
 
     // Historique
-    $pdo->prepare('INSERT INTO historique_commande (commande_id, statut) VALUES (?, "en_attente")')
+    $pdo->prepare('INSERT INTO historique_commande (commande_id, statut) VALUES (?, \'en_attente\')')
         ->execute([$commandeId]);
 
     // Livraison si distance fournie
@@ -359,10 +359,10 @@ function annulerCommande(int $id, array $body): void
         jsonError('Cette commande ne peut plus être annulée (statut : ' . $cmd['statut_commande'] . ')');
     }
 
-    $pdo->prepare('UPDATE commande SET statut_commande = "annulée" WHERE commande_id = ?')
+    $pdo->prepare('UPDATE commande SET statut_commande = \'annulée\' WHERE commande_id = ?')
         ->execute([$id]);
 
-    $pdo->prepare('INSERT INTO historique_commande (commande_id, statut) VALUES (?, "annulée")')
+    $pdo->prepare('INSERT INTO historique_commande (commande_id, statut) VALUES (?, \'annulée\')')
         ->execute([$id]);
 
     // Remettre le stock
