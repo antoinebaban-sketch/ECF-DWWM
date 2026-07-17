@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Cette page est aussi servie à la racine "/" (réécriture interne, voir
+         .htaccess) : <base> garde les liens relatifs (menu.html, style.css...)
+         valides même quand l'URL affichée dans le navigateur est "/". -->
+    <base href="/frontend/">
     <title>Accueil Vite et Gourmand</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">

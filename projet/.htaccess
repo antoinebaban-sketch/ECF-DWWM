@@ -5,6 +5,8 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} /api/
 RewriteRule ^api/(.*)$ api/index.php [L,QSA]
 
-# Redirige la racine vers le frontend
-RewriteRule ^$ frontend/ [R,L]
-RewriteRule ^index\.html$ frontend/index.html [R,L]
+# Sert le frontend à la racine (réécriture interne, pas de redirection externe :
+# derrière le proxy de Render, Apache ne connaît pas son adresse publique et
+# construirait une redirection cassée — voir <base> dans frontend/index.html)
+RewriteRule ^$ frontend/index.html [L]
+RewriteRule ^index\.html$ frontend/index.html [L]
