@@ -808,15 +808,14 @@
                 )).join('');
             }
 
-            // Formulaire avis général (si pas encore déposé)
-            if (!avisGeneralExiste) {
+            // Aucun avis et aucune commande éligible : renvoyer vers la page Contact
+            if (!avisGeneralExiste && !eligibles.length) {
                 htmlEligibles += `
-                <div style="margin-top:${eligibles.length ? '24px' : '0'}">
-                    <p style="font-family:'DM Sans',sans-serif;font-size:14px;color:var(--bordeaux);font-weight:600;margin-bottom:12px;">
-                        Partagez votre expérience avec Vite et Gourmand :
-                    </p>
-                    ${buildFormulaireAvis(null, 'Témoignage général', '')}
-                </div>`;
+                <p class="commandes-vide">
+                    Vous n'avez pas encore publié d'avis. Rendez-vous sur la page
+                    <a href="contact.html" style="color:var(--bordeaux);font-weight:600;">Contact</a>
+                    pour déposer votre premier avis !
+                </p>`;
             }
 
             eligiblesDiv.innerHTML = htmlEligibles || '';
