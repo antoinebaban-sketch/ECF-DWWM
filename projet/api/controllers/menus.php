@@ -129,7 +129,7 @@ function getMenu(int $id): void
         FROM plat p
         JOIN menu_composition mc ON mc.plat_id = p.plat_id
         WHERE mc.menu_id = ?
-        ORDER BY FIELD(p.type_plat, "Entrée", "Plat", "Dessert", "Boisson")
+        ORDER BY FIELD(p.type_plat, \'Entrée\', \'Plat\', \'Dessert\', \'Boisson\')
     ');
     $platStmt->execute([$id]);
     $menu['plats'] = $platStmt->fetchAll();
