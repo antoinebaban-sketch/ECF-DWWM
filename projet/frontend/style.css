@@ -24,6 +24,10 @@ html { font-size: 100%; }
     padding: 0;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'DM Sans', sans-serif;
     background: var(--creme);
@@ -2263,14 +2267,19 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 
     /* Hero principale : 1 colonne */
     .hero-main {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         padding: 40px 28px;
         text-align: center;
         gap: 32px;
     }
-    .hero-content { max-width: 100%; }
+    .hero-content { max-width: 100%; min-width: 0; }
     .hero-content .hero-separator { margin: 0 auto; }
-    .hero-cta { justify-content: center; }
+    .hero-cta {
+        grid-auto-flow: row;
+        justify-items: center;
+        gap: 16px;
+    }
+    .presentation-plat { min-width: 0; justify-self: center; }
 
     /* Images plats */
     .presentation-plat { width: 100%; height: 270px; }
@@ -2281,16 +2290,18 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     /* Carousel menus populaires : empilé (image au-dessus du texte) */
     .menus-pop-section { padding: 40px 20px; }
     .menus-pop-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .carousel-card { grid-template-columns: 1fr; }
+    .carousel-track { grid-template-columns: minmax(0, 1fr); }
+    .carousel-card { grid-template-columns: minmax(0, 1fr); width: 100%; min-width: 0; }
     .carousel-card-img { height: 220px; }
-    .carousel-card-body { padding: 24px 20px; }
+    .carousel-card-body { padding: 24px 20px; min-width: 0; }
     .carousel-card-titre { font-size: 1.375rem; }
 
     /* Avis : 1 colonne */
     .avis-section {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         padding: 32px 16px;
     }
+    .avis-card { min-width: 0; }
 
     /* Stats : 2 colonnes */
     .stats-band {
@@ -2323,8 +2334,8 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .catalogue-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
     /* Modal */
-    .modal-plat { grid-template-columns: 1fr; grid-template-rows: 220px 1fr; max-height: 95vh; }
-    .modal-info { padding: 20px; }
+    .modal-plat { grid-template-columns: minmax(0, 1fr); grid-template-rows: 220px 1fr; max-height: 95vh; min-width: 0; }
+    .modal-info { padding: 20px; min-width: 0; }
 
     /* Contact */
     .contact-section { padding: 40px 20px; }
