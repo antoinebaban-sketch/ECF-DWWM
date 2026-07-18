@@ -21,8 +21,8 @@ function getListe(): void
 {
     $pdo  = getPDO();
     $type = $_GET['type'] ?? null;
-    $sql  = 'SELECT p.*, GROUP_CONCAT(DISTINCT a.libelle ORDER BY a.libelle SEPARATOR ", ") AS allergenes,
-                    GROUP_CONCAT(DISTINCT r.libelle ORDER BY r.libelle SEPARATOR ", ") AS regimes
+    $sql  = 'SELECT p.*, GROUP_CONCAT(DISTINCT a.libelle ORDER BY a.libelle SEPARATOR \', \') AS allergenes,
+                    GROUP_CONCAT(DISTINCT r.libelle ORDER BY r.libelle SEPARATOR \', \') AS regimes
              FROM plat p
              LEFT JOIN plat_allergene_regime par ON par.plat_id = p.plat_id
              LEFT JOIN allergene a ON a.allergene_id = par.allergene_id

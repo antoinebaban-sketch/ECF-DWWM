@@ -59,7 +59,7 @@ function creerEmploye(array $body): void
 
     $pdo->prepare('
         INSERT INTO utilisateur (email, password, prenom, nom, telephone, ville, pays, adresse, role_id, statut_compte, date_creation, consentement_rgpd)
-        VALUES (?, ?, ?, ?, ?, "", "France", "", 2, 1, CURDATE(), 1)
+        VALUES (?, ?, ?, ?, ?, \'\', \'France\', \'\', 2, 1, CURDATE(), 1)
     ')->execute([
         sanitizeEmail($body['email']),
         $hash,

@@ -61,17 +61,17 @@ function modifierMonProfil(array $body): void
         if ($exists->fetch()) jsonError('Cette adresse email est déjà utilisée.', 409);
     }
 
-    $pdo->prepare('
+    $pdo->prepare("
         UPDATE utilisateur SET
-            prenom    = COALESCE(NULLIF(?, ""), prenom),
-            nom       = COALESCE(NULLIF(?, ""), nom),
-            email     = COALESCE(NULLIF(?, ""), email),
-            telephone = COALESCE(NULLIF(?, ""), telephone),
-            ville     = COALESCE(NULLIF(?, ""), ville),
-            pays      = COALESCE(NULLIF(?, ""), pays),
-            adresse   = COALESCE(NULLIF(?, ""), adresse)
+            prenom    = COALESCE(NULLIF(?, ''), prenom),
+            nom       = COALESCE(NULLIF(?, ''), nom),
+            email     = COALESCE(NULLIF(?, ''), email),
+            telephone = COALESCE(NULLIF(?, ''), telephone),
+            ville     = COALESCE(NULLIF(?, ''), ville),
+            pays      = COALESCE(NULLIF(?, ''), pays),
+            adresse   = COALESCE(NULLIF(?, ''), adresse)
         WHERE utilisateur_id = ?
-    ')->execute([
+    ")->execute([
         sanitize($body['prenom']    ?? ''),
         sanitize($body['nom']       ?? ''),
         sanitizeEmail($body['email'] ?? ''),
@@ -177,12 +177,12 @@ function supprimerCompte(): void
     $pdo->prepare('
         UPDATE utilisateur SET
             email      = ?,
-            password   = "",
+            password   = \'\',
             prenom     = ?,
             nom        = ?,
-            telephone  = "",
-            adresse    = "",
-            ville      = "",
+            telephone  = \'\',
+            adresse    = \'\',
+            ville      = \'\',
             statut_compte = 0,
             reset_token = NULL,
             reset_token_expires = NULL
