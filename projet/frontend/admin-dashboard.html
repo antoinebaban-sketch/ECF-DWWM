@@ -250,6 +250,7 @@
             <div class="admin-tableau-wrap">
                 <div class="admin-tableau-header">
                     <span class="admin-tableau-titre" id="menus-titre">Menus</span>
+                    <button class="btn-admin-ajouter" onclick="ouvrirModalMenu()">+ Ajouter un menu</button>
                 </div>
                 <div style="overflow-x:auto"><table class="admin-table">
                     <thead><tr><th>ID</th><th>Titre</th><th>Prix/pers.</th><th>Min. pers.</th><th>Stock</th><th>Thème</th><th>Actions</th></tr></thead>
@@ -452,6 +453,61 @@
         <div class="ad-modal-actions">
             <button class="btn-ad-cancel" onclick="fermerModalStock()">Annuler</button>
             <button class="btn-ad-modal" onclick="sauvegarderStock()">Enregistrer</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Modal menu (ajouter) ── -->
+<div class="ad-modal-overlay" id="modal-menu">
+    <div class="ad-modal" style="max-width:640px">
+        <h3>Ajouter un menu</h3>
+        <div class="ad-modal-grid">
+            <div class="form-champ" style="grid-column:1/-1">
+                <label>Titre du menu *</label>
+                <input type="text" id="menu-titre" placeholder="Ex : Menu Prestige Bordeaux">
+            </div>
+        </div>
+        <div class="form-champ" style="margin-bottom:1rem">
+            <label>Description *</label>
+            <textarea id="menu-desc" rows="2" placeholder="Description courte du menu…"
+                style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;width:100%;box-sizing:border-box;font-family:'DM Sans',sans-serif;resize:vertical"></textarea>
+        </div>
+        <div class="ad-modal-grid">
+            <div class="form-champ">
+                <label>Prix par personne (€) *</label>
+                <input type="number" id="menu-prix" placeholder="42.00" min="0" step="0.01">
+            </div>
+            <div class="form-champ">
+                <label>Personnes minimum *</label>
+                <input type="number" id="menu-min-pers" placeholder="15" min="1" step="1">
+            </div>
+        </div>
+        <div class="ad-modal-grid">
+            <div class="form-champ">
+                <label>Stock disponible *</label>
+                <input type="number" id="menu-stock" placeholder="10" min="0" step="1">
+            </div>
+            <div class="form-champ">
+                <label>Délai de prévenance (jours)</label>
+                <input type="number" id="menu-delai" placeholder="7" min="0" step="1">
+            </div>
+        </div>
+        <div class="form-champ" style="margin-bottom:1rem">
+            <label>Thème</label>
+            <select id="menu-theme" style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;width:100%;box-sizing:border-box;background:#fff"></select>
+        </div>
+        <div class="form-champ" style="margin-bottom:1rem">
+            <label>Conditions (réservation, acompte…)</label>
+            <textarea id="menu-conditions" rows="2" placeholder="Réservation minimum 7 jours à l'avance…"
+                style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;width:100%;box-sizing:border-box;font-family:'DM Sans',sans-serif;resize:vertical"></textarea>
+        </div>
+        <div class="form-champ" style="margin-bottom:1rem">
+            <label>Plats composant le menu *</label>
+            <div id="menu-plats-liste" style="max-height:180px;overflow-y:auto;border:1.5px solid #e5e0d5;border-radius:8px;padding:10px 14px"></div>
+        </div>
+        <div class="ad-modal-actions">
+            <button class="btn-ad-cancel" onclick="fermerModalMenu()">Annuler</button>
+            <button class="btn-ad-modal" onclick="sauvegarderMenu()">Créer le menu</button>
         </div>
     </div>
 </div>
@@ -945,6 +1001,77 @@ async function sauvegarderStock() {
         const d   = await res.json();
         flash(res.ok ? `Disponibilité mise à jour → ${stock} prestation${stock > 1 ? 's' : ''}.` : (d.error || 'Erreur.'), res.ok);
         if (res.ok) { fermerModalStock(); chargerMenus(); }
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── MODAL AJOUTER MENU ── */
+async function ouvrirModalMenu() {
+    document.getElementById('menu-titre').value = '';
+    document.getElementById('menu-desc').value = '';
+    document.getElementById('menu-prix').value = '';
+    document.getElementById('menu-min-pers').value = '';
+    document.getElementById('menu-stock').value = '';
+    document.getElementById('menu-delai').value = '7';
+    document.getElementById('menu-conditions').value = '';
+
+    const selTheme = document.getElementById('menu-theme');
+    selTheme.innerHTML = '<option value="">— Aucun —</option>';
+    try {
+        const res    = await fetch('/api/themes', { credentials: 'include', headers: H });
+        const themes = res.ok ? await res.json() : [];
+        selTheme.innerHTML += themes.map(t => `<option value="${t.theme_id}">${t.libelle}</option>`).join('');
+    } catch { /* thème restera vide si l'API ne répond pas */ }
+
+    const listePlats = document.getElementById('menu-plats-liste');
+    listePlats.innerHTML = 'Chargement…';
+    try {
+        const res   = await fetch('/api/plats', { credentials: 'include', headers: H });
+        const plats = res.ok ? await res.json() : [];
+        listePlats.innerHTML = plats.length ? plats.map(p => `
+            <label style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.85rem;cursor:pointer">
+                <input type="checkbox" value="${p.plat_id}" class="menu-plat-check">
+                ${p.titre_plat} <span style="color:var(--brun);font-size:.75rem">(${p.type_plat || '—'})</span>
+            </label>`).join('') : 'Aucun plat disponible — créez-en dans l\'onglet Plats.';
+    } catch { listePlats.innerHTML = 'API non disponible.'; }
+
+    document.getElementById('modal-menu').classList.add('open');
+}
+function fermerModalMenu() { document.getElementById('modal-menu').classList.remove('open'); }
+document.getElementById('modal-menu').addEventListener('click', e => { if (e.target === e.currentTarget) fermerModalMenu(); });
+
+async function sauvegarderMenu() {
+    const titre    = document.getElementById('menu-titre').value.trim();
+    const desc     = document.getElementById('menu-desc').value.trim();
+    const prix     = parseFloat(document.getElementById('menu-prix').value);
+    const minPers  = parseInt(document.getElementById('menu-min-pers').value);
+    const stock    = parseInt(document.getElementById('menu-stock').value);
+    const delai    = parseInt(document.getElementById('menu-delai').value) || 7;
+    const themeId  = document.getElementById('menu-theme').value;
+    const conditions = document.getElementById('menu-conditions').value.trim();
+    const plats    = [...document.querySelectorAll('.menu-plat-check:checked')].map(c => parseInt(c.value));
+
+    if (!titre || !desc || isNaN(prix) || isNaN(minPers) || isNaN(stock)) {
+        alert('Merci de remplir tous les champs obligatoires (*).');
+        return;
+    }
+    if (!plats.length) {
+        alert('Sélectionnez au moins un plat pour composer le menu.');
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/menus', {
+            method: 'POST', credentials: 'include', headers: H,
+            body: JSON.stringify({
+                titre, description: desc, prix_par_personne: prix,
+                nombre_personne_mini: minPers, quantite_restante: stock,
+                delai_prevenance: delai, theme_id: themeId || null,
+                conditions: conditions || null, plats,
+            }),
+        });
+        const d = await res.json();
+        flash(res.ok ? 'Menu créé.' : (d.error || 'Erreur.'), res.ok);
+        if (res.ok) { fermerModalMenu(); chargerMenus(); }
     } catch { flash('API non disponible.', false); }
 }
 
