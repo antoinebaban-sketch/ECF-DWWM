@@ -2356,16 +2356,48 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .form-ligne { grid-template-columns: 1fr; }
     .contact-titre { font-size: 1.875rem; }
 
-    /* Mon Compte : sidebar repliee sur l'avatar, revelee au survol/tap (CSS pur) */
+    /* Mon Compte : sidebar repliee sur l'avatar, ouverte/fermee via le bouton burger */
     .compte-main { grid-template-columns: 1fr; }
     .compte-sidebar {
         min-height: auto;
         padding: 20px;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
         position: relative;
         z-index: 20;
     }
     .compte-avatar { width: 44px; height: 44px; font-size: 1.125rem; margin-bottom: 0; }
+    .compte-sidebar-burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        width: 32px;
+        height: 32px;
+        order: 2;
+    }
+    .compte-sidebar-burger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--or);
+        border-radius: 2px;
+        transition: transform 0.25s, opacity 0.25s;
+    }
+    .compte-sidebar-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .compte-sidebar-burger.active span:nth-child(2) { opacity: 0; }
+    .compte-sidebar-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* max-height/overflow plutot que display : #lien-admin-dashboard et
+       #lien-employe-dashboard restent geres par le JS existant (hidden +
+       style.display selon le role), on ne fait que les comprimer visuellement
+       sans jamais toucher a leur propriete display. */
     .compte-nom,
     .compte-email-affiché,
     .compte-nav,
@@ -2373,32 +2405,29 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     #lien-admin-dashboard,
     #lien-employe-dashboard {
         max-height: 0;
-        opacity: 0;
         overflow: hidden;
-        margin: 0;
+        opacity: 0;
+        width: 100%;
+        order: 3;
+        margin: 0 !important;
         pointer-events: none;
         transition: opacity 0.15s, max-height 0.2s;
     }
-    .compte-sidebar:hover .compte-nom,
-    .compte-sidebar:focus-within .compte-nom {
-        max-height: 32px; opacity: 1; margin-top: 12px;
-    }
-    .compte-sidebar:hover .compte-email-affiché,
-    .compte-sidebar:focus-within .compte-email-affiché {
-        max-height: 24px; opacity: 1; margin-bottom: 8px;
-    }
-    .compte-sidebar:hover .compte-nav,
-    .compte-sidebar:focus-within .compte-nav,
-    .compte-sidebar:hover .btn-deconnexion,
-    .compte-sidebar:focus-within .btn-deconnexion,
-    .compte-sidebar:hover #lien-admin-dashboard,
-    .compte-sidebar:focus-within #lien-admin-dashboard,
-    .compte-sidebar:hover #lien-employe-dashboard,
-    .compte-sidebar:focus-within #lien-employe-dashboard {
+    .compte-sidebar.open .compte-nom,
+    .compte-sidebar.open .compte-email-affiché,
+    .compte-sidebar.open .compte-nav,
+    .compte-sidebar.open .btn-deconnexion,
+    .compte-sidebar.open #lien-admin-dashboard,
+    .compte-sidebar.open #lien-employe-dashboard {
         max-height: 600px;
         opacity: 1;
         pointer-events: auto;
-        margin-top: 8px;
+    }
+    .compte-sidebar.open .compte-nom { margin-top: 16px !important; }
+    .compte-sidebar.open .compte-email-affiché { margin-bottom: 8px !important; }
+    .compte-sidebar.open #lien-admin-dashboard,
+    .compte-sidebar.open #lien-employe-dashboard {
+        margin: 0 0 8px !important;
     }
     .compte-contenu { padding: 32px 20px; }
 }

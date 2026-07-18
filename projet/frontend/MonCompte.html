@@ -105,6 +105,9 @@
 
         <!-- ── SIDEBAR ── -->
         <aside class="compte-sidebar">
+            <button class="compte-sidebar-burger" id="compte-sidebar-burger" aria-label="Ouvrir le menu du compte" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
             <div class="compte-avatar" id="compte-avatar">?</div>
             <p class="compte-nom" id="compte-nom-affiche">Chargement…</p>
             <p class="compte-email-affiché" id="compte-email-affiche"></p>
@@ -521,6 +524,15 @@
         }
         chargerProfil();
 
+        /* ── BURGER SIDEBAR (mobile) ── */
+        const sidebarBurger = document.getElementById('compte-sidebar-burger');
+        const sidebar       = document.querySelector('.compte-sidebar');
+        sidebarBurger.addEventListener('click', () => {
+            const isOpen = sidebar.classList.toggle('open');
+            sidebarBurger.classList.toggle('active', isOpen);
+            sidebarBurger.setAttribute('aria-expanded', isOpen);
+        });
+
         /* ── NAVIGATION SECTIONS ── */
         document.querySelectorAll('.compte-nav-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -532,6 +544,9 @@
                 if (btn.dataset.section === 'adresses')      chargerAdresses();
                 if (btn.dataset.section === 'notifications') chargerNotifs();
                 if (btn.dataset.section === 'preferences')   chargerPreferences();
+                sidebar.classList.remove('open');
+                sidebarBurger.classList.remove('active');
+                sidebarBurger.setAttribute('aria-expanded', 'false');
             });
         });
 
