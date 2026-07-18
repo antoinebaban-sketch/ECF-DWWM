@@ -456,6 +456,27 @@
     </div>
 </div>
 
+<!-- ── Modal photos menu ── -->
+<div class="ad-modal-overlay" id="modal-photos">
+    <div class="ad-modal" style="max-width:420px">
+        <h3>Photos du menu</h3>
+        <input type="hidden" id="photos-menu-id" value="">
+        <p id="photos-menu-nom" style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--bordeaux);margin-bottom:1rem"></p>
+        <div class="form-champ" style="margin-bottom:1rem">
+            <label>Photo 1 (image principale du catalogue)</label>
+            <select id="photos-img-1" style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;width:100%;box-sizing:border-box;background:#fff"></select>
+        </div>
+        <div class="form-champ">
+            <label>Photo 2</label>
+            <select id="photos-img-2" style="padding:9px 14px;border:1.5px solid #e5e0d5;border-radius:8px;font-size:.9rem;width:100%;box-sizing:border-box;background:#fff"></select>
+        </div>
+        <div class="ad-modal-actions">
+            <button class="btn-ad-cancel" onclick="fermerModalPhotos()">Annuler</button>
+            <button class="btn-ad-modal" onclick="sauvegarderPhotos()">Enregistrer</button>
+        </div>
+    </div>
+</div>
+
 <script>
 /* ── Auth guard ── */
 (async () => {
@@ -601,6 +622,7 @@ async function chargerMenus() {
                 <td>${m.theme || '—'}</td>
                 <td><div class="btn-ad-group">
                     <button class="btn-ad" onclick="ouvrirModalStock(${m.menu_id},'${m.titre.replace(/'/g,"\\'")}',${m.quantite_restante ?? 0})">Stock</button>
+                    <button class="btn-ad" onclick="ouvrirModalPhotos(${m.menu_id},'${m.titre.replace(/'/g,"\\'")}')">Photos</button>
                     <button class="btn-ad btn-ad--red" onclick="supprimerMenu(${m.menu_id},'${m.titre.replace(/'/g,"\\'")}')">Supprimer</button>
                 </div></td>
             </tr>`).join('');
@@ -923,6 +945,52 @@ async function sauvegarderStock() {
         const d   = await res.json();
         flash(res.ok ? `Disponibilité mise à jour → ${stock} prestation${stock > 1 ? 's' : ''}.` : (d.error || 'Erreur.'), res.ok);
         if (res.ok) { fermerModalStock(); chargerMenus(); }
+    } catch { flash('API non disponible.', false); }
+}
+
+/* ── MODAL PHOTOS MENU ── */
+const IMAGES_DISPONIBLES = [
+    'avocat_bowl.png', 'brochettes_crevettes.jpg', 'burger.png', 'creme_brulee.png',
+    'filet_poulet.png', 'fondant_chocolat.png', 'macarons.png', 'magret_canard.png',
+    'pizza.png', 'pizza_jambon_roquette.jpg', 'plateau_charcuterie.png',
+    'poulet_mijote_epice.jpg', 'riz_saute.png', 'toasts_apero.jpg',
+    'verrine_chocolat_groseille.jpg', 'wraps_orientaux.png',
+];
+
+function remplirSelectImages(select, valeurActuelle) {
+    select.innerHTML = '<option value="">— Aucune —</option>' +
+        IMAGES_DISPONIBLES.map(f => `<option value="images/${f}">${f}</option>`).join('');
+    select.value = valeurActuelle || '';
+}
+
+async function ouvrirModalPhotos(id, titre) {
+    document.getElementById('photos-menu-id').value = id;
+    document.getElementById('photos-menu-nom').textContent = titre;
+    const sel1 = document.getElementById('photos-img-1');
+    const sel2 = document.getElementById('photos-img-2');
+    remplirSelectImages(sel1, '');
+    remplirSelectImages(sel2, '');
+    try {
+        const res  = await fetch(`/api/menus/${id}`, { credentials: 'include', headers: H });
+        const menu = res.ok ? await res.json() : null;
+        const imgs = menu?.images || [];
+        if (imgs[0]) sel1.value = imgs[0];
+        if (imgs[1]) sel2.value = imgs[1];
+    } catch { /* champs restent vides si l'API ne répond pas */ }
+    document.getElementById('modal-photos').classList.add('open');
+}
+function fermerModalPhotos() { document.getElementById('modal-photos').classList.remove('open'); }
+document.getElementById('modal-photos').addEventListener('click', e => { if (e.target === e.currentTarget) fermerModalPhotos(); });
+
+async function sauvegarderPhotos() {
+    const id     = document.getElementById('photos-menu-id').value;
+    const images = [document.getElementById('photos-img-1').value, document.getElementById('photos-img-2').value]
+        .filter(v => v);
+    try {
+        const res = await fetch(`/api/menus/${id}`, { method: 'PUT', credentials: 'include', headers: H, body: JSON.stringify({ images }) });
+        const d   = await res.json();
+        flash(res.ok ? 'Photos mises à jour.' : (d.error || 'Erreur.'), res.ok);
+        if (res.ok) fermerModalPhotos();
     } catch { flash('API non disponible.', false); }
 }
 

@@ -240,6 +240,15 @@ function modifierMenu(int $id, array $body): void
         $id,
     ]);
 
+    // Remplacer les images si fournies
+    if (isset($body['images']) && is_array($body['images'])) {
+        $pdo->prepare('DELETE FROM menu_image WHERE menu_id = ?')->execute([$id]);
+        $imgStmt = $pdo->prepare('INSERT INTO menu_image (menu_id, image_url) VALUES (?, ?)');
+        foreach ($body['images'] as $url) {
+            if (is_string($url) && trim($url)) $imgStmt->execute([$id, trim($url)]);
+        }
+    }
+
     jsonOk(['message' => 'Menu mis à jour']);
 }
 
