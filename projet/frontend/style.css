@@ -821,13 +821,6 @@ footer {
     padding-right: 24px;
 }
 
-.modal-sep {
-    width: 40px;
-    height: 1px;
-    background: var(--or);
-    flex-shrink: 0;
-}
-
 .modal-desc {
     font-size: 0.8125rem;
     color: #555;
@@ -860,13 +853,6 @@ footer {
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 500;
-}
-
-.modal-allergenes-note {
-    font-size: 0.625rem;
-    color: #999;
-    margin: 0;
-    font-style: italic;
 }
 
 .modal-prix-bloc {
@@ -937,14 +923,6 @@ footer {
     display: none;
 }
 
-.filtre-groupe.filtre-groupe--cal {
-    border: none;
-    border-radius: 0;
-    background: none;
-    padding-left: 0;
-    padding-right: 0;
-}
-
 .filtre-groupe {
     display: flex;
     flex-direction: column;
@@ -975,21 +953,6 @@ footer {
 }
 
 .filtre-search::placeholder { color: #bbb; }
-
-.slider-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.slider-minmax {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.6875rem;
-    color: var(--brun);
-    font-family: 'DM Sans', sans-serif;
-}
 
 #prix-valeur {
     display: inline-block;
@@ -1098,133 +1061,6 @@ input[type="range"]::-webkit-slider-thumb {
 a.btn-reserver { text-decoration: none; display: inline-flex; align-items: center; }
 
 /* ====================================================
-   PAGE MENU — CALENDRIER
-   ==================================================== */
-.cal-wrap {
-    background: var(--bordeaux);
-    border-radius: 8px;
-    padding: 10px 12px;
-    width: 236px;
-}
-
-.cal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.cal-titre {
-    color: var(--or);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.9375rem;
-    font-weight: 600;
-}
-
-.cal-nav {
-    background: none;
-    border: 1px solid var(--or);
-    color: var(--or);
-    border-radius: 4px;
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
-    font-family: 'DM Sans', sans-serif;
-}
-
-.cal-nav:hover { background: var(--or); color: var(--bordeaux); }
-
-.cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-}
-
-.cal-jour-nom {
-    color: var(--or);
-    font-size: 0.625rem;
-    text-align: center;
-    padding: 3px 0;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-}
-
-.cal-jour {
-    border-radius: 4px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-family: 'DM Sans', sans-serif;
-    cursor: pointer;
-    color: var(--creme);
-    border: 1px solid transparent;
-    transition: background 0.12s;
-}
-
-.cal-jour:hover:not(.cal-indispo):not(.cal-vide):not(.cal-passe) {
-    background: var(--or);
-    color: var(--bordeaux);
-}
-
-.cal-indispo {
-    color: #6a4040;
-    text-decoration: line-through;
-    cursor: not-allowed;
-    background: rgba(0,0,0,0.25);
-}
-
-.cal-passe { color: #5a3535; cursor: not-allowed; }
-.cal-vide { cursor: default; }
-
-.cal-selectionne {
-    background: var(--or);
-    color: var(--bordeaux);
-    font-weight: 700;
-    border-color: #f0c040;
-}
-
-.cal-aujourdhui { border-color: var(--or); }
-
-.cal-selection-txt {
-    margin-top: 8px;
-    font-size: 0.75rem;
-    color: var(--or);
-    font-family: 'DM Sans', sans-serif;
-    text-align: center;
-    min-height: 18px;
-}
-
-.cal-legende {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-}
-
-.leg-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.625rem;
-    color: var(--creme);
-    font-family: 'DM Sans', sans-serif;
-}
-
-.leg-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    flex-shrink: 0;
-}
-
-/* ====================================================
    PAGE MENU — CATALOGUE
    ==================================================== */
 .catalogue-section {
@@ -1252,6 +1088,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     width: 100%;
     aspect-ratio: 4/3;
     overflow: hidden;
+    position: relative;
 }
 
 .carte-img img {
@@ -1539,63 +1376,11 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 
 .auth-lien-oubli:hover { opacity: 1; }
 
-.auth-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-top: 4px;
-    flex-wrap: wrap;
-}
-
 .btn-form-submit--full {
     width: 100%;
     text-align: center;
     align-self: auto;
     padding: 14px;
-}
-
-.btn-google--full {
-    width: 100%;
-    justify-content: center;
-}
-
-.auth-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #ccc;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
-}
-
-.auth-divider::before,
-.auth-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #e8e0d4;
-}
-
-.btn-google {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #fff;
-    border: 1.5px solid #ddd;
-    border-radius: 6px;
-    padding: 10px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--dark);
-    cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    white-space: nowrap;
-}
-
-.btn-google:hover {
-    border-color: #aaa;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
 .auth-bas {
@@ -2089,12 +1874,13 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     display: flex;
     flex-direction: column;
     gap: 6px;
+    margin-bottom: 1.2rem;
 }
 
 .form-champ label {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 700;
+    font-size: 0.85rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--bordeaux);
@@ -2332,7 +2118,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .filtres-inner { flex-wrap: nowrap; gap: 0; min-width: max-content; }
     .filtre-sep { margin: 0 14px; }
     .btn-reserver { margin-left: 16px; }
-    .cal-wrap { width: 220px; }
     input[type="range"] { width: 100px; }
     .catalogue-section { padding: 20px; }
     .catalogue-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -2461,16 +2246,9 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 /* ====================================================
-   PAGE PANIER
+   PAGE PANIER — en-tête (le reste des styles panier est
+   dans la section "PAGE PANIER" plus bas dans ce fichier)
    ==================================================== */
-.panier-main {
-    background: var(--creme);
-    min-height: calc(100vh - 200px);
-    padding: 48px 40px 72px;
-}
-
-.panier-inner { max-width: 1100px; margin: 0 auto; }
-
 .panier-entete {
     display: flex;
     align-items: center;
@@ -2478,248 +2256,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     margin-bottom: 36px;
     flex-wrap: wrap;
     gap: 12px;
-}
-
-.panier-titre {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.25rem;
-    font-weight: 600;
-    color: var(--bordeaux);
-}
-
-.panier-continuer {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8125rem;
-    color: var(--bordeaux);
-    text-decoration: none;
-    opacity: 0.75;
-}
-.panier-continuer:hover { opacity: 1; text-decoration: underline; }
-
-/* Panier vide */
-.panier-vide {
-    text-align: center;
-    padding: 72px 0;
-}
-.panier-vide-ico { font-size: 3.5rem; margin-bottom: 16px; }
-.panier-vide-msg {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.125rem;
-    color: var(--brun);
-    margin-bottom: 28px;
-}
-
-/* Grille articles + recap */
-.panier-contenu {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 40px;
-    align-items: start;
-}
-
-/* Articles */
-.panier-articles { display: flex; flex-direction: column; gap: 16px; }
-
-.panier-article {
-    display: grid;
-    grid-template-columns: 90px 1fr auto;
-    gap: 20px;
-    align-items: center;
-    background: #fff;
-    border-radius: 10px;
-    padding: 18px 20px;
-    box-shadow: 0 2px 8px rgba(92,26,26,0.06);
-}
-
-.pa-img {
-    width: 90px;
-    height: 70px;
-    border-radius: 8px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-.pa-img img { width: 100%; height: 100%; object-fit: cover; }
-
-.pa-info { display: flex; flex-direction: column; gap: 4px; }
-
-.pa-titre {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--dark);
-}
-
-.pa-detail {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
-    color: #888;
-}
-
-.pa-qty {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.pa-nb {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    min-width: 24px;
-    text-align: center;
-}
-
-.pa-droite {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 12px;
-}
-
-.pa-total {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--bordeaux);
-}
-
-.pa-supprimer {
-    background: none;
-    border: none;
-    color: #aaa;
-    font-size: 0.8125rem;
-    cursor: pointer;
-    padding: 4px;
-    transition: color 0.15s;
-}
-.pa-supprimer:hover { color: var(--bordeaux); }
-
-/* Récapitulatif */
-.panier-recap {
-    background: var(--bordeaux);
-    border-radius: 12px;
-    padding: 32px 28px;
-    color: var(--creme);
-    position: sticky;
-    top: 100px;
-}
-
-.panier-recap-titre {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.375rem;
-    font-weight: 600;
-    margin-bottom: 24px;
-}
-
-.panier-recap-ligne {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    color: rgba(247,241,232,0.8);
-    margin-bottom: 10px;
-}
-.panier-recap-ligne strong { color: var(--creme); }
-
-.panier-recap-sep {
-    border-top: 1px solid rgba(247,241,232,0.2);
-    margin: 16px 0;
-}
-
-.panier-recap-total {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--creme);
-}
-.panier-recap-total strong {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
-    color: var(--or);
-}
-
-.panier-form-livraison {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 24px 0 20px;
-}
-
-.panier-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(247,241,232,0.6);
-    margin-top: 10px;
-}
-
-.panier-input {
-    background: rgba(247,241,232,0.1);
-    border: 1px solid rgba(247,241,232,0.25);
-    border-radius: 6px;
-    padding: 10px 12px;
-    color: var(--creme);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8125rem;
-    width: 100%;
-    box-sizing: border-box;
-}
-.panier-input::placeholder { color: rgba(247,241,232,0.4); }
-.panier-input::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); }
-
-.btn-confirmer {
-    width: 100%;
-    background: var(--or);
-    color: var(--bordeaux);
-    border: none;
-    border-radius: 8px;
-    padding: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s;
-    letter-spacing: 0.04em;
-}
-.btn-confirmer:hover { background: #b08820; }
-
-.panier-confirmation {
-    background: rgba(247,241,232,0.12);
-    border-radius: 8px;
-    padding: 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8125rem;
-    color: rgba(247,241,232,0.9);
-    line-height: 1.6;
-    text-align: center;
-    margin-top: 16px;
-}
-
-/* ── Panier : badge location & placeholder image ── */
-.pa-badge-loc {
-    font-size: 0.625rem;
-    font-weight: 700;
-    background: var(--or);
-    color: var(--bordeaux);
-    border-radius: 4px;
-    padding: 2px 6px;
-    vertical-align: middle;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-}
-.pa-img-placeholder {
-    width: 100%;
-    height: 100%;
-    background: var(--beige);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.75rem;
-    color: var(--bordeaux);
-    border-radius: 8px;
 }
 
 /* ── Commandes dans Mon Compte ── */
@@ -2793,203 +2329,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 .btn-facture:hover { background: var(--bordeaux); color: var(--creme); }
 
-/* ── Location : bouton devis lien ── */
-.loc-btn-devis-link {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: rgba(247,241,232,0.75);
-    background: none;
-    border: 1.5px solid rgba(247,241,232,0.35);
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-    white-space: nowrap;
-}
-.loc-btn-devis-link:hover { color: var(--creme); border-color: rgba(247,241,232,0.7); }
-
-/* ====================================================
-   PAGE LOCATION DE MATÉRIEL
-   ==================================================== */
-.loc-intro-section {
-    background: var(--creme);
-    padding: 72px 40px;
-}
-.loc-intro-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 64px;
-    align-items: center;
-}
-.loc-intro-img img {
-    width: 100%;
-    border-radius: 12px;
-    object-fit: cover;
-    max-height: 340px;
-}
-.loc-titre {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.125rem;
-    font-weight: 600;
-    color: var(--bordeaux);
-    margin: 8px 0 16px;
-    line-height: 1.15;
-}
-.loc-desc {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9375rem;
-    color: var(--brun);
-    line-height: 1.7;
-    margin-bottom: 24px;
-}
-.loc-badges {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-}
-.loc-badge {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--bordeaux);
-    border: 1.5px solid var(--bordeaux);
-    border-radius: 99px;
-    padding: 4px 12px;
-    background: rgba(92,26,26,0.05);
-}
-.loc-cta-btn { display: inline-block; }
-
-/* Catalogue */
-.loc-catalogue-section {
-    background: #fff;
-    padding: 72px 40px;
-}
-.loc-catalogue-inner { max-width: 1100px; margin: 0 auto; }
-
-.loc-grille {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-}
-
-.loc-categorie {
-    background: var(--creme);
-    border-radius: 12px;
-    overflow: hidden;
-}
-.loc-cat-header {
-    background: var(--bordeaux);
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.loc-cat-ico {
-    width: 28px;
-    height: 28px;
-    border: 1.5px solid var(--or);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--or);
-    font-size: 0.875rem;
-    flex-shrink: 0;
-}
-.loc-cat-titre {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--creme);
-}
-.loc-items { padding: 0 4px; }
-
-.loc-item {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 20px;
-    border-bottom: 1px solid rgba(92,26,26,0.08);
-}
-.loc-item:last-child { border-bottom: none; }
-
-.loc-item-nom {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 2px;
-}
-.loc-item-detail {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.6875rem;
-    color: #999;
-}
-.loc-item-prix {
-    text-align: right;
-    white-space: nowrap;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--bordeaux);
-}
-.loc-par-jour {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.625rem;
-    font-weight: 400;
-    color: #aaa;
-    display: block;
-}
-.loc-item-qty {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.loc-qty-val {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 700;
-    min-width: 22px;
-    text-align: center;
-    color: var(--bordeaux);
-}
-
-/* Barre de sélection flottante */
-.loc-selection-bar {
-    position: sticky;
-    bottom: 20px;
-    background: var(--bordeaux);
-    color: var(--creme);
-    border-radius: 12px;
-    padding: 16px 28px;
-    margin-top: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    box-shadow: 0 8px 32px rgba(92,26,26,0.3);
-}
-.loc-sel-resume {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    color: rgba(247,241,232,0.85);
-}
-.loc-sel-resume strong { color: var(--creme); }
-
-/* Formulaire devis */
-.loc-devis-section {
-    background: var(--creme);
-    padding: 72px 40px;
-}
-.loc-devis-inner {
-    max-width: 720px;
-    margin: 0 auto;
-}
 /* ===================================================
    PAGE COMMANDE — Stepper multi-etapes
    =================================================== */
@@ -3021,8 +2360,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .cmd-step-desc { color: var(--brun); font-size: .9rem; margin-bottom: 1.5rem; }
 .cmd-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-.form-champ { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.2rem; }
-.form-champ label { font-size: .85rem; font-weight: 600; color: var(--bordeaux); }
 .form-champ input, .form-champ select, .form-champ textarea { padding: 10px 14px; border: 1.5px solid var(--beige); border-radius: 8px; background: #fff; font-size: .95rem; color: var(--dark); transition: border-color .2s; }
 .form-champ input:focus, .form-champ select:focus { outline: none; border-color: var(--bordeaux); }
 .input-readonly { background: var(--beige) !important; cursor: default; }
@@ -3048,7 +2385,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .btn-step-next:hover { background: #7a2323; }
 .btn-step-prev { background: transparent; color: var(--bordeaux); border: 1.5px solid var(--bordeaux); padding: 11px 22px; border-radius: 8px; font-size: .9rem; cursor: pointer; transition: background .2s; }
 .btn-step-prev:hover { background: var(--beige); }
-.btn-confirmer { background: var(--or); color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+.btn-confirmer { font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; background: var(--or); color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .2s; }
 .btn-confirmer:hover { background: #a8831f; }
 .btn-confirmer:disabled { background: #ccc; cursor: not-allowed; }
 
@@ -3096,7 +2433,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .carte-mini-tag { background: var(--beige); color: var(--brun); padding: 2px 10px; border-radius: 20px; font-size: .72rem; }
 .carte-stock-badge { position: absolute; top: 10px; right: 10px; background: rgba(92,26,26,.85); color: var(--or); padding: 3px 10px; border-radius: 20px; font-size: .72rem; font-weight: 600; backdrop-filter: blur(4px); }
 .carte-stock-badge--complet { background: rgba(100,100,100,.85); color: #fff; }
-.carte-img { position: relative; }
 
 .prix-range-wrapper { padding: 4px 0; }
 .prix-range-inputs { display: flex; align-items: center; gap: 6px; }
@@ -3296,6 +2632,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .panier-titre {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(28px, 5vw, 42px);
+    font-weight: 600;
     color: var(--bordeaux);
     margin-bottom: 6px;
 }
