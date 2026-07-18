@@ -7,6 +7,7 @@ Projet ECF — TP Développeur Web et Web Mobile (Studi)
 
 ## Présentation
 
+Projet de BAC +2 Developpeur Web et Web Mobile
 Site vitrine et de commande pour **Vite & Gourmand**, traiteur à Bordeaux depuis 1999.
 Permet aux visiteurs de consulter les menus, aux clients de passer commande et de déposer un avis.
 Inclut un espace employé (gestion des menus/plats/horaires/commandes/avis) et un espace administration
