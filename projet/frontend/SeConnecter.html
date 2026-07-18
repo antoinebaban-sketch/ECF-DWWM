@@ -83,6 +83,12 @@
                     <a href="#" class="auth-lien-oubli" id="lien-mdp-oublie">Mot de passe oublié ?</a>
                 </div>
 
+                <div class="form-champ" id="bloc-mdp-oublie" hidden>
+                    <label for="oubli-email">Recevoir un lien de réinitialisation</label>
+                    <input type="email" id="oubli-email" placeholder="votre@email.fr" autocomplete="email">
+                    <button type="button" class="btn-form-submit" id="btn-envoyer-oubli" style="margin-top:10px">Envoyer</button>
+                </div>
+
                 <p class="auth-erreur" id="erreur-login" hidden></p>
                 <p class="auth-info" id="info-login" hidden></p>
 
@@ -180,21 +186,35 @@
             }
         });
 
-        document.getElementById('lien-mdp-oublie').addEventListener('click', async e => {
+        document.getElementById('lien-mdp-oublie').addEventListener('click', e => {
             e.preventDefault();
-            const email = prompt('Entrez votre adresse email pour recevoir un lien de réinitialisation :');
-            if (!email) return;
+            const bloc = document.getElementById('bloc-mdp-oublie');
+            bloc.hidden = !bloc.hidden;
+            if (!bloc.hidden) document.getElementById('oubli-email').focus();
+        });
 
-            await fetch('/api/auth/forgot-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
+        document.getElementById('btn-envoyer-oubli').addEventListener('click', async () => {
+            const email = document.getElementById('oubli-email').value.trim();
+            if (!email) { document.getElementById('oubli-email').focus(); return; }
+            const btn = document.getElementById('btn-envoyer-oubli');
+            btn.disabled = true;
+            btn.textContent = 'Envoi…';
+
+            try {
+                await fetch('/api/auth/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+            } catch { /* on affiche le meme message quoi qu'il arrive, cf. ci-dessous */ }
 
             hideError('erreur-login');
+            document.getElementById('bloc-mdp-oublie').hidden = true;
             const info = document.getElementById('info-login');
             info.textContent = 'Si ce compte existe, un email de réinitialisation a été envoyé.';
             info.hidden = false;
+            btn.disabled = false;
+            btn.textContent = 'Envoyer';
         });
     </script>
     <script src="navbar.js"></script>
