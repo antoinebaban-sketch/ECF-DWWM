@@ -2337,6 +2337,12 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .catalogue-section { padding: 20px; }
     .catalogue-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
+    /* Boutons du modal detail menu : un peu plus compacts sur mobile */
+    .btn-counter { width: 26px; height: 26px; font-size: 0.875rem; }
+    #nb-personnes, #modal-nb { width: 36px; height: 26px; font-size: 0.75rem; }
+    .btn-panier-ajouter { padding: 10px 14px; font-size: 0.75rem; }
+    .btn-commander { padding: 10px 14px; font-size: 0.6875rem; flex: 1; }
+
     /* Modal */
     .modal-plat { grid-template-columns: minmax(0, 1fr); grid-template-rows: 220px 1fr; max-height: 95vh; min-width: 0; }
     .modal-info { padding: 20px; min-width: 0; }
