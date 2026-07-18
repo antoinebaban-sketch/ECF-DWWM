@@ -2345,6 +2345,52 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .contact-deux-col--inverse .contact-form { order: 0; }
     .form-ligne { grid-template-columns: 1fr; }
     .contact-titre { font-size: 1.875rem; }
+
+    /* Mon Compte : sidebar repliee sur l'avatar, revelee au survol/tap (CSS pur) */
+    .compte-main { grid-template-columns: 1fr; }
+    .compte-sidebar {
+        min-height: auto;
+        padding: 20px;
+        align-items: flex-start;
+        position: relative;
+        z-index: 20;
+    }
+    .compte-avatar { width: 44px; height: 44px; font-size: 1.125rem; margin-bottom: 0; }
+    .compte-nom,
+    .compte-email-affiché,
+    .compte-nav,
+    .btn-deconnexion,
+    #lien-admin-dashboard,
+    #lien-employe-dashboard {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        margin: 0;
+        pointer-events: none;
+        transition: opacity 0.15s, max-height 0.2s;
+    }
+    .compte-sidebar:hover .compte-nom,
+    .compte-sidebar:focus-within .compte-nom {
+        max-height: 32px; opacity: 1; margin-top: 12px;
+    }
+    .compte-sidebar:hover .compte-email-affiché,
+    .compte-sidebar:focus-within .compte-email-affiché {
+        max-height: 24px; opacity: 1; margin-bottom: 8px;
+    }
+    .compte-sidebar:hover .compte-nav,
+    .compte-sidebar:focus-within .compte-nav,
+    .compte-sidebar:hover .btn-deconnexion,
+    .compte-sidebar:focus-within .btn-deconnexion,
+    .compte-sidebar:hover #lien-admin-dashboard,
+    .compte-sidebar:focus-within #lien-admin-dashboard,
+    .compte-sidebar:hover #lien-employe-dashboard,
+    .compte-sidebar:focus-within #lien-employe-dashboard {
+        max-height: 600px;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 8px;
+    }
+    .compte-contenu { padding: 32px 20px; }
 }
 
 /* ====================================================
