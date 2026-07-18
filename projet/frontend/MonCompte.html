@@ -601,7 +601,8 @@
             const nouveau  = document.getElementById('s-nouveau').value;
             const confirm  = document.getElementById('s-confirm').value;
             const erreur   = document.getElementById('erreur-mdp-compte');
-            if (nouveau !== confirm) { erreur.hidden = false; return; }
+            if (!nouveau) { erreur.textContent = 'Veuillez saisir un nouveau mot de passe.'; erreur.hidden = false; return; }
+            if (nouveau !== confirm) { erreur.textContent = 'Les mots de passe ne correspondent pas.'; erreur.hidden = false; return; }
             erreur.hidden = true;
             try {
                 const res = await fetch('/api/utilisateurs/moi', {
