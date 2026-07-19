@@ -121,16 +121,60 @@
         @media (max-width: 1024px) {
             .stats-admin { grid-template-columns: 1fr 1fr; }
         }
+
+        .admin-burger { display: none; }
+        .admin-backdrop { display: none; }
+
         @media (max-width: 768px) {
             .admin-layout { grid-template-columns: 1fr; }
-            .admin-sidebar { display: none; }
             .admin-main { padding: 20px; }
+            .stats-admin { grid-template-columns: 1fr; }
+
+            .admin-sidebar {
+                position: fixed;
+                top: 0; left: 0;
+                width: 230px;
+                height: 100vh;
+                transform: translateX(-100%);
+                transition: transform .25s ease;
+                z-index: 1001;
+            }
+            .admin-sidebar.open { transform: translateX(0); }
+
+            .admin-backdrop.open {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1000;
+            }
+
+            .admin-topbar { align-items: center; gap: 12px; flex-wrap: nowrap; }
+            .admin-burger {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 5px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 4px;
+                width: 32px;
+                height: 32px;
+                flex-shrink: 0;
+            }
+            .admin-burger span { display: block; width: 22px; height: 2px; background: var(--bordeaux); border-radius: 2px; transition: transform .25s, opacity .25s; }
+            .admin-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .admin-burger.active span:nth-child(2) { opacity: 0; }
+            .admin-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
         }
 
     </style>
 </head>
 <body>
 <div class="admin-layout">
+
+    <div class="admin-backdrop" id="admin-backdrop"></div>
 
     <!-- ══ SIDEBAR ══ -->
     <aside class="admin-sidebar">
@@ -184,6 +228,9 @@
     <!-- ══ MAIN ══ -->
     <main class="admin-main">
         <div class="admin-topbar">
+            <button class="admin-burger" id="admin-burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
             <div>
                 <h1 class="admin-page-titre" id="page-titre">Tableau de bord</h1>
                 <p class="admin-page-sous" id="page-sous">Aperçu des activités et statistiques</p>
@@ -551,6 +598,20 @@
 const H = { 'Content-Type': 'application/json' };
 const e = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
+/* ── BURGER SIDEBAR (mobile) ── */
+const adminBurger   = document.getElementById('admin-burger');
+const adminSidebar  = document.querySelector('.admin-sidebar');
+const adminBackdrop = document.getElementById('admin-backdrop');
+function toggleAdminSidebar(open) {
+    const isOpen = open ?? !adminSidebar.classList.contains('open');
+    adminSidebar.classList.toggle('open', isOpen);
+    adminBackdrop.classList.toggle('open', isOpen);
+    adminBurger.classList.toggle('active', isOpen);
+    adminBurger.setAttribute('aria-expanded', isOpen);
+}
+adminBurger.addEventListener('click', () => toggleAdminSidebar());
+adminBackdrop.addEventListener('click', () => toggleAdminSidebar(false));
+
 /* ── Navigation ── */
 function nav(id, titre, sous, btn) {
     document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
@@ -559,6 +620,7 @@ function nav(id, titre, sous, btn) {
     btn.classList.add('active');
     document.getElementById('page-titre').textContent = titre;
     document.getElementById('page-sous').textContent  = sous;
+    if (window.innerWidth <= 768) toggleAdminSidebar(false);
 
     const loaders = { menus: chargerMenus, plats: chargerPlats, themes: chargerThemes, horaires: chargerHoraires, commandes: chargerCommandes, avis: chargerAvis, utilisateurs: chargerUtilisateurs, employes: chargerEmployes };
     if (loaders[id]) loaders[id]();
@@ -792,7 +854,7 @@ function remplirTableauCommandes(liste, tbId, colspan, avecActions) {
             <td>${fmtDate(c.date_prestation)}</td>
             ${avecActions ? `<td style="font-size:12px;max-width:140px">${e(c.adresse_livraison) || '—'}</td>` : ''}
             <td>${fmtPrix(c.prix_commande)}</td>
-            <td>${sbCmd(c.statut_commande)}</td>
+            <td>${sbCmd(c.statut_commande)}${c.retour_materiel_en_retard ? ` <span class="sb" style="background:#fee2e2;color:#991b1b;font-weight:700" title="Matériel non rendu depuis ${c.jours_depuis_retour} jours (retard > 10 j)">⚠ ${c.jours_depuis_retour}j</span>` : ''}</td>
             ${avecActions ? `<td>
                 <div class="btn-ad-group">
                     <select class="admin-filtre-bar select" id="sel-${c.commande_id}" style="padding:4px 8px;font-size:11px;border-radius:4px;border:1px solid #ddd">

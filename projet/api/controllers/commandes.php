@@ -99,10 +99,17 @@ function toutesCommandes(): void
     $sql = 'SELECT c.commande_id, c.nombre_personne, c.date_commande, c.date_prestation,
                    c.prix_commande, c.statut_commande, c.adresse_livraison, c.motif_annulation,
                    m.titre AS menu_titre,
-                   u.prenom, u.nom, u.email, u.telephone
+                   u.prenom, u.nom, u.email, u.telephone,
+                   h.date_retour_materiel
             FROM commande c
             LEFT JOIN menu m ON m.menu_id = c.menu_id
             LEFT JOIN utilisateur u ON u.utilisateur_id = c.client_id
+            LEFT JOIN (
+                SELECT commande_id, MAX(date_changement_statut) AS date_retour_materiel
+                FROM historique_commande
+                WHERE statut = \'retour_materiel\'
+                GROUP BY commande_id
+            ) h ON h.commande_id = c.commande_id
             WHERE ' . implode(' AND ', $where) . '
             ORDER BY c.date_commande DESC';
 
@@ -112,6 +119,14 @@ function toutesCommandes(): void
 
     foreach ($commandes as &$cmd) {
         $cmd['statut_label'] = STATUT_LABELS[$cmd['statut_commande']] ?? $cmd['statut_commande'];
+
+        // Alerte : matériel non rendu 10 jours après le passage en statut "retour_materiel"
+        $cmd['retour_materiel_en_retard'] = false;
+        if ($cmd['statut_commande'] === 'retour_materiel' && $cmd['date_retour_materiel']) {
+            $jours = (int)floor((time() - strtotime($cmd['date_retour_materiel'])) / 86400);
+            $cmd['jours_depuis_retour']      = $jours;
+            $cmd['retour_materiel_en_retard'] = $jours > 10;
+        }
     }
     jsonOk($commandes);
 }
