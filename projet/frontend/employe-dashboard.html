@@ -130,33 +130,29 @@
         .emp-message.err { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
         .emp-burger { display: none; }
-        .emp-backdrop { display: none; }
 
         @media (max-width: 900px) {
             .emp-layout { grid-template-columns: 1fr; }
             .emp-main   { padding: 20px; }
             .emp-kpis   { grid-template-columns: 1fr 1fr; }
 
+            /* Meme pattern que .compte-sidebar sur MonCompte.html : sidebar en
+               flux normal, contenu qui se replie en accordeon (pas de tiroir). */
             .emp-sidebar {
-                position: fixed;
-                top: 0; left: 0;
-                width: 220px;
-                height: 100vh;
-                transform: translateX(-100%);
-                transition: transform .25s ease;
-                z-index: 1001;
-            }
-            .emp-sidebar.open { transform: translateX(0); }
-
-            .emp-backdrop.open {
-                display: block;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,.45);
-                z-index: 1000;
+                min-height: auto;
+                height: auto;
+                padding: 16px 20px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                position: relative;
+                top: auto;
             }
 
-            .emp-topbar { flex-wrap: nowrap; gap: 12px; }
+            .emp-logo { text-align: left; padding: 0; border-bottom: none; margin-bottom: 0; font-size: 15px; }
+            .emp-logo .emp-badge, .emp-logo .emp-prenom { display: none; }
+
             .emp-burger {
                 display: flex;
                 flex-direction: column;
@@ -168,20 +164,46 @@
                 padding: 4px;
                 width: 32px;
                 height: 32px;
-                flex-shrink: 0;
+                order: 2;
             }
-            .emp-burger span { display: block; width: 22px; height: 2px; background: var(--bordeaux); border-radius: 2px; transition: transform .25s, opacity .25s; }
+            .emp-burger span { display: block; width: 22px; height: 2px; background: var(--or); border-radius: 2px; transition: transform .25s, opacity .25s; }
             .emp-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
             .emp-burger.active span:nth-child(2) { opacity: 0; }
             .emp-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+            .emp-nav, .emp-logout {
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                width: 100%;
+                order: 3;
+                margin: 0 !important;
+                pointer-events: none;
+                transition: opacity .15s, max-height .2s;
+            }
+            .emp-sidebar.open .emp-nav,
+            .emp-sidebar.open .emp-logout {
+                max-height: 600px;
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .emp-sidebar.open .emp-nav { margin-top: 16px !important; }
+            .emp-sidebar.open .emp-logout { margin-top: 12px !important; }
+
+            /* Tableaux : scroll horizontal plutot que contenu coupe */
+            .emp-tableau-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table.emp-table { min-width: 600px; }
+
+            /* Modale annulation : occupe la largeur dispo */
+            .emp-modal-box { padding: 22px; max-width: 92vw; max-height: 88vh; overflow-y: auto; }
+
+            .emp-filtre-bar input, .emp-filtre-bar select { flex: 1 1 140px; min-width: 0; }
         }
     </style>
 </head>
 <body>
 
 <div class="emp-layout">
-
-    <div class="emp-backdrop" id="emp-backdrop"></div>
 
     <!-- ══ SIDEBAR ══ -->
     <aside class="emp-sidebar">
@@ -190,6 +212,9 @@
             <span class="emp-badge">Espace Employé</span>
             <span class="emp-prenom" id="sb-prenom"></span>
         </div>
+        <button class="emp-burger" id="emp-burger" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <nav class="emp-nav">
             <button class="emp-nav-btn active" data-section="accueil" onclick="changerSection('accueil', this)">
                 <span class="emp-nav-ico">🏠</span> Accueil
@@ -214,9 +239,6 @@
     <!-- ══ MAIN ══ -->
     <main class="emp-main">
         <div class="emp-topbar">
-            <button class="emp-burger" id="emp-burger" aria-label="Ouvrir le menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
             <div>
                 <h1 class="emp-page-titre" id="page-titre">Accueil</h1>
                 <p class="emp-page-sous" id="page-sous">Bienvenue dans votre espace de travail</p>
@@ -400,18 +422,15 @@ const TITRES = {
 };
 
 /* ── BURGER SIDEBAR (mobile) ── */
-const empBurger   = document.getElementById('emp-burger');
-const empSidebar  = document.querySelector('.emp-sidebar');
-const empBackdrop = document.getElementById('emp-backdrop');
+const empBurger  = document.getElementById('emp-burger');
+const empSidebar = document.querySelector('.emp-sidebar');
 function toggleEmpSidebar(open) {
     const isOpen = open ?? !empSidebar.classList.contains('open');
     empSidebar.classList.toggle('open', isOpen);
-    empBackdrop.classList.toggle('open', isOpen);
     empBurger.classList.toggle('active', isOpen);
     empBurger.setAttribute('aria-expanded', isOpen);
 }
 empBurger.addEventListener('click', () => toggleEmpSidebar());
-empBackdrop.addEventListener('click', () => toggleEmpSidebar(false));
 
 function changerSection(id, btn) {
     document.querySelectorAll('.emp-section').forEach(s => s.classList.remove('active'));

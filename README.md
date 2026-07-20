@@ -1,7 +1,7 @@
 # Vite & Gourmand — Site Traiteur Bordeaux
 
 Projet ECF — TP Développeur Web et Web Mobile (Studi)
-**Antoine Baban** · 2026
+**Antoine Banzet** · 2026
 
 ---
 

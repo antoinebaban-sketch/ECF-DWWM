@@ -123,33 +123,31 @@
         }
 
         .admin-burger { display: none; }
-        .admin-backdrop { display: none; }
 
         @media (max-width: 768px) {
             .admin-layout { grid-template-columns: 1fr; }
             .admin-main { padding: 20px; }
             .stats-admin { grid-template-columns: 1fr; }
 
+            /* Meme pattern que .compte-sidebar sur MonCompte.html : la sidebar
+               devient une barre horizontale en flux normal (pas de position:fixed,
+               pas de backdrop), et son contenu se replie en accordeon plutot que
+               de glisser en tiroir. */
             .admin-sidebar {
-                position: fixed;
-                top: 0; left: 0;
-                width: 230px;
-                height: 100vh;
-                transform: translateX(-100%);
-                transition: transform .25s ease;
-                z-index: 1001;
-            }
-            .admin-sidebar.open { transform: translateX(0); }
-
-            .admin-backdrop.open {
-                display: block;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,.45);
-                z-index: 1000;
+                min-height: auto;
+                height: auto;
+                padding: 16px 20px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                position: relative;
+                top: auto;
             }
 
-            .admin-topbar { align-items: center; gap: 12px; flex-wrap: nowrap; }
+            .admin-logo { text-align: left; padding: 0; border-bottom: none; margin-bottom: 0; font-size: 16px; }
+            .admin-logo span { display: none; }
+
             .admin-burger {
                 display: flex;
                 flex-direction: column;
@@ -161,20 +159,47 @@
                 padding: 4px;
                 width: 32px;
                 height: 32px;
-                flex-shrink: 0;
+                order: 2;
             }
-            .admin-burger span { display: block; width: 22px; height: 2px; background: var(--bordeaux); border-radius: 2px; transition: transform .25s, opacity .25s; }
+            .admin-burger span { display: block; width: 22px; height: 2px; background: var(--or); border-radius: 2px; transition: transform .25s, opacity .25s; }
             .admin-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
             .admin-burger.active span:nth-child(2) { opacity: 0; }
             .admin-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+            .admin-nav, .admin-logout {
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                width: 100%;
+                order: 3;
+                margin: 0 !important;
+                pointer-events: none;
+                transition: opacity .15s, max-height .2s;
+            }
+            .admin-sidebar.open .admin-nav,
+            .admin-sidebar.open .admin-logout {
+                max-height: 600px;
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .admin-sidebar.open .admin-nav { margin-top: 16px !important; }
+            .admin-sidebar.open .admin-logout { margin-top: 12px !important; }
+
+            /* Tableaux : scroll horizontal plutot que contenu coupe */
+            .admin-tableau-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table.admin-table { min-width: 640px; }
+
+            /* Modales : occupent la largeur dispo plutot qu'un padding fixe trop large */
+            .ad-modal { padding: 22px; max-width: 92vw; max-height: 88vh; overflow-y: auto; }
+            .ad-modal-grid { grid-template-columns: 1fr; }
+
+            .admin-filtre-bar input, .admin-filtre-bar select { flex: 1 1 140px; }
         }
 
     </style>
 </head>
 <body>
 <div class="admin-layout">
-
-    <div class="admin-backdrop" id="admin-backdrop"></div>
 
     <!-- ══ SIDEBAR ══ -->
     <aside class="admin-sidebar">
@@ -183,6 +208,9 @@
             <span>Administration</span>
             <span class="admin-prenom" id="sb-prenom"></span>
         </div>
+        <button class="admin-burger" id="admin-burger" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <nav class="admin-nav">
             <div class="admin-nav-sep">Vue générale</div>
             <button class="admin-nav-btn active" data-section="dashboard" onclick="nav('dashboard','Tableau de bord','Aperçu des activités et statistiques',this)">
@@ -228,9 +256,6 @@
     <!-- ══ MAIN ══ -->
     <main class="admin-main">
         <div class="admin-topbar">
-            <button class="admin-burger" id="admin-burger" aria-label="Ouvrir le menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
             <div>
                 <h1 class="admin-page-titre" id="page-titre">Tableau de bord</h1>
                 <p class="admin-page-sous" id="page-sous">Aperçu des activités et statistiques</p>
@@ -599,18 +624,15 @@ const H = { 'Content-Type': 'application/json' };
 const e = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
 /* ── BURGER SIDEBAR (mobile) ── */
-const adminBurger   = document.getElementById('admin-burger');
-const adminSidebar  = document.querySelector('.admin-sidebar');
-const adminBackdrop = document.getElementById('admin-backdrop');
+const adminBurger  = document.getElementById('admin-burger');
+const adminSidebar = document.querySelector('.admin-sidebar');
 function toggleAdminSidebar(open) {
     const isOpen = open ?? !adminSidebar.classList.contains('open');
     adminSidebar.classList.toggle('open', isOpen);
-    adminBackdrop.classList.toggle('open', isOpen);
     adminBurger.classList.toggle('active', isOpen);
     adminBurger.setAttribute('aria-expanded', isOpen);
 }
 adminBurger.addEventListener('click', () => toggleAdminSidebar());
-adminBackdrop.addEventListener('click', () => toggleAdminSidebar(false));
 
 /* ── Navigation ── */
 function nav(id, titre, sous, btn) {
