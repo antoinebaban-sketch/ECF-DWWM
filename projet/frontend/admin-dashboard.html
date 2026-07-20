@@ -176,9 +176,11 @@
             .admin-burger.active span:nth-child(2) { opacity: 0; }
             .admin-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-            /* Tableaux : scroll horizontal plutot que contenu coupe */
+            /* Tableaux : la largeur naturelle du contenu decide. Pas de largeur
+               minimale forcee (un tableau simple comme Themes doit tenir sans
+               scroll) ; le scroll horizontal reste en secours si un tableau a
+               vraiment beaucoup de colonnes (Commandes, Utilisateurs...). */
             .admin-tableau-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            table.admin-table { min-width: 640px; }
 
             /* Modales : occupent la largeur dispo plutot qu'un padding fixe trop large */
             .ad-modal { padding: 22px; max-width: 92vw; max-height: 88vh; overflow-y: auto; }

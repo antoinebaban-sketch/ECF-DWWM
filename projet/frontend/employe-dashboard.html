@@ -185,9 +185,9 @@
             .emp-burger.active span:nth-child(2) { opacity: 0; }
             .emp-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-            /* Tableaux : scroll horizontal plutot que contenu coupe */
+            /* Tableaux : la largeur naturelle du contenu decide, pas de largeur
+               minimale forcee. Le scroll horizontal reste en secours si besoin. */
             .emp-tableau-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            table.emp-table { min-width: 600px; }
 
             /* Modale annulation : occupe la largeur dispo */
             .emp-modal-box { padding: 22px; max-width: 92vw; max-height: 88vh; overflow-y: auto; }
