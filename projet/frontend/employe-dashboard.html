@@ -131,10 +131,18 @@
 
         .emp-burger { display: none; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
+            .emp-kpis { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
             .emp-layout { grid-template-columns: 1fr; }
             .emp-main   { padding: 20px; }
-            .emp-kpis   { grid-template-columns: 1fr 1fr; }
+            .emp-kpis   { grid-template-columns: 1fr; }
+
+            /* Barre de titre de section : identique sur toutes les sections. */
+            .emp-topbar { flex-wrap: wrap; gap: 10px; }
+            .emp-page-titre { font-size: 22px; }
 
             /* Meme pattern que .compte-sidebar sur MonCompte.html : sidebar en
                flux normal, contenu qui se replie en accordeon (pas de tiroir). */

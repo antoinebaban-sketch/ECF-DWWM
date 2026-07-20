@@ -129,6 +129,12 @@
             .admin-main { padding: 20px; }
             .stats-admin { grid-template-columns: 1fr; }
 
+            /* Barre de titre de section : identique sur les 8 sections, un seul
+               correctif ici s'applique donc partout. */
+            .admin-topbar { flex-wrap: wrap; gap: 10px; }
+            .admin-page-titre { font-size: 22px; }
+            .admin-lien-site { margin-top: 0; }
+
             /* Meme pattern que .compte-sidebar sur MonCompte.html : la sidebar
                devient une barre horizontale en flux normal (pas de position:fixed,
                pas de backdrop), et son contenu se replie en accordeon plutot que
