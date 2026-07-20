@@ -10,7 +10,7 @@
         body { background: #f4f1ec; max-width: none; margin: 0; }
 
         /* ── Layout ── */
-        .emp-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+        .emp-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 100vh; }
 
         /* ── Sidebar ── */
         .emp-sidebar {
@@ -61,7 +61,7 @@
         @keyframes fadeInEmp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
         /* ── KPI Cards ── */
-        .emp-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .emp-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px; }
         .emp-kpi { background: #fff; border-radius: 8px; padding: 22px; border-left: 3px solid var(--or); }
         .emp-kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--brun); margin-bottom: 8px; }
         .emp-kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--bordeaux); line-height: 1; }
@@ -133,13 +133,13 @@
         .emp-backdrop { display: none; }
 
         @media (max-width: 1024px) {
-            .emp-kpis { grid-template-columns: 1fr 1fr; }
+            .emp-kpis { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .emp-layout { grid-template-columns: 1fr; }
+            .emp-layout { grid-template-columns: minmax(0, 1fr); }
             .emp-main   { padding: 20px; }
-            .emp-kpis   { grid-template-columns: 1fr; }
+            .emp-kpis   { grid-template-columns: minmax(0, 1fr); }
 
             /* Barre de titre de section : identique sur toutes les sections. */
             .emp-topbar { flex-wrap: wrap; gap: 10px; align-items: center; }

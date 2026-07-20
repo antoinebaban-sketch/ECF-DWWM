@@ -9,7 +9,7 @@
     <style>
         body { background: #f4f1ec; max-width: none; margin: 0; }
 
-        .admin-layout { display: grid; grid-template-columns: 230px 1fr; min-height: 100vh; }
+        .admin-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-height: 100vh; }
 
         /* Sidebar */
         .admin-sidebar { background: var(--bordeaux); padding: 32px 0; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
@@ -41,7 +41,7 @@
         @keyframes adFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
         /* KPIs */
-        .stats-admin { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .stats-admin { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 32px; }
         .stat-admin-card { background: #fff; border-radius: 8px; padding: 22px; border-left: 3px solid var(--or); }
         .stat-admin-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--brun); margin-bottom: 8px; }
         .stat-admin-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--bordeaux); line-height: 1; }
@@ -107,7 +107,7 @@
         .ad-modal .form-champ label { font-size: .85rem; font-weight: 600; color: var(--bordeaux); }
         .ad-modal .form-champ input { padding: 9px 14px; border: 1.5px solid #e5e0d5; border-radius: 8px; font-size: .9rem; }
         .ad-modal .form-champ input:focus { outline: none; border-color: var(--bordeaux); }
-        .ad-modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ad-modal-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
         .ad-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.2rem; }
         .btn-ad-modal { background: var(--bordeaux); color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
         .btn-ad-modal:hover { background: #7a2222; }
@@ -119,16 +119,16 @@
         .ad-flash.err { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
         @media (max-width: 1024px) {
-            .stats-admin { grid-template-columns: 1fr 1fr; }
+            .stats-admin { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         }
 
         .admin-burger { display: none; }
         .admin-backdrop { display: none; }
 
         @media (max-width: 768px) {
-            .admin-layout { grid-template-columns: 1fr; }
+            .admin-layout { grid-template-columns: minmax(0, 1fr); }
             .admin-main { padding: 20px; }
-            .stats-admin { grid-template-columns: 1fr; }
+            .stats-admin { grid-template-columns: minmax(0, 1fr); }
 
             /* Barre de titre de section : identique sur les 8 sections, un seul
                correctif ici s'applique donc partout. */
@@ -182,7 +182,7 @@
 
             /* Modales : occupent la largeur dispo plutot qu'un padding fixe trop large */
             .ad-modal { padding: 22px; max-width: 92vw; max-height: 88vh; overflow-y: auto; }
-            .ad-modal-grid { grid-template-columns: 1fr; }
+            .ad-modal-grid { grid-template-columns: minmax(0, 1fr); }
 
             .admin-filtre-bar input, .admin-filtre-bar select { flex: 1 1 140px; }
         }
