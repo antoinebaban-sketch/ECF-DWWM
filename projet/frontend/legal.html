@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-block">
+                <p class="tagline">Traiteur · Bordeaux · Depuis 1999</p>
+                <span class="logo-text">Vite et <em>Gourmand</em></span>
+                <p class="subtitle">L'art de la table, livré à votre porte.</p>
+            </div>
+        </div>
+        <nav class="navbar">
+            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
+            <ul class="navbar-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="MonCompte.html">Mon Compte</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-user" id="navbar-user" hidden>
+                <a href="MonCompte.html" class="navbar-user-link">
+                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
+                    <span id="navbar-user-prenom">Mon compte</span>
+                </a>
+                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
+            </div>
+            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar-mobile-cta">
+                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
+                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
+            </div>
+            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
+                <div class="navbar-mobile-user-info">
+                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
+                    <span id="navbar-mobile-prenom">Mon compte</span>
+                </div>
+                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
+                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="legal-container">
+            <h1 class="legal-titre">Mentions Légales</h1>
+            <p class="legal-maj">Dernière mise à jour : janvier 2026</p>
+
+            <section class="legal-section">
+                <h2>1. Éditeur du site</h2>
+                <p>Le présent site <strong>viteetgourmand.fr</strong> est édité par :</p>
+                <table class="legal-table">
+                    <tr><td>Raison sociale</td><td><strong>Vite et Gourmand</strong></td></tr>
+                    <tr><td>Forme juridique</td><td>Auto-entrepreneur</td></tr>
+                    <tr><td>Gérants</td><td>José et Julie Fernandez</td></tr>
+                    <tr><td>Adresse</td><td>12 rue des Chartrons, 33000 Bordeaux</td></tr>
+                    <tr><td>Téléphone</td><td>05 56 00 00 00</td></tr>
+                    <tr><td>Email</td><td>contact@viteetgourmand.fr</td></tr>
+                    <tr><td>SIRET</td><td>834 567 890 00012</td></tr>
+                    <tr><td>N° TVA intracommunautaire</td><td>FR83 834567890</td></tr>
+                </table>
+            </section>
+
+            <section class="legal-section">
+                <h2>2. Directeur de la publication</h2>
+                <p>José Fernandez, en qualité de gérant de Vite et Gourmand.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>3. Hébergement</h2>
+                <table class="legal-table">
+                    <tr><td>Hébergeur</td><td>OVHcloud SAS</td></tr>
+                    <tr><td>Adresse</td><td>2 rue Kellermann, 59100 Roubaix, France</td></tr>
+                    <tr><td>Site</td><td>www.ovhcloud.com</td></tr>
+                </table>
+            </section>
+
+            <section class="legal-section">
+                <h2>4. Propriété intellectuelle</h2>
+                <p>L'ensemble du contenu de ce site (textes, images, graphismes, logo) est la propriété exclusive de Vite et Gourmand et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.</p>
+                <p>Toute reproduction, représentation, modification ou distribution, même partielle, est strictement interdite sans autorisation écrite préalable de Vite et Gourmand.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>5. Données personnelles</h2>
+                <p>Le traitement de vos données personnelles est décrit dans notre <a href="rgpd.html" class="auth-lien">Politique de confidentialité</a>.</p>
+                <p>Responsable du traitement : José Fernandez, contact@viteetgourmand.fr</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>6. Cookies</h2>
+                <p>Ce site utilise uniquement des cookies techniques strictement nécessaires à son fonctionnement (maintien de session, panier). Aucun cookie de traçage publicitaire n'est déposé sans votre consentement.</p>
+                <p>Pour en savoir plus : <a href="rgpd.html#cookies" class="auth-lien">Politique cookies</a>.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>7. Liens hypertextes</h2>
+                <p>La création de liens hypertextes vers ce site est soumise à autorisation préalable. Vite et Gourmand se réserve le droit de demander la suppression d'un lien non autorisé.</p>
+                <p>Les liens vers des sites tiers sont fournis à titre informatif. Vite et Gourmand ne peut être tenu responsable de leur contenu.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>8. Droit applicable et juridiction</h2>
+                <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux de Bordeaux seront seuls compétents.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <strong class="logo-footer">Vite et <em>Gourmand</em></strong>
+            <p><em>L'art de la table, livré à votre porte</em></p>
+            <p>Traiteur à Bordeaux depuis 1999.<br>José et Julie — Passionnés de gastronomie.</p>
+            <p class="footer-copy">© 2026 Vite et Gourmand — Tous droits réservés</p>
+        </div>
+        <div class="footer-nav-section">
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Navigation</li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="menu.html">Nos Menus</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <ul class="footer-nav">
+                <li class="footer-nav-title">Légal</li>
+                <li><a href="legal.html" class="active">Mentions Légales</a></li>
+                <li><a href="cgv.html">CGV</a></li>
+                <li><a href="rgpd.html">RGPD</a></li>
+                <li><a href="accessibilite.html">Accessibilité</a></li>
+            </ul>
+            <table class="footer-horaires">
+                <caption>Horaires</caption>
+                <tbody id="footer-horaires-body">
+                    <tr><td>Lun – Ven</td><td>09h00 – 18h00</td></tr>
+                    <tr><td>Samedi</td><td>10h00 – 16h00</td></tr>
+                    <tr><td>Dimanche</td><td>Fermé</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <script src="navbar.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Employé — Vite et Gourmand</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="auth-main" style="background: var(--bordeaux); min-height: 100vh;">
+        <div class="auth-card">
+            <p class="contact-surtitre" style="text-align:center;">Espace réservé</p>
+            <h1 class="auth-titre" style="text-align:center;">Espace Employé</h1>
+            <div class="auth-sep" style="margin: 0 auto 32px;"></div>
+
+            <form class="auth-form" id="form-employe" novalidate>
+                <div class="form-champ">
+                    <label for="emp-email">Email</label>
+                    <input type="email" id="emp-email" placeholder="employe@viteetgourmand.fr" required autocomplete="username">
+                </div>
+                <div class="form-champ">
+                    <label for="emp-password">Mot de passe</label>
+                    <input type="password" id="emp-password" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <p class="auth-erreur" id="emp-erreur" hidden>Identifiants incorrects ou accès non autorisé.</p>
+                <button type="submit" class="btn-form-submit" id="btn-submit-emp" style="align-self:stretch; text-align:center;">
+                    Accéder à l'espace employé
+                </button>
+            </form>
+
+            <p class="auth-bas">
+                <a href="index.html" class="auth-lien" style="color: var(--brun);">← Retour au site</a>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        /* Déjà connecté en employé ou admin → redirection directe */
+        (async () => {
+            const res = await fetch('/api/auth/me', { credentials: 'include' });
+            if (!res.ok) return;
+            const user = await res.json();
+            if (user.role === 'employe' || user.role === 'administrateur') {
+                window.location.replace('employe-dashboard.html');
+            }
+        })();
+
+        document.getElementById('form-employe').addEventListener('submit', async e => {
+            e.preventDefault();
+            const email    = document.getElementById('emp-email').value.trim();
+            const password = document.getElementById('emp-password').value;
+            const erreur   = document.getElementById('emp-erreur');
+            const btn      = document.getElementById('btn-submit-emp');
+
+            btn.disabled    = true;
+            btn.textContent = 'Connexion…';
+            erreur.hidden   = true;
+
+            try {
+                const res  = await fetch('/api/auth/login', {
+                    method:      'POST',
+                    credentials: 'include',
+                    headers:     { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    if (data.role === 'employe' || data.role === 'administrateur') {
+                        window.location.href = 'employe-dashboard.html';
+                        return;
+                    }
+                    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                    erreur.textContent = 'Accès refusé : ce compte n\'a pas les droits employé.';
+                    erreur.hidden = false;
+                } else {
+                    erreur.textContent = data.error || 'Identifiants incorrects.';
+                    erreur.hidden = false;
+                }
+            } catch {
+                erreur.textContent = 'Service temporairement indisponible. Réessayez.';
+                erreur.hidden = false;
+            }
+
+            btn.disabled    = false;
+            btn.textContent = 'Accéder à l\'espace employé';
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
