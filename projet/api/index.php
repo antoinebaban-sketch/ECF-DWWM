@@ -17,6 +17,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // ─── Session (authentification) ──────────────────────────────────────────────
+// HttpOnly : le cookie PHPSESSID n'est jamais lisible en JS (protection XSS).
+// Secure   : détecté via HTTPS direct ou via le proxy TLS de l'hébergeur (Render
+//            termine le HTTPS en amont, la requête arrive en HTTP côté conteneur).
+// SameSite : "None" (+ Secure, obligatoire ensemble) uniquement en HTTPS pour
+//            autoriser le cookie sur les appels cross-origin avec credentials ;
+//            "Lax" en local HTTP où le cross-origin n'est pas utilisé.
+$https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+      || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'secure'   => $https,
+    'httponly' => true,
+    'samesite' => $https ? 'None' : 'Lax',
+]);
 session_start();
 
 // ─── Bootstrap ───────────────────────────────────────────────────────────────

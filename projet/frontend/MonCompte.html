@@ -72,7 +72,6 @@
                 <p class="compte-nav-groupe">Mon compte</p>
                 <button class="compte-nav-btn active" data-section="profil">Mon profil</button>
                 <button class="compte-nav-btn" data-section="preferences">Préférences alimentaires</button>
-                <button class="compte-nav-btn" data-section="adresses">Mes adresses</button>
                 <button class="compte-nav-btn" data-section="notifications">Notifications</button>
                 <button class="compte-nav-btn" data-section="securite">Sécurité</button>
                 <p class="compte-nav-groupe">Activité</p>
@@ -207,38 +206,6 @@
                     <p class="form-desc">La suppression est irréversible. Vos données personnelles seront effacées (vos commandes restent archivées à des fins comptables légales).</p>
                     <button type="button" class="btn-supprimer-compte" id="btn-supprimer">Supprimer mon compte</button>
                 </div>
-            </section>
-
-            <!-- Adresses -->
-            <section class="compte-section" id="section-adresses">
-                <h2 class="compte-section-titre">Mes adresses de livraison</h2>
-                <div class="contact-sep"></div>
-                <div id="adresses-liste" class="compte-cards-liste"></div>
-                <form class="auth-form" id="form-adresse" novalidate style="margin-top:32px;">
-                    <h3 class="compte-section-titre compte-section-titre--small">Ajouter une adresse</h3>
-                    <div class="form-champ">
-                        <label for="a-libelle">Libellé</label>
-                        <input type="text" id="a-libelle" placeholder="Ex : Domicile, Bureau…">
-                    </div>
-                    <div class="form-champ">
-                        <label for="a-adresse">Adresse</label>
-                        <input type="text" id="a-adresse" placeholder="12 rue des Chartrons">
-                    </div>
-                    <div class="form-ligne">
-                        <div class="form-champ">
-                            <label for="a-ville">Ville</label>
-                            <input type="text" id="a-ville" placeholder="Bordeaux">
-                        </div>
-                        <div class="form-champ">
-                            <label for="a-cp">Code postal</label>
-                            <input type="text" id="a-cp" placeholder="33000" maxlength="5">
-                        </div>
-                    </div>
-                    <div class="compte-form-actions">
-                        <button type="submit" class="btn-form-submit">Enregistrer l'adresse</button>
-                        <p class="form-confirmation" id="conf-adresse" hidden>Adresse ajoutée.</p>
-                    </div>
-                </form>
             </section>
 
             <!-- Notifications -->
@@ -498,7 +465,6 @@
                 btn.classList.add('active');
                 document.getElementById('section-' + btn.dataset.section).classList.add('active');
                 if (btn.dataset.section === 'avis')          chargerAvis();
-                if (btn.dataset.section === 'adresses')      chargerAdresses();
                 if (btn.dataset.section === 'notifications') chargerNotifs();
                 if (btn.dataset.section === 'preferences')   chargerPreferences();
                 sidebar.classList.remove('open');
@@ -956,46 +922,6 @@
                 a.href = url; a.download = 'mes-donnees-viteetgourmand.json';
                 a.click(); URL.revokeObjectURL(url);
             } catch { alert('Export non disponible pour le moment.'); }
-        });
-
-        /* ── ADRESSES DE LIVRAISON ── */
-        function chargerAdresses() {
-            const liste = document.getElementById('adresses-liste');
-            const adresses = JSON.parse(localStorage.getItem('vg_adresses') || '[]');
-            if (!adresses.length) {
-                liste.innerHTML = '<p class="commandes-vide">Aucune adresse enregistrée.</p>';
-                return;
-            }
-            liste.innerHTML = adresses.map((a, i) => `
-                <div class="commande-card" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;margin-bottom:10px;background:#fff;border:1.5px solid #d9c9b0;border-radius:10px;">
-                    <div>
-                        <p style="font-weight:600;color:var(--bordeaux);margin:0 0 4px">${escapeHtml(a.libelle || 'Adresse ' + (i + 1))}</p>
-                        <p style="font-size:13px;color:#555;margin:0">${escapeHtml(a.adresse)}, ${escapeHtml(a.cp)} ${escapeHtml(a.ville)}</p>
-                    </div>
-                    <button onclick="supprimerAdresse(${i})" style="border:none;background:none;color:#dc2626;cursor:pointer;font-size:18px;" title="Supprimer">✕</button>
-                </div>`).join('');
-        }
-
-        window.supprimerAdresse = function(index) {
-            const adresses = JSON.parse(localStorage.getItem('vg_adresses') || '[]');
-            adresses.splice(index, 1);
-            localStorage.setItem('vg_adresses', JSON.stringify(adresses));
-            chargerAdresses();
-        };
-
-        document.getElementById('form-adresse').addEventListener('submit', e => {
-            e.preventDefault();
-            const libelle = document.getElementById('a-libelle').value.trim();
-            const adresse = document.getElementById('a-adresse').value.trim();
-            const ville   = document.getElementById('a-ville').value.trim();
-            const cp      = document.getElementById('a-cp').value.trim();
-            if (!adresse || !ville) return;
-            const adresses = JSON.parse(localStorage.getItem('vg_adresses') || '[]');
-            adresses.push({ libelle, adresse, ville, cp });
-            localStorage.setItem('vg_adresses', JSON.stringify(adresses));
-            e.target.reset();
-            flashConfirm('conf-adresse');
-            chargerAdresses();
         });
 
         /* ── PRÉFÉRENCES ALIMENTAIRES ── */
