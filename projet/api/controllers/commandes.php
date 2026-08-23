@@ -202,6 +202,7 @@ function creerCommande(array $body): void
 
     $nbPersonnes = (int)$body['nombre_personne'];
     if ($nbPersonnes < $menu['nombre_personne_mini']) {
+        $pdo->rollBack();
         jsonError('Ce menu nécessite au minimum ' . $menu['nombre_personne_mini'] . ' personnes');
     }
 
@@ -457,6 +458,11 @@ function demanderFacture(array $body): void
     $cmd = $stmt->fetch();
     if (!$cmd) jsonError('Commande introuvable', 404);
 
+    // Email de réception éventuellement différent de celui du compte (facturation
+    // entreprise par ex.) — saisi dans le formulaire, à transmettre tel quel.
+    $emailReception = !empty($body['email']) ? sanitize($body['email']) : $cmd['email'];
+    $entreprise     = !empty($body['entreprise']) ? sanitize($body['entreprise']) : null;
+
     $html = mailTemplate(
         'Demande de facture — Commande n°' . $cmd['commande_id'],
         '<p>Bonjour,</p>
@@ -468,6 +474,8 @@ function demanderFacture(array $body): void
            <li>Montant : ' . number_format((float)$cmd['prix_commande'], 2, ',', ' ') . ' €</li>
            <li>Adresse : ' . htmlspecialchars($cmd['adresse'] . ', ' . $cmd['ville']) . '</li>
            <li>Email client : ' . htmlspecialchars($cmd['email']) . '</li>
+           <li>Email de réception souhaité : ' . htmlspecialchars($emailReception) . '</li>'
+           . ($entreprise ? '<li>Entreprise : ' . htmlspecialchars($entreprise) . '</li>' : '') . '
          </ul>
          ' . (!empty($body['commentaire']) ? '<p>Commentaire : ' . htmlspecialchars($body['commentaire']) . '</p>' : '')
     );
