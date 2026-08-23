@@ -277,9 +277,8 @@
         </div>
     </footer>
 
+    <script src="panier.js"></script>
     <script>
-    function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
     /* ── Filtres ── */
     const inputRecherche = document.getElementById('recherche-plat');
     const inputPrixMin   = document.getElementById('prix-min');
@@ -400,10 +399,10 @@
     /* ── Construction carte menu (depuis API) ── */
     function construireCarteMenu(menu) {
         const img    = (menu.images && menu.images[0]) || menu.image || 'images/avocat_bowl.png';
-        const theme  = menu.theme ? `<span class="carte-theme-tag">${esc(menu.theme)}</span>` : '';
+        const theme  = menu.theme ? `<span class="carte-theme-tag">${escapeHtml(menu.theme)}</span>` : '';
         const regimes = (menu.regimes || []).map(r => r.libelle || r).join(', ');
         const regBadge = regimes && regimes !== 'Sans régime particulier'
-            ? `<span class="carte-theme-tag carte-theme-tag--veggie">${esc(regimes)}</span>` : '';
+            ? `<span class="carte-theme-tag carte-theme-tag--veggie">${escapeHtml(regimes)}</span>` : '';
         const stock  = menu.quantite_restante > 0
             ? `<span class="carte-stock-badge">${menu.quantite_restante} disponibles</span>`
             : `<span class="carte-stock-badge carte-stock-badge--complet">Complet</span>`;
@@ -420,13 +419,13 @@
         a.dataset.personnesMini = menu.nombre_personne_mini;
         a.innerHTML = `
             <div class="carte-img">
-                <img src="${img}" alt="${esc(menu.titre)}">
+                <img src="${img}" alt="${escapeHtml(menu.titre)}">
                 ${stock}
             </div>
             <div class="carte-body">
                 <div class="carte-meta-row">${theme}${regBadge}<span class="carte-mini-tag">min. ${menu.nombre_personne_mini} pers.</span></div>
-                <h2 class="carte-titre">${esc(menu.titre)}</h2>
-                <p class="carte-desc">${esc(menu.description || '')}</p>
+                <h2 class="carte-titre">${escapeHtml(menu.titre)}</h2>
+                <p class="carte-desc">${escapeHtml(menu.description || '')}</p>
                 <div class="carte-footer">
                     <span class="carte-prix">${parseFloat(menu.prix_par_personne).toFixed(2).replace('.',',')} € / pers.</span>
                     <button class="btn-details">Détails et Commander</button>
@@ -611,13 +610,7 @@
             `commande.html?menu_id=${menuActuel.menu_id}&personnes=${nb}`;
     }
 
-    /* ── Panier ── */
-    function getPanier() { return JSON.parse(localStorage.getItem('vg_panier') || '[]'); }
-    function savePanier(p) {
-        localStorage.setItem('vg_panier', JSON.stringify(p));
-        const b = document.getElementById('panier-badge');
-        if (b) b.textContent = p.length;
-    }
+    /* ── Panier (getPanier/savePanier partagées, voir panier.js) ── */
     function majBtnPanier() {
         const btn = document.getElementById('btn-panier-modal');
         if (!btn || !menuActuel) return;

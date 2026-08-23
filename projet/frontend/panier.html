@@ -84,14 +84,9 @@
         </div>
     </footer>
 
+    <script src="panier.js"></script>
     <script>
-        /* ── PANIER ── */
-        function getPanier() { return JSON.parse(localStorage.getItem('vg_panier') || '[]'); }
-        function savePanier(p) {
-            localStorage.setItem('vg_panier', JSON.stringify(p));
-            document.getElementById('panier-badge').textContent = p.length;
-        }
-
+        /* ── PANIER (getPanier/savePanier partagées, voir panier.js) ── */
         function rendrePanier() {
             const panier   = getPanier();
             const liste    = document.getElementById('panier-liste');

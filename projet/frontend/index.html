@@ -182,8 +182,6 @@
     </footer>
 
     <script>
-        function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
         /* ── AVIS CLIENTS ── */
         const COULEURS_AVATAR = ['#6B8F5E','#8B6914','#4A6B8A','#7B5EA7','#C0644A','#4A7B7B'];
 
@@ -204,14 +202,14 @@
             div.className = 'avis-card';
             div.innerHTML = `
                 <div class="avis-header">
-                    <span class="avis-avatar" style="background:${couleur};">${esc(initiale)}</span>
+                    <span class="avis-avatar" style="background:${couleur};">${escapeHtml(initiale)}</span>
                     <div>
-                        <strong>${esc(prenom)}</strong>
+                        <strong>${escapeHtml(prenom)}</strong>
                         <span class="avis-date">${formatDate(avis.date_avis)}</span>
                     </div>
                 </div>
                 <div class="avis-stars">${etoiles(avis.note)}</div>
-                <p class="avis-texte">« ${esc(avis.description)} »</p>`;
+                <p class="avis-texte">« ${escapeHtml(avis.description)} »</p>`;
             return div;
         }
 
