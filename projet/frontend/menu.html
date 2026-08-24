@@ -22,50 +22,7 @@
                 <img src="images/filet_poulet.png" alt="Filet de poulet grillé aux herbes fraîches">
             </div>
         </div>
-        <nav class="navbar">
-            <span class="navbar-logo">Vite et <em>Gourmand</em></span>
-            <ul class="navbar-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="menu.html" class="active">Nos Menus</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="MonCompte.html">Mon Compte</a></li>
-            </ul>
-            <a href="panier.html" class="btn-panier" id="btn-panier-nav"><span class="panier-ico">🛒</span> Mon panier <span class="panier-badge" id="panier-badge">0</span></a>
-            <div class="navbar-cta">
-                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
-                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
-            </div>
-            <div class="navbar-user" id="navbar-user" hidden>
-                <a href="MonCompte.html" class="navbar-user-link">
-                    <span class="navbar-user-avatar" id="navbar-user-avatar">?</span>
-                    <span id="navbar-user-prenom">Mon compte</span>
-                </a>
-                <button class="navbar-user-deco" id="navbar-deco-btn">Déconnexion</button>
-            </div>
-            <button class="navbar-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-        </nav>
-        <nav class="navbar-mobile" id="mobile-nav" aria-hidden="true">
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="menu.html" class="active">Nos Menus</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="MonCompte.html">Mon Compte</a></li>
-            </ul>
-            <div class="navbar-mobile-cta">
-                <a href="SeConnecter.html" class="btn-outline">Se connecter</a>
-                <a href="SInscrire.html" class="btn-filled">S'inscrire</a>
-            </div>
-            <div class="navbar-mobile-user" id="navbar-mobile-user" hidden>
-                <div class="navbar-mobile-user-info">
-                    <span class="navbar-user-avatar" id="navbar-mobile-avatar">?</span>
-                    <span id="navbar-mobile-prenom">Mon compte</span>
-                </div>
-                <a href="MonCompte.html" class="btn-outline" style="text-align:center">Mon Compte</a>
-                <button class="navbar-user-deco" id="navbar-mobile-deco-btn" style="width:100%">Déconnexion</button>
-            </div>
-        </nav>
+        <script src="navbar-inject.js"></script>
     </header>
 
     <main>
@@ -320,16 +277,8 @@
         </div>
     </footer>
 
+    <script src="panier.js"></script>
     <script>
-    function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
-    /* ── Badge panier ── */
-    (function() {
-        const p = JSON.parse(localStorage.getItem('vg_panier') || '[]');
-        const b = document.getElementById('panier-badge');
-        if (b) b.textContent = p.length;
-    })();
-
     /* ── Filtres ── */
     const inputRecherche = document.getElementById('recherche-plat');
     const inputPrixMin   = document.getElementById('prix-min');
@@ -450,10 +399,10 @@
     /* ── Construction carte menu (depuis API) ── */
     function construireCarteMenu(menu) {
         const img    = (menu.images && menu.images[0]) || menu.image || 'images/avocat_bowl.png';
-        const theme  = menu.theme ? `<span class="carte-theme-tag">${esc(menu.theme)}</span>` : '';
+        const theme  = menu.theme ? `<span class="carte-theme-tag">${escapeHtml(menu.theme)}</span>` : '';
         const regimes = (menu.regimes || []).map(r => r.libelle || r).join(', ');
         const regBadge = regimes && regimes !== 'Sans régime particulier'
-            ? `<span class="carte-theme-tag carte-theme-tag--veggie">${esc(regimes)}</span>` : '';
+            ? `<span class="carte-theme-tag carte-theme-tag--veggie">${escapeHtml(regimes)}</span>` : '';
         const stock  = menu.quantite_restante > 0
             ? `<span class="carte-stock-badge">${menu.quantite_restante} disponibles</span>`
             : `<span class="carte-stock-badge carte-stock-badge--complet">Complet</span>`;
@@ -470,13 +419,13 @@
         a.dataset.personnesMini = menu.nombre_personne_mini;
         a.innerHTML = `
             <div class="carte-img">
-                <img src="${img}" alt="${esc(menu.titre)}">
+                <img src="${img}" alt="${escapeHtml(menu.titre)}">
                 ${stock}
             </div>
             <div class="carte-body">
                 <div class="carte-meta-row">${theme}${regBadge}<span class="carte-mini-tag">min. ${menu.nombre_personne_mini} pers.</span></div>
-                <h2 class="carte-titre">${esc(menu.titre)}</h2>
-                <p class="carte-desc">${esc(menu.description || '')}</p>
+                <h2 class="carte-titre">${escapeHtml(menu.titre)}</h2>
+                <p class="carte-desc">${escapeHtml(menu.description || '')}</p>
                 <div class="carte-footer">
                     <span class="carte-prix">${parseFloat(menu.prix_par_personne).toFixed(2).replace('.',',')} € / pers.</span>
                     <button class="btn-details">Détails et Commander</button>
@@ -661,13 +610,7 @@
             `commande.html?menu_id=${menuActuel.menu_id}&personnes=${nb}`;
     }
 
-    /* ── Panier ── */
-    function getPanier() { return JSON.parse(localStorage.getItem('vg_panier') || '[]'); }
-    function savePanier(p) {
-        localStorage.setItem('vg_panier', JSON.stringify(p));
-        const b = document.getElementById('panier-badge');
-        if (b) b.textContent = p.length;
-    }
+    /* ── Panier (getPanier/savePanier partagées, voir panier.js) ── */
     function majBtnPanier() {
         const btn = document.getElementById('btn-panier-modal');
         if (!btn || !menuActuel) return;
