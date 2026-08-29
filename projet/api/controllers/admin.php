@@ -53,36 +53,40 @@ function creerEmploye(array $body): void
     $dup->execute([sanitizeEmail($body['email'])]);
     if ($dup->fetch()) jsonError('Cet email est déjà utilisé', 409);
 
-    // Mot de passe temporaire aléatoire
-    $tmpPwd  = ucfirst(bin2hex(random_bytes(4))) . '!' . random_int(10, 99);
-    $hash    = hashPassword($tmpPwd);
+    // Pas de mot de passe transmis par l'admin ni envoyé par email : le compte est créé
+    // avec un mot de passe aléatoire jamais communiqué à personne (login impossible tant
+    // qu'il n'est pas remplacé), et un jeton d'activation à usage unique — même mécanisme
+    // que "mot de passe oublié" (resetPassword), réutilisé tel quel pour ce premier réglage.
+    $hash    = hashPassword(bin2hex(random_bytes(32)));
+    $token   = bin2hex(random_bytes(32));
+    $expires = date('Y-m-d H:i:s', time() + 48 * 3600); // 48h, plus large que le "mot de passe oublié" (1h) car pas d'urgence
 
     $pdo->prepare('
-        INSERT INTO utilisateur (email, password, prenom, nom, telephone, ville, pays, adresse, role_id, statut_compte, date_creation, consentement_rgpd)
-        VALUES (?, ?, ?, ?, ?, \'\', \'France\', \'\', 2, 1, CURDATE(), 1)
+        INSERT INTO utilisateur (email, password, prenom, nom, telephone, ville, pays, adresse, role_id, statut_compte, date_creation, consentement_rgpd, reset_token, reset_token_expires)
+        VALUES (?, ?, ?, ?, ?, \'\', \'France\', \'\', 2, 1, CURDATE(), 1, ?, ?)
     ')->execute([
         sanitizeEmail($body['email']),
         $hash,
         sanitize($body['prenom']),
         sanitize($body['nom']),
         sanitize($body['telephone']),
+        $token,
+        $expires,
     ]);
 
-    // Mail de notification avec le mot de passe temporaire
+    // Mail d'activation — l'employé choisit lui-même son mot de passe, jamais vu par l'admin
+    $lien = APP_URL . '/reset-password.html?token=' . $token;
     $html = mailTemplate(
         'Votre compte employé Vite & Gourmand',
         '<p>Bonjour <strong>' . htmlspecialchars($body['prenom']) . '</strong>,</p>
          <p>Un compte employé a été créé pour vous sur le portail Vite &amp; Gourmand.</p>
-         <table style="width:100%;border-collapse:collapse;margin:16px 0">
-           <tr><td style="padding:8px;border-bottom:1px solid #ede3d0"><strong>Email</strong></td><td style="padding:8px;border-bottom:1px solid #ede3d0">' . htmlspecialchars($body['email']) . '</td></tr>
-           <tr><td style="padding:8px"><strong>Mot de passe temporaire</strong></td><td style="padding:8px"><code style="background:#f7f1e8;padding:2px 6px;border-radius:3px">' . $tmpPwd . '</code></td></tr>
-         </table>
-         <p><strong>Changez votre mot de passe dès votre première connexion.</strong></p>
-         <p><a href="' . APP_URL . '/employe.html" style="background:#5C1A1A;color:#C49A2D;padding:10px 20px;text-decoration:none;border-radius:4px">Accéder à l\'espace employé</a></p>'
+         <p>Cliquez sur le lien ci-dessous pour choisir votre mot de passe (valable 48 heures) :</p>
+         <p><a href="' . $lien . '" style="background:#5C1A1A;color:#C49A2D;padding:10px 20px;text-decoration:none;border-radius:4px">Définir mon mot de passe</a></p>
+         <p>Une fois votre mot de passe défini, connectez-vous depuis : <a href="' . APP_URL . '/employe.html">' . APP_URL . '/employe.html</a></p>'
     );
     sendMail($body['email'], 'Votre compte employé — Vite & Gourmand', $html);
 
-    jsonOk(['message' => 'Compte employé créé. Un email avec le mot de passe temporaire a été envoyé.'], 201);
+    jsonOk(['message' => 'Compte employé créé. Un email d\'activation a été envoyé.'], 201);
 }
 
 function toggleCompte(int $id, bool $actif): void
