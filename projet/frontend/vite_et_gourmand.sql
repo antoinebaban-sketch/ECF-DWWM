@@ -10,7 +10,7 @@
 --   sophie.b@email.fr         / Client2026!
 --   pierre.d@email.fr         / Client2026!
 --
--- ⚠ Exécuter setup_admin.php?secret=vg-setup-2026 après import
+-- Exécuter setup_admin.php?secret=vg-setup-2026 après import
 --   pour générer les vrais hash bcrypt.
 -- ============================================================
 
@@ -471,7 +471,7 @@ CREATE TABLE `commande` (
 INSERT INTO `commande`
   (`client_id`, `menu_id`, `nombre_personne`, `date_commande`, `date_prestation`, `theme_id`, `prix_commande`, `statut_commande`, `employe_id`, `adresse_livraison`)
 VALUES
--- CMD1 : Jean, Menu Prestige, 30 pers, terminée ✅
+-- CMD1 : Jean, Menu Prestige, 30 pers, terminée
 (3, 1, 30, '2026-01-10', '2026-02-14 19:00:00', 1, 2550.00, 'terminée',       2, '24 rue du Palais Gallien, 33000 Bordeaux'),
 -- CMD2 : Sophie, Menu Végétarien, 12 pers, acceptée
 (4, 2, 12, '2026-05-20', '2026-07-12 12:30:00', 2,  540.00, 'acceptée',       2, '8 avenue de la République, 33700 Mérignac'),
@@ -673,8 +673,8 @@ GROUP BY m.menu_id, m.titre;
 COMMIT;
 
 -- ============================================================
--- ✅ Import terminé.
--- ⚠ ÉTAPE SUIVANTE : ouvrir dans le navigateur —
+-- Import terminé.
+-- ÉTAPE SUIVANTE : ouvrir dans le navigateur —
 --   http://localhost/ViteEtGourmand/projet/api/setup_admin.php?secret=vg-setup-2026
 -- Cela génère les vrais hash bcrypt pour tous les comptes.
 -- ============================================================
