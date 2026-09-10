@@ -12,7 +12,7 @@ Permet aux visiteurs de consulter les menus, aux clients de passer commande et d
 Inclut un espace employé (gestion des menus/plats/horaires/commandes/avis) et un espace administration
 (gestion des comptes employés, statistiques).
 
-📄 Choix techniques et justifications détaillées : voir le **dossier technique**.
+📄 Choix techniques et justifications détaillées : voir le **dossier technique** (document séparé).
 
 ---
 
@@ -22,10 +22,10 @@ Inclut un espace employé (gestion des menus/plats/horaires/commandes/avis) et u
 |-------------|-------------|
 | Frontend    | HTML5 · CSS3 (custom properties) · JavaScript vanilla |
 | Backend     | PHP 8.1 · PDO · API REST JSON (sans framework) |
-| Base SQL    | MySQL 8 · InnoDB · utf8mb4 |
-| Base NoSQL  | MongoDB (statistiques admin) |
-| Auth        | Sessions PHP · bcrypt cost 12 |
-| Emails      | PHP `mail()` |
+| Base SQL    | MySQL 8+ · InnoDB · utf8mb4 |
+| Base NoSQL  | MongoDB (statistiques admin uniquement) |
+| Auth        | Sessions PHP (cookie `HttpOnly`) · bcrypt cost 12 |
+| Emails      | `mail()` natif en local · API Brevo en production |
 
 ---
 
@@ -37,26 +37,32 @@ projet/
 │   ├── index.html              Accueil
 │   ├── menu.html                Catalogue des menus
 │   ├── commande.html            Tunnel de commande
+│   ├── panier.html              Liste de sélection de menus
 │   ├── contact.html             Contact / devis
 │   ├── MonCompte.html           Espace client
 │   ├── SeConnecter.html         Connexion
 │   ├── SInscrire.html           Inscription
-│   ├── reset-password.html      Réinitialisation mot de passe
-│   ├── employe.html             Login espace employé
-│   ├── employe-dashboard.html   Dashboard employé
-│   ├── admin.html               Login administration
-│   ├── admin-dashboard.html     Dashboard admin
-│   ├── style.css                Feuille de styles
-│   ├── navbar.js                Navigation partagée
+│   ├── reset-password.html      Réinitialisation / définition du mot de passe
+│   ├── employe.html             Connexion espace employé
+│   ├── employe-dashboard.html   Tableau de bord employé
+│   ├── admin.html               Connexion administration
+│   ├── admin-dashboard.html     Tableau de bord admin
+│   ├── cgv.html · rgpd.html · legal.html · accessibilite.html   Pages légales
+│   ├── style.css                Feuille de styles unique
+│   ├── navbar-inject.js         Génère et injecte le HTML de la navbar (source unique)
+│   ├── navbar.js                Comportement navbar : burger, état connecté, badge panier
+│   ├── panier.js                Utilitaires panier partagés (localStorage)
 │   ├── images/                  Assets visuels
 │   └── vite_et_gourmand.sql     Schéma SQL + données de test
 │
 └── api/               ← Backend PHP
-    ├── index.php            Routeur principal
-    ├── config.php           Config DB/mail/Mongo
-    ├── helpers.php          Réponses JSON, auth, validations
-    ├── mongodb.php          Connexion MongoDB
-    ├── .env.example         Variables d'environnement (template)
+    ├── index.php            Routeur principal (Front Controller)
+    ├── config.php           Connexion BDD / mail / Mongo
+    ├── helpers.php          Réponses JSON, authentification, validations
+    ├── mongodb.php          Connexion MongoDB + dégradation gracieuse
+    ├── .env.example         Variables d'environnement (modèle)
+    ├── aiven-ca.pem         Certificat SSL MySQL (production Aiven)
+    ├── Dockerfile · docker-entrypoint.sh   Image de déploiement
     └── controllers/
         ├── auth.php
         ├── menus.php
@@ -71,11 +77,12 @@ projet/
         ├── horaires.php
         └── contact.php
 
-utile/
-├── Diagramme ER Vite et gourmand.png
-├── Diagramme de classes
-├── Diagrammes de séquence
-├── charte_graphique_vite_et_gourmand.pdf
+utile/   (livrables de conception — hors dépôt)
+├── diagramme_classes.png
+├── diagramme_utilisation.png
+├── diagramme_sequence_connexion.png
+├── diagramme_sequence_commande.png
+├── charte_graphique_complete.pdf
 └── Wireframes vite et gourmand/
 ```
 
@@ -91,12 +98,11 @@ utile/
 
 ### 1. Base de données
 
-```sql
-CREATE DATABASE vite_et_gourmand CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+Le fichier `vite_et_gourmand.sql` crée lui-même la base (`DROP` puis `CREATE DATABASE`) —
+l'importer **sans** préciser de base de données :
 
 ```bash
-mysql --default-character-set=utf8mb4 -u root -p vite_et_gourmand < projet/frontend/vite_et_gourmand.sql
+mysql --default-character-set=utf8mb4 -u root -p < projet/frontend/vite_et_gourmand.sql
 ```
 
 ⚠️ Le paramètre `--default-character-set=utf8mb4` est important : sans lui, l'import peut
@@ -110,16 +116,21 @@ cp projet/api/.env.example projet/api/.env
 
 ```env
 DB_HOST=localhost
+DB_PORT=3306
 DB_NAME=vite_et_gourmand
 DB_USER=root
 DB_PASS=votre_mot_de_passe
+
 MAIL_FROM=noreply@viteetgourmand.fr
 MAIL_NAME=Vite & Gourmand
 APP_URL=http://localhost/ViteEtGourmand/projet/frontend
 
-# MongoDB (optionnel — laisser vide pour désactiver le graphique admin)
+# MongoDB — laisser vide pour désactiver le graphique admin (l'app fonctionne sans)
 MONGO_URI=
 MONGO_DB=vite_et_gourmand_logs
+
+# Brevo — laisser vide en local : le code utilise mail() nativement
+BREVO_API_KEY=
 ```
 
 ### 3. Initialisation des mots de passe
@@ -191,9 +202,12 @@ PUT    /api/avis/{id}/validation        → employé/admin
 GET    /api/admin/stats
 GET    /api/admin/utilisateurs
 POST   /api/admin/employes
+PUT    /api/admin/employes/{id}/desactiver     → admin
+PUT    /api/admin/employes/{id}/activer        → admin
 
 POST   /api/contact
 POST   /api/devis
+POST   /api/factures                    → demande de facture (client)
 ```
 
 ---
@@ -208,13 +222,15 @@ Démarche complète et justifications : voir le **dossier technique**, section D
 
 ---
 
-## Branches Git
+## Organisation Git
 
 | Branche     | Usage |
 |-------------|-------|
 | `main`      | Code stable / production |
 | `develop`   | Intégration des fonctionnalités |
-| `feature/*` | Une branche par fonctionnalité, fusionnée dans `develop` après test |
+
+Projet réalisé en solo : les commits sont faits directement sur `develop` avec des
+messages atomiques et descriptifs, puis fusionnés dans `main` pour les versions stables.
 
 ---
 
