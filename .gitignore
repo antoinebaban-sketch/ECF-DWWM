@@ -19,5 +19,10 @@ Thumbs.db
 /utile/
 /RH_archive/
 
+# Sources de génération des livrables PDF (le rendu final est dans docs/)
+/_assets/
+/livrables/
+/*.html
+
 # Dossier technique perso — notes de préparation à l'oral, ne doit jamais être public
 /ECF PROJET/
