@@ -13,9 +13,12 @@ html { font-size: 100%; }
     --beige: #EDE3D0;
     --brun: #8B7355;
     --dark: #1A0808;
+    --texte: #2C1810;
     --orange-icon: #C97B1A;
     --radius: 12px;
     --page-gutter: 40px;
+    --font-titre: 'Cormorant Garamond', serif;
+    --font-corps: 'DM Sans', sans-serif;
 }
 
 *, *::before, *::after {
@@ -29,9 +32,9 @@ html, body {
 }
 
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     background: var(--creme);
-    color: var(--dark);
+    color: var(--texte);
     max-width: 1600px;
     margin: 0 auto;
 }
@@ -61,7 +64,7 @@ body {
 }
 
 .logo-block .logo-text {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.875rem;
     color: var(--creme);
     line-height: 1.1;
@@ -106,7 +109,7 @@ body {
 }
 
 .navbar-logo {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.625rem;
     color: var(--bordeaux);
     white-space: nowrap;
@@ -155,7 +158,7 @@ body {
     padding: 8px 16px;
     border: 1.5px solid var(--bordeaux);
     border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -260,7 +263,7 @@ body {
     border-radius: 4px;
     font-size: 0.625rem;
     font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     letter-spacing: 1px;
     text-transform: uppercase;
     cursor: pointer;
@@ -278,7 +281,7 @@ body {
     border-radius: 4px;
     font-size: 0.625rem;
     font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     letter-spacing: 1px;
     text-transform: uppercase;
     cursor: pointer;
@@ -296,7 +299,7 @@ body {
     border-radius: 4px;
     font-size: 0.625rem;
     font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
@@ -405,7 +408,7 @@ body {
 }
 
 .hero-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 4.25rem;
     font-weight: 400;
     line-height: 1.05;
@@ -426,7 +429,7 @@ body {
 }
 
 .hero-subtitle {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-style: italic;
     font-size: 1.0625rem;
     line-height: 1.6;
@@ -480,7 +483,7 @@ body {
 .plat-card-nom {
     font-size: 0.6875rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--texte);
     line-height: 1.4;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -547,7 +550,7 @@ body {
 
 .avis-header strong {
     font-size: 0.8125rem;
-    color: var(--dark);
+    color: var(--texte);
     display: block;
 }
 
@@ -561,7 +564,7 @@ body {
 }
 
 .avis-texte {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-style: italic;
     font-size: 0.875rem;
     line-height: 1.6;
@@ -602,7 +605,7 @@ body {
 }
 
 .stat-chiffre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-style: italic;
     font-size: 5rem;
     font-weight: 400;
@@ -655,7 +658,7 @@ footer {
 }
 
 .logo-footer {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.625rem;
     color: var(--creme);
     display: block;
@@ -754,6 +757,7 @@ footer {
     overflow: hidden;
     display: grid;
     grid-template-columns: 42% 1fr;
+    grid-template-rows: minmax(0, 1fr); /* borne la hauteur de la ligne pour que .modal-info puisse défiler en interne */
     max-width: 880px;
     width: 100%;
     max-height: 88vh;
@@ -793,6 +797,7 @@ footer {
     flex-direction: column;
     overflow: hidden;
     height: 100%;
+    min-height: 0;
 }
 
 #modal-img {
@@ -806,13 +811,14 @@ footer {
 .modal-info {
     padding: 32px 28px 28px;
     overflow-y: auto;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
 .modal-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.375rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -872,7 +878,7 @@ footer {
 }
 
 .modal-prix-total {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.875rem;
     color: var(--or);
     font-weight: 600;
@@ -886,7 +892,7 @@ footer {
     text-decoration: none;
     padding: 12px 20px;
     border-radius: 6px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     font-weight: 700;
     text-align: center;
@@ -945,9 +951,9 @@ footer {
 .filtre-search {
     background: none;
     border: none;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
-    color: var(--dark);
+    color: var(--texte);
     outline: none;
     width: 130px;
 }
@@ -985,9 +991,9 @@ input[type="range"]::-webkit-slider-thumb {
 .filtre-select {
     background: none;
     border: none;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
-    color: var(--dark);
+    color: var(--texte);
     outline: none;
     cursor: pointer;
     -webkit-appearance: none;
@@ -1016,7 +1022,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 30px;
     font-size: 1rem;
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1032,7 +1038,7 @@ input[type="range"]::-webkit-slider-thumb {
     border: none;
     border-left: 1px solid var(--or);
     border-right: 1px solid var(--or);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: var(--bordeaux);
     font-weight: 600;
@@ -1045,7 +1051,7 @@ input[type="range"]::-webkit-slider-thumb {
     color: var(--bordeaux);
     border: none;
     padding: 11px 28px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 700;
     border-radius: 6px;
@@ -1110,7 +1116,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .carte-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.0625rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -1145,7 +1151,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     text-decoration: none;
     padding: 7px 16px;
     border-radius: 4px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -1176,7 +1182,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .menus-pop-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 2.25rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -1256,7 +1262,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .carousel-card-commandes {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1265,7 +1271,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .carousel-card-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.625rem;
     font-weight: 600;
     color: var(--creme);
@@ -1273,7 +1279,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .carousel-card-desc {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     color: rgba(247,241,232,0.7);
     line-height: 1.7;
@@ -1287,7 +1293,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .carousel-card-prix {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.375rem;
     color: var(--or);
     font-weight: 600;
@@ -1342,7 +1348,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .auth-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 2rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -1365,7 +1371,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .auth-lien-oubli {
     display: block;
     text-align: right;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: var(--bordeaux);
     text-decoration: none;
@@ -1386,7 +1392,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .auth-bas {
     margin-top: 28px;
     text-align: center;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: var(--brun);
 }
@@ -1408,7 +1414,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: var(--brun);
     cursor: pointer;
@@ -1427,7 +1433,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .auth-erreur {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: #c0392b;
     background: #fdecea;
@@ -1437,7 +1443,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .auth-info {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: #1e7a4a;
     background: #e8f6ee;
@@ -1476,7 +1482,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     border-radius: 50%;
     background: var(--or);
     color: var(--bordeaux);
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 2rem;
     font-weight: 600;
     display: flex;
@@ -1486,7 +1492,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .compte-nom {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.25rem;
     color: var(--creme);
     font-weight: 600;
@@ -1495,7 +1501,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .compte-email-affiché {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: rgba(247,241,232,0.5);
     text-align: center;
@@ -1511,7 +1517,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .compte-nav-groupe {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.5625rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1525,7 +1531,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     background: none;
     border: none;
     color: rgba(247,241,232,0.6);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 500;
     text-align: left;
@@ -1544,7 +1550,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     background: none;
     border: 1px solid rgba(196,154,45,0.35);
     color: rgba(247,241,232,0.6);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     padding: 8px 20px;
     border-radius: 6px;
@@ -1568,7 +1574,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .compte-section-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -1597,7 +1603,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     background: none;
     border: 1.5px solid #c0392b;
     color: #c0392b;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 600;
     padding: 10px 24px;
@@ -1613,7 +1619,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .commandes-vide {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     color: var(--brun);
     padding: 32px 0;
@@ -1639,15 +1645,15 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .notif-ligne:last-of-type { border-bottom: none; }
 
 .notif-label {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--texte);
     margin-bottom: 3px;
 }
 
 .notif-desc {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: var(--brun);
 }
@@ -1700,7 +1706,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .contact-surtitre {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1710,7 +1716,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .contact-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 2.375rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -1738,7 +1744,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .qui-desc {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.9375rem;
     color: var(--brun);
     line-height: 1.7;
@@ -1757,9 +1763,9 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
-    color: var(--dark);
+    color: var(--texte);
     font-weight: 500;
 }
 
@@ -1805,7 +1811,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .coord-label {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1815,7 +1821,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .coord-valeur {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.125rem;
     color: var(--creme);
     margin-bottom: 8px;
@@ -1830,7 +1836,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .coord-valeur a:hover { color: var(--or); }
 
 .coord-note {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: rgba(247,241,232,0.5);
     line-height: 1.6;
@@ -1851,7 +1857,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .contact-deux-col--inverse .contact-form { order: 1; }
 
 .form-desc {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     color: var(--brun);
     line-height: 1.7;
@@ -1878,7 +1884,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 
 .form-champ label {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.85rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -1897,9 +1903,9 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .form-champ input,
 .form-champ select,
 .form-champ textarea {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
-    color: var(--dark);
+    color: var(--texte);
     background: #fff;
     border: 1px solid #ddd0bb;
     border-radius: 6px;
@@ -1923,7 +1929,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     color: var(--or);
     border: 1px solid var(--or);
     padding: 13px 32px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1937,7 +1943,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .btn-form-submit:hover { background: var(--or); color: var(--bordeaux); }
 
 .form-confirmation {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: #3a7c40;
     background: #eaf4eb;
@@ -2273,19 +2279,19 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     margin-bottom: 12px;
 }
 .commande-ref {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 700;
     color: var(--bordeaux);
 }
 .commande-date {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: #888;
     margin-top: 2px;
 }
 .commande-statut {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.6875rem;
     font-weight: 700;
     border-radius: 99px;
@@ -2293,7 +2299,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     display: inline-block;
 }
 .commande-total {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -2303,20 +2309,20 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     list-style: none;
     padding: 0;
     margin: 8px 0;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: #666;
     line-height: 1.8;
 }
 .commande-livraison {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: #888;
     margin-bottom: 12px;
 }
 .commande-card-actions { margin-top: 12px; }
 .btn-facture {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--bordeaux);
@@ -2337,7 +2343,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .cmd-inner { max-width: 760px; margin: 0 auto; }
 
 .cmd-entete { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 1rem; }
-.cmd-h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: var(--bordeaux); }
+.cmd-h1 { font-family: var(--font-titre); font-size: 2rem; color: var(--bordeaux); }
 .cmd-sous-h1 { color: var(--brun); font-size: .9rem; margin-top: .3rem; }
 .cmd-retour { color: var(--bordeaux); font-size: .9rem; text-decoration: none; white-space: nowrap; margin-top: .4rem; }
 .cmd-retour:hover { text-decoration: underline; }
@@ -2356,23 +2362,23 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .cmd-step { display: none; }
 .cmd-step.active { display: block; animation: fadeIn .25s; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.cmd-step-titre { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: .4rem; }
+.cmd-step-titre { font-family: var(--font-titre); font-size: 1.5rem; color: var(--bordeaux); margin-bottom: .4rem; }
 .cmd-step-desc { color: var(--brun); font-size: .9rem; margin-bottom: 1.5rem; }
 .cmd-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-.form-champ input, .form-champ select, .form-champ textarea { padding: 10px 14px; border: 1.5px solid var(--beige); border-radius: 8px; background: #fff; font-size: .95rem; color: var(--dark); transition: border-color .2s; }
+.form-champ input, .form-champ select, .form-champ textarea { padding: 10px 14px; border: 1.5px solid var(--beige); border-radius: 8px; background: #fff; font-size: .95rem; color: var(--texte); transition: border-color .2s; }
 .form-champ input:focus, .form-champ select:focus { outline: none; border-color: var(--bordeaux); }
 .input-readonly { background: var(--beige) !important; cursor: default; }
 .form-hint { font-size: .8rem; color: var(--brun); margin-top: 2px; }
 .form-hint-inline { font-size: .8rem; color: var(--brun); font-weight: 400; }
 .remise-hint { background: #f0fdf4; color: #166534; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #4ade80; }
 
-.checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: .9rem; color: var(--dark); }
+.checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: .9rem; color: var(--texte); }
 .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--bordeaux); }
 
 /* Apercu prix */
 .cmd-prix-apercu { background: var(--bordeaux); color: #fff; border-radius: 12px; padding: 20px 24px; margin: 1.5rem 0; }
-.cmd-prix-titre { font-family: "Cormorant Garamond", serif; font-size: 1.1rem; color: var(--or); margin-bottom: 1rem; }
+.cmd-prix-titre { font-family: var(--font-titre); font-size: 1.1rem; color: var(--or); margin-bottom: 1rem; }
 .cmd-prix-ligne { display: flex; justify-content: space-between; padding: 6px 0; font-size: .9rem; }
 .cmd-prix-remise span:last-child { color: #4ade80; }
 .cmd-prix-sep { border-top: 1px solid rgba(255,255,255,.2); margin: 10px 0; }
@@ -2385,13 +2391,13 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .btn-step-next:hover { background: #7a2323; }
 .btn-step-prev { background: transparent; color: var(--bordeaux); border: 1.5px solid var(--bordeaux); padding: 11px 22px; border-radius: 8px; font-size: .9rem; cursor: pointer; transition: background .2s; }
 .btn-step-prev:hover { background: var(--beige); }
-.btn-confirmer { font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; background: var(--or); color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+.btn-confirmer { font-family: var(--font-corps); letter-spacing: 0.04em; background: var(--or); color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .2s; }
 .btn-confirmer:hover { background: #a8831f; }
 .btn-confirmer:disabled { background: #ccc; cursor: not-allowed; }
 
 /* Fiche menu step 2 */
 .cmd-menu-fiche { background: #fff; border: 1.5px solid var(--beige); border-radius: 12px; padding: 18px 20px; margin-bottom: 1.2rem; }
-.mf-desc { color: var(--dark); font-size: .9rem; line-height: 1.6; margin-bottom: .8rem; }
+.mf-desc { color: var(--texte); font-size: .9rem; line-height: 1.6; margin-bottom: .8rem; }
 .mf-conditions { display: flex; gap: 10px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: .8rem; }
 .mf-cond-ico { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
 .mf-conditions strong { display: block; color: #92400e; font-size: .9rem; margin-bottom: 4px; }
@@ -2399,13 +2405,13 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .mf-regimes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .8rem; }
 .mf-badge { background: var(--beige); color: var(--bordeaux); padding: 3px 10px; border-radius: 20px; font-size: .78rem; font-weight: 600; }
 .mf-composition { margin-top: .5rem; }
-.mf-plat-type { font-size: .85rem; color: var(--dark); margin-bottom: 4px; }
+.mf-plat-type { font-size: .85rem; color: var(--texte); margin-bottom: 4px; }
 
 /* Recapitulatif */
 .cmd-recap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
 .recap-bloc { background: #fff; border: 1.5px solid var(--beige); border-radius: 12px; padding: 18px; }
-.recap-bloc h3 { font-family: "Cormorant Garamond", serif; color: var(--bordeaux); margin-bottom: 8px; }
-.recap-bloc p { font-size: .88rem; color: var(--dark); line-height: 1.6; }
+.recap-bloc h3 { font-family: var(--font-titre); color: var(--bordeaux); margin-bottom: 8px; }
+.recap-bloc p { font-size: .88rem; color: var(--texte); line-height: 1.6; }
 .recap-remise-tag { display: inline-block; background: #f0fdf4; color: #166534; padding: 2px 10px; border-radius: 20px; font-size: .78rem; margin-top: 4px; }
 .recap-prix-bloc { grid-column: 1 / -1; background: var(--bordeaux); color: #fff; border-radius: 12px; padding: 18px 20px; }
 .recap-prix-ligne { display: flex; justify-content: space-between; padding: 6px 0; font-size: .9rem; }
@@ -2417,7 +2423,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 /* Succes */
 .cmd-succes { text-align: center; padding: 60px 20px; }
 .cmd-succes-check { width: 72px; height: 72px; border-radius: 50%; background: var(--or); color: #fff; font-size: 2rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
-.cmd-succes h2 { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; color: var(--bordeaux); margin-bottom: .8rem; }
+.cmd-succes h2 { font-family: var(--font-titre); font-size: 1.8rem; color: var(--bordeaux); margin-bottom: .8rem; }
 .cmd-succes p { color: var(--brun); max-width: 480px; margin: 0 auto 2rem; line-height: 1.6; }
 .cmd-succes-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .btn-outline-dark { border: 1.5px solid var(--bordeaux); color: var(--bordeaux); padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background .2s; }
@@ -2496,7 +2502,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 .cookie-txt {
     flex: 1;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     line-height: 1.5;
     margin: 0;
@@ -2513,7 +2519,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     flex-shrink: 0;
 }
 .cookie-btn {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 600;
     padding: 9px 18px;
@@ -2548,13 +2554,13 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     padding: 48px 24px 80px;
 }
 .legal-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: clamp(28px, 5vw, 42px);
     color: var(--bordeaux);
     margin-bottom: 6px;
 }
 .legal-maj {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: var(--brun);
     margin-bottom: 40px;
@@ -2566,27 +2572,27 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 .legal-section:last-child { border-bottom: none; }
 .legal-section h2 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.375rem;
     color: var(--bordeaux);
     margin-bottom: 14px;
 }
 .legal-section h3 {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--brun);
     margin: 16px 0 8px;
 }
 .legal-section p {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     line-height: 1.7;
     color: #444;
     margin-bottom: 10px;
 }
 .legal-liste {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     line-height: 1.7;
     color: #444;
@@ -2597,7 +2603,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .legal-table {
     width: 100%;
     border-collapse: collapse;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
 }
 .legal-table th {
@@ -2630,7 +2636,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     padding: 48px 24px 80px;
 }
 .panier-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: clamp(28px, 5vw, 42px);
     font-weight: 600;
     color: var(--bordeaux);
@@ -2660,13 +2666,13 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .panier-card-img img { width: 120px; height: 110px; object-fit: cover; }
 .panier-card-body { padding: 16px 0; }
 .panier-card-titre {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.25rem;
     color: var(--bordeaux);
     margin-bottom: 6px;
 }
 .panier-card-meta {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     color: var(--brun);
 }
@@ -2682,7 +2688,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     text-decoration: none;
     padding: 10px 18px;
     border-radius: 6px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-weight: 700;
     font-size: 0.8125rem;
     white-space: nowrap;
@@ -2696,7 +2702,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     color: #9b2222;
     padding: 7px 14px;
     border-radius: 6px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
@@ -2719,7 +2725,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     color: #9b2222;
     padding: 9px 18px;
     border-radius: 6px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.8125rem;
     font-weight: 600;
     cursor: pointer;
@@ -2727,7 +2733,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 .panier-vider-btn:hover { background: #fee2e2; }
 .panier-aide {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     color: var(--brun);
     flex: 1;
@@ -2739,13 +2745,13 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 }
 .panier-vide-ico { font-size: 3.5rem; margin-bottom: 16px; }
 .panier-vide-txt {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-titre);
     font-size: 1.5rem;
     color: var(--bordeaux);
     margin-bottom: 8px;
 }
 .panier-vide-sub {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     color: var(--brun);
     margin-bottom: 24px;
@@ -2758,7 +2764,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     border: 1.5px solid var(--or);
     padding: 13px 20px;
     border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     font-weight: 700;
     cursor: pointer;
@@ -2779,7 +2785,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
 .carte-pers-notif {
     display: inline-block;
     margin-top: 6px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.6875rem;
     font-weight: 600;
     color: #92400e;
@@ -2803,7 +2809,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     gap: 8px;
     text-decoration: none;
     color: var(--or);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.875rem;
     font-weight: 600;
     transition: opacity .2s;
@@ -2828,7 +2834,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     color: var(--or);
     padding: 6px 12px;
     border-radius: 6px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
@@ -2858,7 +2864,7 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     margin-bottom: 4px;
 }
 .navbar-mobile-user-info #navbar-mobile-prenom {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-corps);
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--bordeaux);

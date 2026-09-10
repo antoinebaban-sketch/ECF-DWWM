@@ -454,7 +454,7 @@
 <div class="ad-modal-overlay" id="modal-employe">
     <div class="ad-modal">
         <h3>Créer un compte employé</h3>
-        <p style="font-size:13px;color:var(--brun);margin-bottom:1rem">Un mot de passe temporaire sera généré et envoyé par email à l'employé.</p>
+        <p style="font-size:13px;color:var(--brun);margin-bottom:1rem">L'employé recevra un email avec un lien pour choisir lui-même son mot de passe.</p>
         <div class="ad-modal-grid">
             <div class="form-champ"><label>Prénom *</label><input type="text" id="emp-prenom" placeholder="Julie"></div>
             <div class="form-champ"><label>Nom *</label><input type="text" id="emp-nom" placeholder="Dupont"></div>
@@ -924,9 +924,9 @@ async function chargerAvis() {
         if (!liste.length) { tb.innerHTML = '<tr><td colspan="6" class="admin-vide">Aucun avis.</td></tr>'; return; }
         tb.innerHTML = liste.map(a => `
             <tr>
-                <td>${a.prenom || ''} ${a.nom || ''}</td>
+                <td>${e(a.prenom)} ${e(a.nom)}</td>
                 <td><span style="color:var(--or)">${'★'.repeat(a.note || 0)}${'☆'.repeat(5-(a.note||0))}</span> ${a.note}/5</td>
-                <td style="max-width:260px;font-size:12px">${a.description || '—'}</td>
+                <td style="max-width:260px;font-size:12px">${e(a.description) || '—'}</td>
                 <td style="font-size:12px">${fmtDate(a.date_avis)}</td>
                 <td>${sbAvis(a.statut_validation)}</td>
                 <td>
