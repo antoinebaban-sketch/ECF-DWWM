@@ -121,7 +121,7 @@ DB_NAME=vite_et_gourmand
 DB_USER=root
 DB_PASS=votre_mot_de_passe
 
-MAIL_FROM=noreply@viteetgourmand.fr
+MAIL_FROM=antoinebaban@gmail.com
 MAIL_NAME=Vite & Gourmand
 APP_URL=http://localhost/ViteEtGourmand/projet/frontend
 
@@ -130,6 +130,9 @@ MONGO_URI=
 MONGO_DB=vite_et_gourmand_logs
 
 # Brevo — laisser vide en local : le code utilise mail() nativement
+# En prod, MAIL_FROM doit être une adresse verifiee comme expediteur dans Brevo
+# (le domaine viteetgourmand.fr est fictif, une adresse personnelle est utilisee a la place).
+# Sans expediteur verifie, Brevo rejette l'envoi sans erreur cote application.
 BREVO_API_KEY=
 ```
 
