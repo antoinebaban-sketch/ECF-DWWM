@@ -1,4 +1,8 @@
-FROM php:8.1-apache
+FROM php:8.3-apache
+
+# Composer : utilisé uniquement pour l'autoload PSR-4 de l'API (namespace App\,
+# voir api/src/) — aucune dépendance tierce, pas d'appel réseau au build.
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Extensions PHP : pdo_mysql (base relationnelle) + mongodb (base NoSQL, requiert
 # une compilation via PECL car elle n'est pas incluse dans l'image de base) + curl
@@ -23,7 +27,8 @@ RUN a2enmod rewrite headers \
 
 WORKDIR /var/www/html
 COPY . /var/www/html/
-RUN chown -R www-data:www-data /var/www/html
+RUN composer install --no-dev --optimize-autoloader --working-dir=api \
+    && chown -R www-data:www-data /var/www/html
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
