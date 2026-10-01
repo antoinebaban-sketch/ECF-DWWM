@@ -36,6 +36,7 @@ session_set_cookie_params([
 session_start();
 
 // ─── Bootstrap ───────────────────────────────────────────────────────────────
+require_once __DIR__ . '/vendor/autoload.php'; // autoload PSR-4 (namespace App\, voir src/)
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/mongodb.php';
@@ -73,8 +74,15 @@ try {
         jsonError('Route inconnue : ' . htmlspecialchars($resource), 404);
     }
 
-    require_once __DIR__ . "/controllers/{$ctrl}.php";
-    handle($method, $parts, getBody());
+    // "commandes" (et son alias "factures") est le premier domaine migré en
+    // classes (voir src/Controllers/CommandeController.php) ; les autres
+    // restent, pour l'instant, des fichiers de fonctions.
+    if ($ctrl === 'commandes') {
+        (new \App\Controllers\CommandeController())->handle($method, $parts, getBody());
+    } else {
+        require_once __DIR__ . "/controllers/{$ctrl}.php";
+        handle($method, $parts, getBody());
+    }
 
 } catch (PDOException $e) {
     error_log('[VG PDO] ' . $e->getMessage());

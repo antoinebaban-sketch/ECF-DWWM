@@ -114,6 +114,13 @@ corrompre les caractères accentués (ex : "Entrée" devient "EntrÃ©e").
 cp projet/api/.env.example projet/api/.env
 ```
 
+L'API utilise un autoload PSR-4 (namespace `App\`, voir `api/src/`) généré par Composer —
+aucune dépendance tierce, juste l'autoload :
+
+```bash
+cd projet/api && composer install
+```
+
 ```env
 DB_HOST=localhost
 DB_PORT=3306
