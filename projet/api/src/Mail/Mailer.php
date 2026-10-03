@@ -8,9 +8,8 @@ namespace App\Mail;
  * Envoi d'emails transactionnels : mail() natif en local, API HTTP Brevo en
  * production (un conteneur Docker n'embarque pas de serveur mail).
  *
- * sendMail() / mailTemplate() (helpers.php) délèguent ici, pour que tous les
- * contrôleurs — migrés en classes ou encore procéduraux — envoient leurs
- * emails par le même chemin.
+ * Le contenu des emails métier est décrit dans App\Mail\Notifier ; Mailer ne
+ * fait que la mise en forme (template) et le transport.
  */
 final class Mailer
 {
