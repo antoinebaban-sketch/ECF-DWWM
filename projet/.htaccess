@@ -10,3 +10,12 @@ RewriteRule ^api/(.*)$ api/index.php [L,QSA]
 # construirait une redirection cassée — voir <base> dans frontend/index.html)
 RewriteRule ^$ frontend/index.html [L]
 RewriteRule ^index\.html$ frontend/index.html [L]
+
+# Content-Security-Policy : aucun JavaScript inline dans les pages (tout est
+# dans frontend/js/), le navigateur peut donc refuser tout script qui ne vient
+# pas du site lui-même (protection supplémentaire contre le XSS).
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    </FilesMatch>
+</IfModule>

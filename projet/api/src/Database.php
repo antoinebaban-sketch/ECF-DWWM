@@ -7,11 +7,8 @@ namespace App;
 use PDO;
 
 /**
- * Connexion MySQL (PDO), une seule instance par requête HTTP.
- *
- * Remplace la logique autrefois portée par la fonction procédurale getPDO()
- * (config.php) — celle-ci délègue maintenant ici, pour ne pas casser les
- * contrôleurs pas encore migrés en classes.
+ * Connexion MySQL (PDO), une seule instance par requête HTTP (singleton),
+ * partagée par tous les repositories (voir Repositories\Repository).
  */
 final class Database
 {

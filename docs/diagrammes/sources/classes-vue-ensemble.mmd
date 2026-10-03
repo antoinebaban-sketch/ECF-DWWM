@@ -1,0 +1,161 @@
+classDiagram
+direction LR
+namespace Controllers {
+  class AdminController {
+  }
+  class AuthController {
+  }
+  class AvisController {
+  }
+  class CommandeController {
+  }
+  class ContactController {
+  }
+  class Controller {
+    <<abstract>>
+  }
+  class HoraireController {
+  }
+  class MenuController {
+  }
+  class PlatController {
+  }
+  class ReferentielController {
+  }
+  class ThemeController {
+  }
+  class UtilisateurController {
+  }
+}
+namespace Auth {
+  class AuthService {
+  }
+}
+namespace Models {
+  class Avis {
+  }
+  class Commande {
+  }
+  class Utilisateur {
+  }
+}
+namespace Repositories {
+  class AvisRepository {
+  }
+  class CommandeRepository {
+  }
+  class MenuRepository {
+  }
+  class PlatRepository {
+  }
+  class ReferentielRepository {
+  }
+  class Repository {
+    <<abstract>>
+  }
+  class StatistiqueRepository {
+  }
+  class UtilisateurRepository {
+  }
+}
+namespace App {
+  class Config {
+  }
+  class Database {
+  }
+}
+namespace Http {
+  class HttpException {
+  }
+  class JsonResponse {
+  }
+  class Kernel {
+  }
+  class Request {
+  }
+  class Router {
+  }
+}
+namespace Mail {
+  class Mailer {
+  }
+  class Notifier {
+  }
+}
+namespace Mongo {
+  class MongoConnection {
+  }
+}
+namespace Security {
+  class PasswordPolicy {
+  }
+}
+namespace Enum {
+  class Role {
+    <<enumeration>>
+  }
+  class StatutAvis {
+    <<enumeration>>
+  }
+  class StatutCommande {
+    <<enumeration>>
+  }
+}
+namespace Support {
+  class Sanitizer {
+  }
+}
+Controller <|-- AdminController
+AdminController --> UtilisateurRepository
+AdminController --> StatistiqueRepository
+AdminController --> AvisRepository
+AdminController --> PasswordPolicy
+AdminController --> Notifier
+AdminController --> MongoConnection
+Controller <|-- AuthController
+AuthController --> UtilisateurRepository
+AuthController --> PasswordPolicy
+AuthController --> Notifier
+Avis --> StatutAvis
+Controller <|-- AvisController
+AvisController --> AvisRepository
+Repository <|-- AvisRepository
+Commande --> StatutCommande
+Controller <|-- CommandeController
+CommandeController --> CommandeRepository
+CommandeController --> Notifier
+CommandeController --> MongoConnection
+Repository <|-- CommandeRepository
+Controller <|-- ContactController
+ContactController --> Notifier
+Controller --> AuthService
+Controller <|-- HoraireController
+HoraireController --> ReferentielRepository
+Kernel --> Router
+Controller <|-- MenuController
+MenuController --> MenuRepository
+Repository <|-- MenuRepository
+Notifier --> Mailer
+Controller <|-- PlatController
+PlatController --> PlatRepository
+Repository <|-- PlatRepository
+Controller <|-- ReferentielController
+ReferentielController --> ReferentielRepository
+Repository <|-- ReferentielRepository
+Repository <|-- StatistiqueRepository
+Controller <|-- ThemeController
+ThemeController --> ReferentielRepository
+Utilisateur --> Role
+Controller <|-- UtilisateurController
+UtilisateurController --> UtilisateurRepository
+UtilisateurController --> PasswordPolicy
+Repository <|-- UtilisateurRepository
+Router ..> Controller : dispatch()
+Repository ..> Database : connection()
+CommandeController ..> Commande : calculerPrixTotal()
+CommandeController ..> StatutCommande
+CommandeController ..> Sanitizer
+AvisController ..> Avis : new
+UtilisateurRepository ..> Utilisateur : fromRow()
+Kernel ..> Request : fromGlobals()
+Kernel ..> JsonResponse

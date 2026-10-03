@@ -1,0 +1,59 @@
+%% MCD (méthode Merise) — entités, associations, cardinalités (min,max).
+%% Pas de types ni de clés étrangères : ils apparaissent au niveau MLD / SQL.
+%% Identifiant souligné. Cardinalité écrite côté entité.
+flowchart LR
+    classDef entite fill:#ffffff,stroke:#5C1A1A,stroke-width:2px,color:#1a1a1a,text-align:left
+    classDef assoc fill:#fbf3e6,stroke:#C49A2D,stroke-width:1.5px,color:#5C1A1A
+
+    ROLE["<b>ROLE</b><br/>──────────<br/><u>role_id</u><br/>libelle"]:::entite
+    UTILISATEUR["<b>UTILISATEUR</b><br/>──────────────<br/><u>utilisateur_id</u><br/>email<br/>password<br/>prenom<br/>nom<br/>telephone<br/>adresse<br/>ville<br/>pays<br/>statut_compte<br/>date_creation<br/>consentement_rgpd<br/>reset_token<br/>reset_token_expires"]:::entite
+    COMMANDE["<b>COMMANDE</b><br/>──────────────<br/><u>commande_id</u><br/>date_commande<br/>date_prestation<br/>nombre_personne<br/>prix_commande<br/>statut_commande<br/>adresse_livraison<br/>motif_annulation<br/>mode_contact"]:::entite
+    MENU["<b>MENU</b><br/>──────────────<br/><u>menu_id</u><br/>titre<br/>description<br/>prix_par_personne<br/>nombre_personne_mini<br/>quantite_restante<br/>delai_prevenance<br/>conditions"]:::entite
+    IMAGE["<b>IMAGE_MENU</b><br/>──────────<br/><u>image_id</u><br/>image_url"]:::entite
+    THEME["<b>THEME</b><br/>──────────<br/><u>theme_id</u><br/>libelle"]:::entite
+    PLAT["<b>PLAT</b><br/>──────────<br/><u>plat_id</u><br/>titre_plat<br/>type_plat<br/>description<br/>image_url<br/>prix_unitaire"]:::entite
+    REGIME["<b>REGIME</b><br/>──────────<br/><u>regime_id</u><br/>libelle"]:::entite
+    ALLERGENE["<b>ALLERGENE</b><br/>──────────<br/><u>allergene_id</u><br/>libelle"]:::entite
+    HISTORIQUE["<b>HISTORIQUE_STATUT</b><br/>──────────────<br/><u>historique_id</u><br/>statut<br/>date_changement_statut"]:::entite
+    LIVRAISON["<b>LIVRAISON</b><br/>──────────────<br/><u>livraison_id</u><br/>date_livraison<br/>statut_livraison<br/>liste_materiel<br/>distance_km<br/>frais_livraison"]:::entite
+    AVIS["<b>AVIS</b><br/>──────────<br/><u>avis_id</u><br/>note<br/>description<br/>statut_validation<br/>date_avis"]:::entite
+    HORAIRE["<b>HORAIRE</b> <i>(isolée)</i><br/>──────────<br/><u>horaire_id</u><br/>jour<br/>heure_ouverture<br/>heure_fermeture"]:::entite
+
+    a_avoir(["AVOIR"]):::assoc
+    a_passer(["PASSER"]):::assoc
+    a_traiter(["TRAITER"]):::assoc
+    a_concerner(["CONCERNER"]):::assoc
+    a_choisir(["CHOISIR"]):::assoc
+    a_categoriser(["CATÉGORISER"]):::assoc
+    a_illustrer(["ILLUSTRER"]):::assoc
+    a_composer(["COMPOSER"]):::assoc
+    a_convenir(["CONVENIR"]):::assoc
+    a_caracteriser(["CARACTÉRISER"]):::assoc
+    a_preferer(["PRÉFÉRER"]):::assoc
+    a_declarer(["DÉCLARER"]):::assoc
+    a_suivre(["SUIVRE"]):::assoc
+    a_livrer(["LIVRER"]):::assoc
+    a_assurer(["ASSURER"]):::assoc
+    a_rediger(["RÉDIGER"]):::assoc
+    a_porter(["PORTER SUR"]):::assoc
+
+    UTILISATEUR ---|"1,1"| a_avoir ---|"0,n"| ROLE
+    UTILISATEUR ---|"0,n"| a_passer ---|"1,1"| COMMANDE
+    UTILISATEUR ---|"0,n"| a_traiter ---|"0,1"| COMMANDE
+    COMMANDE ---|"0,1"| a_concerner ---|"0,n"| MENU
+    COMMANDE ---|"0,1"| a_choisir ---|"0,n"| THEME
+    MENU ---|"0,1"| a_categoriser ---|"0,n"| THEME
+    IMAGE ---|"1,1"| a_illustrer ---|"0,n"| MENU
+    MENU ---|"0,n"| a_composer ---|"0,n"| PLAT
+    MENU ---|"0,n"| a_convenir ---|"0,n"| REGIME
+    PLAT ---|"0,n"| a_caracteriser
+    a_caracteriser ---|"0,n"| ALLERGENE
+    a_caracteriser ---|"0,n"| REGIME
+    UTILISATEUR ---|"0,n"| a_preferer ---|"0,n"| REGIME
+    UTILISATEUR ---|"0,n"| a_declarer ---|"0,n"| ALLERGENE
+    HISTORIQUE ---|"1,1"| a_suivre ---|"1,n"| COMMANDE
+    LIVRAISON ---|"1,1"| a_livrer ---|"0,1"| COMMANDE
+    UTILISATEUR ---|"0,n"| a_assurer ---|"0,1"| LIVRAISON
+    UTILISATEUR ---|"0,n"| a_rediger ---|"1,1"| AVIS
+    AVIS ---|"0,1"| a_porter ---|"0,1"| COMMANDE
+    ROLE ~~~ HORAIRE
