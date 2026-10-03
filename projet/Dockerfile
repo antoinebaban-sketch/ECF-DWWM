@@ -6,7 +6,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Extensions PHP : pdo_mysql (base relationnelle) + mongodb (base NoSQL, requiert
 # une compilation via PECL car elle n'est pas incluse dans l'image de base) + curl
-# (appel de l'API d'envoi d'email, voir helpers.php::sendMail).
+# (appel de l'API d'envoi d'email, voir api/src/Mail/Mailer.php).
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libssl-dev \
         libsasl2-dev \

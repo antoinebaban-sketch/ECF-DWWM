@@ -4,40 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Database;
-use PDO;
-
 /**
  * Tout le SQL du domaine "commande" (et des tables liées historique_commande,
  * livraison) vit ici. CommandeController et Commande (le modèle) n'exécutent
  * aucune requête directement.
  */
-final class CommandeRepository
+final class CommandeRepository extends Repository
 {
-    private PDO $pdo;
-
-    public function __construct(?PDO $pdo = null)
-    {
-        $this->pdo = $pdo ?? Database::connection();
-    }
-
-    // ─── Transaction (passage de commande : vérif. stock + insertions liées) ──
-
-    public function beginTransaction(): void
-    {
-        $this->pdo->beginTransaction();
-    }
-
-    public function commit(): void
-    {
-        $this->pdo->commit();
-    }
-
-    public function rollBack(): void
-    {
-        $this->pdo->rollBack();
-    }
-
     // ─── Lecture ───────────────────────────────────────────────────────────────
 
     public function findByClient(int $clientId): array

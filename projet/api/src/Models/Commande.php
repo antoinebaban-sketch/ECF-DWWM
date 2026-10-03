@@ -13,6 +13,9 @@ use App\Enum\StatutCommande;
  */
 final class Commande
 {
+    /** Délai accordé au client pour rendre le matériel prêté (pénalité de 600 € au-delà). */
+    public const DELAI_RETOUR_MATERIEL_JOURS = 10;
+
     public function __construct(
         public readonly int $id,
         public readonly int $clientId,
@@ -45,6 +48,12 @@ final class Commande
     public function modifiableParClient(): bool
     {
         return $this->statut === StatutCommande::EnAttente;
+    }
+
+    /** Nombre de jours entiers écoulés depuis une date (ex. passage en "retour_materiel"). */
+    public static function joursDepuis(string $date): int
+    {
+        return (int) floor((time() - strtotime($date)) / 86400);
     }
 
     /**

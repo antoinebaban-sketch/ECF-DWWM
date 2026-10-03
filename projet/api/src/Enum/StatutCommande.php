@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Enum;
 
 /**
- * Les 8 étapes du cycle de vie d'une commande. Remplace les tableaux
- * STATUTS / STATUT_LABELS qui vivaient autrefois dans controllers/commandes.php.
+ * Les 8 étapes du cycle de vie d'une commande (colonne commande.statut_commande).
  */
 enum StatutCommande: string
 {

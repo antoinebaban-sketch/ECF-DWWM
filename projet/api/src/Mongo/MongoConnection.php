@@ -19,8 +19,6 @@ use Throwable;
  * toutes les méthodes renvoient un résultat neutre au lieu de lever une
  * exception — le cœur de l'application (prise de commande, navigation) ne
  * dépend jamais de ce service secondaire.
- *
- * getMongoDB() / mongoInsert() / mongoAggregate() (mongodb.php) délèguent ici.
  */
 final class MongoConnection
 {
