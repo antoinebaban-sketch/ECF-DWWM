@@ -20,8 +20,8 @@ Inclut un espace employé (gestion des menus/plats/horaires/commandes/avis) et u
 
 | Couche      | Technologie |
 |-------------|-------------|
-| Frontend    | HTML5 · CSS3 (custom properties) · JavaScript vanilla |
-| Backend     | PHP 8.1 · PDO · API REST JSON (sans framework) |
+| Frontend    | HTML5 · CSS3 (custom properties) · JavaScript vanilla (aucun script inline, CSP stricte) |
+| Backend     | PHP 8.3 · POO / MVC · PDO · API REST JSON (sans framework, autoload PSR-4 Composer) |
 | Base SQL    | MySQL 8+ · InnoDB · utf8mb4 |
 | Base NoSQL  | MongoDB (statistiques admin uniquement) |
 | Auth        | Sessions PHP (cookie `HttpOnly`) · bcrypt cost 12 |
@@ -33,57 +33,51 @@ Inclut un espace employé (gestion des menus/plats/horaires/commandes/avis) et u
 
 ```
 projet/
-├── frontend/          ← Pages HTML + CSS + JS
-│   ├── index.html              Accueil
-│   ├── menu.html                Catalogue des menus
-│   ├── commande.html            Tunnel de commande
-│   ├── panier.html              Liste de sélection de menus
-│   ├── contact.html             Contact / devis
-│   ├── MonCompte.html           Espace client
-│   ├── SeConnecter.html         Connexion
-│   ├── SInscrire.html           Inscription
-│   ├── reset-password.html      Réinitialisation / définition du mot de passe
-│   ├── employe.html             Connexion espace employé
-│   ├── employe-dashboard.html   Tableau de bord employé
-│   ├── admin.html               Connexion administration
-│   ├── admin-dashboard.html     Tableau de bord admin
+├── Dockerfile · docker-entrypoint.sh   Image de déploiement (php:8.3-apache)
+├── .htaccess                Routage /api/* + en-tête Content-Security-Policy
+│
+├── frontend/          ← Vue : pages HTML + CSS + JS
+│   ├── index.html · menu.html · commande.html · panier.html · contact.html
+│   ├── MonCompte.html · SeConnecter.html · SInscrire.html · reset-password.html
+│   ├── employe.html · employe-dashboard.html · admin.html · admin-dashboard.html
 │   ├── cgv.html · rgpd.html · legal.html · accessibilite.html   Pages légales
 │   ├── style.css                Feuille de styles unique
-│   ├── navbar-inject.js         Génère et injecte le HTML de la navbar (source unique)
-│   ├── navbar.js                Comportement navbar : burger, état connecté, badge panier
-│   ├── panier.js                Utilitaires panier partagés (localStorage)
+│   ├── js/
+│   │   ├── navbar-inject.js     Génère et injecte le HTML de la navbar (source unique)
+│   │   ├── navbar.js            Comportement navbar : burger, état connecté, badge panier
+│   │   ├── panier.js            Utilitaires panier partagés (localStorage)
+│   │   ├── actions.js           Liaison data-action → fonctions (remplace les onclick)
+│   │   └── pages/<page>.js      Script propre à chaque page (aucun JS dans le HTML)
 │   ├── images/                  Assets visuels
 │   └── vite_et_gourmand.sql     Schéma SQL + données de test
 │
-└── api/               ← Backend PHP
-    ├── index.php            Routeur principal (Front Controller)
-    ├── config.php           Connexion BDD / mail / Mongo
-    ├── helpers.php          Réponses JSON, authentification, validations
-    ├── mongodb.php          Connexion MongoDB + dégradation gracieuse
+└── api/               ← Backend PHP orienté objet
+    ├── index.php            Front controller : autoload + config + routes → Kernel
+    ├── routes.php           Table des routes (MÉTHODE chemin → Contrôleur::méthode)
+    ├── composer.json        Autoload PSR-4 (namespace App\ → src/)
     ├── .env.example         Variables d'environnement (modèle)
     ├── aiven-ca.pem         Certificat SSL MySQL (production Aiven)
-    ├── Dockerfile · docker-entrypoint.sh   Image de déploiement
-    └── controllers/
-        ├── auth.php
-        ├── menus.php
-        ├── plats.php
-        ├── commandes.php
-        ├── avis.php
-        ├── utilisateurs.php
-        ├── admin.php
-        ├── themes.php
-        ├── regimes.php
-        ├── allergenes.php
-        ├── horaires.php
-        └── contact.php
+    └── src/
+        ├── Http/            Kernel, Router, Request, JsonResponse, HttpException
+        ├── Controllers/     Controller (abstraite) + Auth, Menu, Plat, Theme, Referentiel,
+        │                    Horaire, Commande, Avis, Utilisateur, Admin, Contact
+        ├── Models/          Commande, Utilisateur, Avis (règles métier)
+        ├── Enum/            StatutCommande, StatutAvis, Role
+        ├── Repositories/    Repository (abstraite) + Commande, Menu, Plat, Referentiel,
+        │                    Avis, Utilisateur, Statistique (tout le SQL)
+        ├── Auth/            AuthService (session, rôles)
+        ├── Security/        PasswordPolicy (règles + bcrypt)
+        ├── Support/         Sanitizer
+        ├── Mail/            Mailer (transport) · Notifier (emails métier)
+        ├── Mongo/           MongoConnection
+        ├── Database.php     Connexion PDO unique
+        └── Config.php       Chargement .env / variables d'environnement
 
-utile/   (livrables de conception — hors dépôt)
-├── diagramme_classes.png
-├── diagramme_utilisation.png
-├── diagramme_sequence_connexion.png
-├── diagramme_sequence_commande.png
-├── charte_graphique_complete.pdf
-└── Wireframes vite et gourmand/
+docs/
+├── Dossier-Technique.pdf · Manuel-Utilisation.pdf · Charte-Graphique.pdf · Gestion-de-Projet.pdf
+├── diagrammes/          MCD, diagrammes de classes, séquences, cas d'utilisation (PNG)
+│   └── sources/         Sources Mermaid ; classes.php génère les diagrammes de classes depuis le code
+└── maquettes/           Wireframes et mockups
 ```
 
 ---
@@ -91,7 +85,7 @@ utile/   (livrables de conception — hors dépôt)
 ## Installation locale
 
 ### Prérequis
-- PHP 8.1+
+- PHP 8.1+ (8.3 en production) et Composer
 - MySQL 8+
 - Serveur web (Apache/Nginx) avec mod_rewrite activé, ou XAMPP/WAMP/Laragon
 - Extension `mongodb` pour PHP (optionnelle)
@@ -239,8 +233,10 @@ Démarche complète et justifications : voir le **dossier technique**, section D
 | `main`      | Code stable / production |
 | `develop`   | Intégration des fonctionnalités |
 
-Projet réalisé en solo : les commits sont faits directement sur `develop` avec des
-messages atomiques et descriptifs, puis fusionnés dans `main` pour les versions stables.
+| `feature/*` | Une branche par fonctionnalité, fusionnée dans `develop` (`--no-ff`) après test |
+
+Chaque fonctionnalité part de `develop` sur une branche dédiée ; `develop` est fusionnée dans `main`
+pour les versions stables. Messages de commit atomiques et préfixés (`feat`, `fix`, `refactor`, `docs`).
 
 ---
 
