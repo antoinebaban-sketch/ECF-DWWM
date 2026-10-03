@@ -1,0 +1,39 @@
+%% Séquence — connexion, au niveau des classes de l'API (MVC)
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant N as Navigateur<br/>(js/pages/SeConnecter.js)
+    participant K as Kernel + Router
+    participant C as AuthController
+    participant R as UtilisateurRepository
+    participant DB as MySQL
+    participant M as Utilisateur<br/>(modèle)
+    participant P as PasswordPolicy
+    participant A as AuthService
+
+    U->>N: saisit email + mot de passe
+    N->>K: POST /api/auth/login {email, password}
+    K->>K: Request::fromGlobals()
+    K->>C: login(Request)
+    C->>C: requireFields('email', 'password')
+    C->>R: findByEmail(email)
+    R->>DB: SELECT … JOIN role WHERE email = ? (requête préparée)
+    DB-->>R: ligne (ou aucune)
+    R->>M: Utilisateur::fromRow(ligne)
+    R-->>C: ?Utilisateur
+    C->>P: verify(password, passwordHash())
+    P-->>C: bool (password_verify)
+    alt utilisateur inconnu ou mot de passe faux
+        C--)K: throw HttpException(401)
+        K-->>N: 401 {"error": "Email ou mot de passe incorrect"}
+    else compte désactivé (actif = false)
+        C--)K: throw HttpException(403)
+        K-->>N: 403 {"error": "Ce compte a été désactivé…"}
+    else identifiants valides
+        C->>M: toSession()
+        C->>A: login({id, email, role, prenom, nom})
+        A->>A: $_SESSION['user'] = …
+        C-->>K: JsonResponse(profil)
+        K-->>N: 200 profil + cookie PHPSESSID (HttpOnly, SameSite)
+        N->>U: redirection selon le rôle
+    end

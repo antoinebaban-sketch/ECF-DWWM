@@ -1,0 +1,105 @@
+classDiagram
+direction TB
+namespace Models {
+  class Commande {
+    +DELAI_RETOUR_MATERIEL_JOURS$
+    +int id
+    +int clientId
+    +?int menuId
+    +int nombrePersonne
+    +string datePrestation
+    +float prixCommande
+    +StatutCommande statut
+    +fromRow(row)$ self
+    +modifiableParClient() bool
+    +joursDepuis(date)$ int
+    +calculerPrixTotal(prixParPersonne, nombrePersonne, nombrePersonneMini, distanceKm)$ array
+  }
+}
+namespace Controllers {
+  class CommandeController {
+    -CommandeRepository commandes
+    -Notifier notifier
+    -MongoConnection mongo
+    +mesCommandes(request) JsonResponse
+    +index(request) JsonResponse
+    +show(request, id) JsonResponse
+    +historique(request, id) JsonResponse
+    +store(request) JsonResponse
+    +changerStatut(request, id) JsonResponse
+    +annuler(request, id) JsonResponse
+    +update(request, id) JsonResponse
+    +demanderFacture(request) JsonResponse
+  }
+  class Controller {
+    <<abstract>>
+    #AuthService auth
+    #json(data, status) JsonResponse
+    #message(message, status) JsonResponse
+  }
+}
+namespace Repositories {
+  class CommandeRepository {
+    +findByClient(clientId) array
+    +findAll(filtres) array
+    +findDetail(id) ?array
+    +findById(id) ?array
+    +findByIdAndClient(id, clientId) ?array
+    +findForModification(id, clientId) ?array
+    +findFacture(id, clientId) ?array
+    +appartientAuClient(id, clientId) bool
+    +historique(id) array
+    +findClientContact(clientId) ?array
+    +findMenuForUpdate(menuId) ?array
+    +creer(data) int
+    +ajouterHistorique(commandeId, statut) void
+    +creerLivraison(commandeId, datePrestation, distanceKm, fraisLivraison) void
+    +decrementerStock(menuId) void
+    +incrementerStock(menuId) void
+    +updateStatut(id, statut, employeId, motif, modeContact) void
+    +annuler(id) void
+    +modifier(id, nombrePersonne, datePrestation, adresseLivraison, prixTotal) void
+  }
+  class Repository {
+    <<abstract>>
+    #PDO pdo
+    +beginTransaction() void
+    +commit() void
+    +rollBack() void
+    +transaction(work) mixed
+    #fetchAll(sql, params) array
+    #fetchOne(sql, params) ?array
+    #fetchValue(sql, params) mixed
+    #execute(sql, params) int
+    #insert(sql, params) int
+  }
+}
+namespace App {
+  class Database {
+    -?PDO instance$
+    +connection()$ PDO
+  }
+}
+namespace Enum {
+  class StatutCommande {
+    <<enumeration>>
+    EnAttente = 'en_attente'
+    Acceptee = 'acceptée'
+    EnPreparation = 'en_preparation'
+    EnCoursLivraison = 'en_cours_livraison'
+    Livree = 'livrée'
+    RetourMateriel = 'retour_materiel'
+    Terminee = 'terminée'
+    Annulee = 'annulée'
+    +label() string
+    +tryLabel(value)$ string
+    +values()$ array
+  }
+}
+Commande --> StatutCommande
+Controller <|-- CommandeController
+CommandeController --> CommandeRepository
+Repository <|-- CommandeRepository
+Repository ..> Database : connection()
+CommandeController ..> Commande : calculerPrixTotal()
+CommandeController ..> StatutCommande

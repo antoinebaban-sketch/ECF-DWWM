@@ -1,0 +1,43 @@
+%% Séquence — création d'une commande, au niveau des classes de l'API (MVC)
+sequenceDiagram
+    autonumber
+    actor CL as Client
+    participant N as Navigateur<br/>(js/pages/commande.js)
+    participant K as Kernel + Router
+    participant C as CommandeController
+    participant A as AuthService
+    participant R as CommandeRepository
+    participant M as Commande<br/>(modèle)
+    participant DB as MySQL
+    participant NT as Notifier → Mailer
+    participant MG as MongoConnection
+
+    CL->>N: choisit menu, convives, date, adresse
+    N->>K: POST /api/commandes {menu_id, nombre_personne, date_prestation, adresse_livraison, distance_km}
+    K->>C: store(Request)
+    C->>A: requireUser()
+    A-->>C: utilisateur en session (sinon HttpException 401)
+    C->>R: transaction(fonction)
+    R->>DB: BEGIN
+    C->>R: findMenuForUpdate(menu_id)
+    R->>DB: SELECT … FROM menu WHERE menu_id = ? FOR UPDATE
+    DB-->>R: menu (prix, stock, minimum)
+    alt menu absent, stock épuisé ou trop peu de convives
+        C--)R: throw HttpException (404 / 400)
+        R->>DB: ROLLBACK
+        R--)K: l'exception remonte
+        K-->>N: {"error": "…"}
+    else commande valide
+        C->>M: calculerPrixTotal(prix, convives, minimum, distance_km)
+        M-->>C: {prix_total, frais_livraison} (−10 % dès minimum + 5, 5 € + 0,59 €/km)
+        C->>R: creer() · ajouterHistorique('en_attente') · creerLivraison() · decrementerStock()
+        R->>DB: INSERT commande, historique_commande, livraison · UPDATE menu
+        R->>DB: COMMIT
+        C->>NT: confirmationCommande(client, …)
+        NT->>NT: send() — mail() en local, API Brevo en production
+        C->>MG: insert('commandes', {commande_id, menu_id, menu_titre, montant, date})
+        Note over MG: statistique « commandes par menu »<br/>(dégradation gracieuse si MongoDB absent)
+        C-->>K: JsonResponse(201)
+        K-->>N: 201 {commande_id, prix_total, frais_livraison}
+        N->>CL: affiche la confirmation
+    end
