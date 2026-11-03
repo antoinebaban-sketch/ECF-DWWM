@@ -1,0 +1,46 @@
+# Garde le site de production éveillé.
+# - Render (offre gratuite) met le conteneur en veille après 15 min sans visite.
+# - Aiven (offre gratuite) éteint la base MySQL quand elle reste inutilisée.
+# Toutes les 10 minutes, on appelle une route de l'API qui interroge la base :
+# le conteneur reste chaud et la base voit passer des requêtes.
+# Si la base est déjà éteinte (réponse 500), on la rallume via l'API Aiven,
+# à condition que les secrets AIVEN_TOKEN, AIVEN_PROJECT et AIVEN_SERVICE existent.
+
+name: keep-alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE_URL: https://ecf-dwwm.onrender.com
+      AIVEN_TOKEN: ${{ secrets.AIVEN_TOKEN }}
+      AIVEN_PROJECT: ${{ secrets.AIVEN_PROJECT }}
+      AIVEN_SERVICE: ${{ secrets.AIVEN_SERVICE }}
+    steps:
+      - name: Appel de l'API (réveille Render, interroge MySQL)
+        id: ping
+        run: |
+          # Le premier appel peut prendre ~1 min si Render sortait de veille.
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 120 "$SITE_URL/api/horaires" || echo 000)
+          echo "Code HTTP : $code"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+
+      - name: Rallumage de la base Aiven
+        if: steps.ping.outputs.code != '200'
+        run: |
+          if [ -z "$AIVEN_TOKEN" ] || [ -z "$AIVEN_PROJECT" ] || [ -z "$AIVEN_SERVICE" ]; then
+            echo "::warning::Le site répond ${{ steps.ping.outputs.code }} et les secrets Aiven ne sont pas configurés."
+            exit 1
+          fi
+          curl -sf -X PUT \
+            -H "Authorization: aivenv1 $AIVEN_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"powered": true}' \
+            "https://api.aiven.io/v1/project/$AIVEN_PROJECT/service/$AIVEN_SERVICE" > /dev/null
+          echo "Demande de rallumage envoyée à Aiven (la base met quelques minutes à redémarrer)."
