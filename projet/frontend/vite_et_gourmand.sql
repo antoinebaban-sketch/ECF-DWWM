@@ -25,7 +25,7 @@ START TRANSACTION;
 DROP DATABASE IF EXISTS `vite_et_gourmand`;
 CREATE DATABASE `vite_et_gourmand`
   DEFAULT CHARACTER SET utf8mb4
-  COLLATE utf8mb4_0900_ai_ci;
+  COLLATE utf8mb4_unicode_ci;
 USE `vite_et_gourmand`;
 
 -- ============================================================
