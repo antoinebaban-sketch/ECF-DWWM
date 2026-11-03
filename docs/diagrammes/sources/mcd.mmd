@@ -52,8 +52,8 @@ flowchart LR
     UTILISATEUR ---|"0,n"| a_preferer ---|"0,n"| REGIME
     UTILISATEUR ---|"0,n"| a_declarer ---|"0,n"| ALLERGENE
     HISTORIQUE ---|"1,1"| a_suivre ---|"1,n"| COMMANDE
-    LIVRAISON ---|"1,1"| a_livrer ---|"0,1"| COMMANDE
+    LIVRAISON ---|"1,1"| a_livrer ---|"0,n"| COMMANDE
     UTILISATEUR ---|"0,n"| a_assurer ---|"0,1"| LIVRAISON
     UTILISATEUR ---|"0,n"| a_rediger ---|"1,1"| AVIS
-    AVIS ---|"0,1"| a_porter ---|"0,1"| COMMANDE
+    AVIS ---|"0,1"| a_porter ---|"0,n"| COMMANDE
     ROLE ~~~ HORAIRE
