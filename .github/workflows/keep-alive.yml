@@ -11,7 +11,12 @@ name: keep-alive
 on:
   schedule:
     - cron: '*/10 * * * *'
+    # Une fois par semaine : renouvellement du workflow (voir la dernière étape).
+    - cron: '0 6 * * 1'
   workflow_dispatch:
+
+permissions:
+  actions: write
 
 jobs:
   ping:
@@ -30,6 +35,19 @@ jobs:
           code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 120 "$SITE_URL/api/horaires" || echo 000)
           echo "Code HTTP : $code"
           echo "code=$code" >> "$GITHUB_OUTPUT"
+
+      # GitHub désactive les workflows planifiés d'un dépôt public après 60 jours
+      # sans commit. Réactiver le workflow chaque semaine remet ce compteur à zéro.
+      - name: Renouvellement du workflow (anti-désactivation à 60 jours)
+        if: github.event.schedule == '0 6 * * 1' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl -sf -X PUT \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/keep-alive.yml/enable"
+          echo "Workflow renouvelé."
 
       - name: Rallumage de la base Aiven
         if: steps.ping.outputs.code != '200'
