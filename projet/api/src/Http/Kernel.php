@@ -8,7 +8,7 @@ use PDOException;
 use Throwable;
 
 /**
- * Point d'entrée objet de l'API : prépare la requête (CORS, session),
+ * Point d'entrée objet de l'API : prépare la requête (session),
  * la confie au Router, puis envoie la réponse. C'est aussi le seul endroit
  * qui transforme les exceptions en réponses JSON.
  */
@@ -20,13 +20,6 @@ final class Kernel
 
     public function handle(): void
     {
-        $this->cors();
-        if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
-            http_response_code(204);
-
-            return;
-        }
-
         $this->startSession();
 
         try {
@@ -45,26 +38,15 @@ final class Kernel
     }
 
     /**
-     * On reflète l'origine de la requête pour pouvoir autoriser l'envoi du
-     * cookie de session (impossible avec Access-Control-Allow-Origin: *).
-     */
-    private function cors(): void
-    {
-        if (!empty($_SERVER['HTTP_ORIGIN'])) {
-            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-            header('Access-Control-Allow-Credentials: true');
-        }
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type');
-    }
-
-    /**
+     * Pas d'en-têtes CORS : le front-end et l'API sont servis par le même
+     * domaine, aucun appel n'est cross-origin. Le navigateur bloque donc la
+     * lecture des réponses par un autre site.
+     *
      * HttpOnly : le cookie PHPSESSID n'est jamais lisible en JS (protection XSS).
      * Secure   : détecté via HTTPS direct ou via le proxy TLS de l'hébergeur (Render
      *            termine le HTTPS en amont, la requête arrive en HTTP côté conteneur).
-     * SameSite : "None" (+ Secure, obligatoire ensemble) uniquement en HTTPS pour
-     *            autoriser le cookie sur les appels cross-origin avec credentials ;
-     *            "Lax" en local HTTP où le cross-origin n'est pas utilisé.
+     * SameSite : "Lax", le cookie n'est pas envoyé sur les requêtes POST, PUT ou
+     *            DELETE émises depuis un autre site (protection CSRF).
      */
     private function startSession(): void
     {
@@ -76,7 +58,7 @@ final class Kernel
             'path'     => '/',
             'secure'   => $https,
             'httponly' => true,
-            'samesite' => $https ? 'None' : 'Lax',
+            'samesite' => 'Lax',
         ]);
         session_start();
     }
