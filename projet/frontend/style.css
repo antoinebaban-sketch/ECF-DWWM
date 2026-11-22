@@ -1074,12 +1074,27 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     padding: 40px;
 }
 
+/* Grille du catalogue : écrite en MOBILE-FIRST.
+   Les styles de base sont ceux du petit écran (une colonne),
+   puis chaque media query en min-width ajoute de la place quand l'écran s'élargit. */
 .catalogue-grid {
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;          /* téléphone : une carte par ligne */
+    gap: 16px;
+}
+
+@media (min-width: 481px) {              /* grand téléphone, tablette : deux cartes */
+    .catalogue-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 769px) {              /* tablette paysage : plus d'espace entre les cartes */
+    .catalogue-grid { gap: 24px; }
+}
+
+@media (min-width: 1025px) {             /* ordinateur : trois cartes */
+    .catalogue-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .carte-plat {
@@ -2012,7 +2027,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     /* Menu */
     .filtres-section { overflow-x: auto; }
     .filtres-inner { gap: 12px; flex-wrap: nowrap; min-width: max-content; justify-content: flex-start; }
-    .catalogue-grid { grid-template-columns: repeat(2, 1fr); }
 
     /* Carousel menus populaires : colonne image proportionnelle au lieu de 460px fixe */
     .menus-pop-section { padding: 56px 32px; }
@@ -2126,7 +2140,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .btn-reserver { margin-left: 16px; }
     input[type="range"] { width: 100px; }
     .catalogue-section { padding: 20px; }
-    .catalogue-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
     /* Boutons du modal detail menu : un peu plus compacts sur mobile */
     .btn-counter { width: 26px; height: 26px; font-size: 0.875rem; }
@@ -2239,7 +2252,6 @@ a.btn-reserver { text-decoration: none; display: inline-flex; align-items: cente
     .navbar-mobile-cta { grid-auto-flow: row; }
 
     /* Menu */
-    .catalogue-grid { grid-template-columns: 1fr; }
 
     /* Panier */
     .panier-contenu { grid-template-columns: 1fr; }
