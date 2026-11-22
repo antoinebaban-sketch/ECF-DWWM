@@ -1,15 +1,45 @@
 /* Script de la page SInscrire.html */
 
-const form   = document.getElementById('form-inscription');
-const errMdp = document.getElementById('erreur-mdp');
+const form    = document.getElementById('form-inscription');
+const errMdp  = document.getElementById('erreur-mdp');
+const champMdp = document.getElementById('ins-password');
+
+/* Contrôle de saisie côté navigateur : mêmes règles que PasswordPolicy.php côté serveur.
+   Il sert le confort de l'utilisateur (il voit tout de suite ce qui manque) ;
+   le serveur refait toujours la vérification, car le navigateur peut être modifié. */
+function verifierMotDePasse(mdp) {
+    const regles = [
+        { ok: mdp.length >= 10,      message: 'au moins 10 caractères' },
+        { ok: /[A-Z]/.test(mdp),     message: 'une majuscule' },
+        { ok: /[a-z]/.test(mdp),     message: 'une minuscule' },
+        { ok: /[0-9]/.test(mdp),     message: 'un chiffre' },
+        { ok: /[\W_]/.test(mdp),    message: 'un caractère spécial' },
+    ];
+    // On renvoie la liste des règles qui ne sont pas respectées (vide si tout va bien).
+    return regles.filter(regle => !regle.ok).map(regle => regle.message);
+}
+
+function afficherErreur(message) {
+    errMdp.textContent = message;
+    errMdp.hidden = false;
+    champMdp.setAttribute('aria-invalid', 'true');   // signalé aux lecteurs d'écran
+    champMdp.focus();
+}
 
 form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const mdp  = document.getElementById('ins-password').value;
+    e.preventDefault();                               // on vérifie AVANT d'envoyer
+    const mdp  = champMdp.value;
     const conf = document.getElementById('ins-confirm').value;
 
-    if (mdp !== conf) { errMdp.textContent = 'Les mots de passe ne correspondent pas.'; errMdp.hidden = false; return; }
+    const manquants = verifierMotDePasse(mdp);
+    if (manquants.length > 0) {
+        afficherErreur('Le mot de passe doit contenir : ' + manquants.join(', ') + '.');
+        return;                                       // le formulaire n'est pas envoyé
+    }
+    if (mdp !== conf) { afficherErreur('Les mots de passe ne correspondent pas.'); return; }
+
     errMdp.hidden = true;
+    champMdp.removeAttribute('aria-invalid');
 
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
